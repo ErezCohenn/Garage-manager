@@ -1,14 +1,15 @@
 ﻿namespace Ex03.GarageLogic
 {
-    public enum eCarColors
+    public class Car : Vehicle
     {
-        Red,
-        White,
-        Green,
-        Blue,
-    }
-    public class Car: Vehicle
-    {
+        public enum eCarColors
+        {
+            Red,
+            White,
+            Green,
+            Blue,
+        }
+
         private readonly eCarColors r_CarColor;
         private readonly int r_NumberOfDoors;
 

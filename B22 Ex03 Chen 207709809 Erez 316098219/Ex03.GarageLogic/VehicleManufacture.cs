@@ -25,10 +25,6 @@
             {
                 vehicle = new Truck();
             }
-            else
-            {
-
-            }
 
             return vehicle;
         }

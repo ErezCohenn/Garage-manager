@@ -6,7 +6,7 @@
 
         public void ChargeBattery(float i_HoursToCharge)
         {
-            base.LoadEnergy(i_HoursToCharge);
+            base.FillEnergy(i_HoursToCharge);
         }
     }
 }

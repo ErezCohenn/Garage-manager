@@ -1,4 +1,6 @@
-﻿namespace Ex03.GarageLogic
+﻿using System.Collections.Generic;
+
+namespace Ex03.GarageLogic
 {
     public class Garage
     {
@@ -7,6 +9,13 @@
             Repair,
             Fixed,
             PaidUp,
+        }
+
+        private readonly Dictionary<string, Client> m_VehiclesInGarage;
+
+        public Garage()
+        {
+            m_VehiclesInGarage = new Dictionary<string, Client>();
         }
     }
 }
