@@ -44,6 +44,11 @@ namespace Ex03.GarageLogic
             base.FillEnergy(i_AmountFuelInLitersToAdd);
         }
 
+        public override string ToString()
+        {
+            return string.Concat(base.ToString(), string.Format("Fuel Type: {0}{1}", r_FuelType, System.Environment.NewLine));
+        }
+
         public eType FuelType
         {
             get

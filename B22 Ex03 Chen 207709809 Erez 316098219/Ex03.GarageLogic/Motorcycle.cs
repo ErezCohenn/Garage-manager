@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
@@ -38,6 +39,11 @@ namespace Ex03.GarageLogic
             deatilsToFill.Add(sr_CarDetails[(int)eDetails.EngineCapacity], string.Empty);
 
             return deatilsToFill;
+        }
+
+        public override string ToString()
+        {
+            return string.Concat(base.ToString(), string.Format("MotorCycle License type: {0}{1} Engine Capacity: {2}{3}", m_LicenseType, Environment.NewLine, m_EngineCapacity, Environment.NewLine));
         }
 
         public eLicenseType LicenseType

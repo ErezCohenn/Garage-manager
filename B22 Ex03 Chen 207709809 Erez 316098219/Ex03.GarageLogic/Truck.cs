@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
@@ -31,6 +32,13 @@ namespace Ex03.GarageLogic
             deatilsToFill.Add(sr_CarDetails[(int)eDetails.CanCarryRefrigerated], string.Empty);
 
             return deatilsToFill;
+        }
+
+        public override string ToString()
+        {
+            string CanCarryRefrigeratedString = m_CanCarryRefrigerated == true ? "Yes" : "No";
+
+            return string.Concat(base.ToString(), string.Format("Truck Cargo Capcit: {0}{1} m_CanCarryRefrigerated: {2}{3}", m_CargoCapcity, Environment.NewLine, CanCarryRefrigeratedString, Environment.NewLine));
         }
 
         public float CargoCapcity
