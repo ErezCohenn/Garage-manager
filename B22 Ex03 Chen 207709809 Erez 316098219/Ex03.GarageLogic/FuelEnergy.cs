@@ -25,9 +25,9 @@ namespace Ex03.GarageLogic
             r_FuelType = i_FuelType;
         }
 
-        public override Dictionary<string, string> GetEnergyDeatials()
+        public override Dictionary<string, string> GetEnergyDetails()
         {
-            Dictionary<string, string> deatilsToFill = base.GetEnergyDeatials();
+            Dictionary<string, string> deatilsToFill = base.GetEnergyDetails();
 
             deatilsToFill.Add(sr_FuelEnergyDetails[(int)eDetails.FuelType], string.Empty);
 

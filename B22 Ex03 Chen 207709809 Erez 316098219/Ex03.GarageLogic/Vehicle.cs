@@ -39,6 +39,7 @@ namespace Ex03.GarageLogic
 
             deatilsToFill.Add(sr_VehicleDeatials[(int)eDetails.LicenseNumber], string.Empty);
             deatilsToFill.Add(sr_VehicleDeatials[(int)eDetails.ModelName], string.Empty);
+            //concatDetails(deatilsToFill, concatDetails(r_EnergySoucre.GetEnergyDetails());
 
             return deatilsToFill;
         }
