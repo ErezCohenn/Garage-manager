@@ -1,4 +1,6 @@
-﻿namespace Ex03.GarageLogic
+﻿using System;
+
+namespace Ex03.GarageLogic
 {
     public class Client
     {
@@ -13,6 +15,13 @@
             r_PhoneNumber = i_PhoneNumber;
             r_Vehicle = i_Vehicle;
             m_VehicleStatus = i_VehicleStatus;
+        }
+
+        public override string ToString()
+        {
+            string vehicleDetailsString = string.Format("Vehicle Details: {0} Owner: {1}{2} Phone number: {3}{4} Status in the Garage: {5}{6}", Environment.NewLine, r_Name, Environment.NewLine, r_PhoneNumber, Environment.NewLine, m_VehicleStatus, Environment.NewLine);
+
+            return string.Concat(vehicleDetailsString, r_Vehicle.ToString());
         }
 
         public string Name

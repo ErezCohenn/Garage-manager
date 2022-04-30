@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
@@ -46,6 +47,11 @@ namespace Ex03.GarageLogic
             deatilsToFill.Add(sr_CarDetails[(int)eDetails.NumberOfDoors], string.Empty);
 
             return deatilsToFill;
+        }
+
+        public override string ToString()
+        {
+            return string.Concat(base.ToString(), string.Format("Car color: {0}{1} Number Of Doors: {2}{3}", m_CarColor, Environment.NewLine, m_NumberOfDoors, Environment.NewLine));
         }
 
         public eCarColors CarColors

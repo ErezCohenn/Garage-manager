@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
@@ -39,6 +40,16 @@ namespace Ex03.GarageLogic
                 m_CurrentAirPressure += i_AirToAdd;
             }
             // might put here exeption if  m_currentAirPressure + i_AirToAdd > m_maxAirPressureByManufacturer.
+        }
+
+        public float AirPressureLeftInPercentage()
+        {
+            return (m_CurrentAirPressure / r_MaxAirPressureByManufacturer) * 100;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("Manufacturer wheel Name: {0}{1} Wheel state in percent: {2}{3}", r_ManufacturerName, Environment.NewLine, AirPressureLeftInPercentage(), Environment.NewLine);
         }
 
         public string ManufacturerName

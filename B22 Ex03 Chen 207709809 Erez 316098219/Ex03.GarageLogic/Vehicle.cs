@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
@@ -42,6 +43,16 @@ namespace Ex03.GarageLogic
             //concatDetails(deatilsToFill, concatDetails(r_EnergySoucre.GetEnergyDetails());
 
             return deatilsToFill;
+        }
+
+        public override string ToString()
+        {
+            return string.Concat(r_EnergySoucre.ToString(), r_VehicleWheels[0].ToString(), string.Format("Vehicel Model Name: {0}{1} License Number: {2}{3}", r_ModelName, Environment.NewLine, r_LicenseNumber, Environment.NewLine));
+        }
+
+        public override int GetHashCode()
+        {
+            return r_LicenseNumber.GetHashCode();
         }
 
         public string ModelName
