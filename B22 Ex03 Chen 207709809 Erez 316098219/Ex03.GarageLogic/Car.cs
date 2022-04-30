@@ -21,11 +21,8 @@
         private eCarColors m_CarColor;
         private eNumberOfDoors m_NumberOfDoors;
 
-        public Car(eCarColors i_CarColor, int i_NumberOfDoors, float i_ModelName, string i_LicenseNumber, float i_EnergyPercentageLeft, int i_NumberOfVehicleWheels) : base(i_ModelName, i_LicenseNumber, i_EnergyPercentageLeft, i_NumberOfVehicleWheels)
-        {
-            m_CarColor = i_CarColor;
-            m_NumberOfDoors = i_NumberOfDoors;
-        }
+        public Car(float i_ModelName, string i_LicenseNumber, float i_EnergyPercentageLeft, int i_NumberOfVehicleWheels) : base(i_ModelName, i_LicenseNumber, i_EnergyPercentageLeft, i_NumberOfVehicleWheels) { }
+
         public eCarColors CarColors
         {
             get
