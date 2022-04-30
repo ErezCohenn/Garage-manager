@@ -7,9 +7,15 @@
         Green,
         Blue,
     }
-    public class Car
+    public class Car: Vehicle
     {
-        private readonly eCarColors r_carColor;
-        private readonly int r_numberOfDoors;
+        private readonly eCarColors r_CarColor;
+        private readonly int r_NumberOfDoors;
+
+        public Car(eCarColors i_CarColor, int i_NumberOfDoors, float i_ModelName, string i_LicenseNumber, float i_EnergyPercentageLeft, int i_NumberOfVehicleWheels) : base(i_ModelName, i_LicenseNumber, i_EnergyPercentageLeft, i_NumberOfVehicleWheels)
+        {
+            r_CarColor = i_CarColor;
+            r_NumberOfDoors = i_NumberOfDoors;
+        }
     }
 }

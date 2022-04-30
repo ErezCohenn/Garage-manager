@@ -35,6 +35,7 @@
     <Compile Include="Car.cs" />
     <Compile Include="ElectricEnergy.cs" />
     <Compile Include="Energy.cs" />
+    <Compile Include="EnergySource.cs" />
     <Compile Include="FuelEnergy.cs" />
     <Compile Include="Motorcycle.cs" />
     <Compile Include="Truck.cs" />
