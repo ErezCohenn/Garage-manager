@@ -11,14 +11,19 @@
             r_MaxEnergy = i_MaxEnergy;
         }
 
-        protected virtual void LoadEnergy(float i_AmountOfEnergyToLoad)
+        protected void LoadEnergy(float i_AmountEnergyToLoad)
         {
-            if (i_AmountOfEnergyToLoad + CurrentAmountOfEnergy > MaxEnergy)
+            if (i_AmountEnergyToLoad + CurrentAmountOfEnergy > MaxEnergy)
             {
                 // throw exception
             }
 
-            CurrentAmountOfEnergy += i_AmountOfEnergyToLoad;
+            CurrentAmountOfEnergy += i_AmountEnergyToLoad;
+        }
+
+        public float EnergyLeftInPercentage()
+        {
+            return (m_CurrentAmountOfEnergy / r_MaxEnergy) * 100;
         }
 
         public float CurrentAmountOfEnergy

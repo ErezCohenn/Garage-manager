@@ -1,6 +1,6 @@
 ﻿namespace Ex03.GarageLogic
 {
-    class VehiclesManufacture
+    class VehicleManufacture
     {
         public enum eVehicleType
         {
@@ -31,8 +31,6 @@
             }
 
             return vehicle;
-
-
         }
     }
 }
