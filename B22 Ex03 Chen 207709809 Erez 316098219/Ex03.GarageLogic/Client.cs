@@ -5,9 +5,9 @@
         private readonly string r_Name;
         private readonly string r_PhoneNumber;
         private readonly Vehicle r_Vehicle;
-        private eVehicleStatus m_VehicleStatus;
+        private Garage.eVehicleStatus m_VehicleStatus;
 
-        public Client(string i_Name, string i_PhoneNumber, Vehicle i_Vehicle, eVehicleStatus i_VehicleStatus)
+        public Client(string i_Name, string i_PhoneNumber, Vehicle i_Vehicle, Garage.eVehicleStatus i_VehicleStatus)
         {
             r_Name = i_Name;
             r_PhoneNumber = i_PhoneNumber;
@@ -39,7 +39,7 @@
             }
         }
 
-        public eVehicleStatus VehicleStatus
+        public Garage.eVehicleStatus VehicleStatus
         {
             get
             {
