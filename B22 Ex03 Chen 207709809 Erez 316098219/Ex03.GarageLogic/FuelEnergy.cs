@@ -23,7 +23,7 @@
                 // throw exception
             }
 
-            base.LoadEnergy(i_AmountFuelInLitersToAdd);
+            base.FillEnergy(i_AmountFuelInLitersToAdd);
         }
 
         public eType FuelType
