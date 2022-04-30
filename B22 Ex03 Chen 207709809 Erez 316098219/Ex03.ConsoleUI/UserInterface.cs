@@ -94,20 +94,90 @@ namespace Ex03.ConsoleUI
 
         private void enterNewVehicle(string i_LicenseNumber)
         {
+
             //get vehicle type from user, and energy type
-            m_Garage.AddVehicleToGarage(i_LicenseNumber, vehicleType, EnergyType);
+            VehicleGenerator.eVehicleType vehicleType = getVehicleTypeFromClient();
+            VehicleGenerator.eEnergyType vehicleEnergyType = getEnergyTypeFromClient();
+            m_Garage.AddVehicle(i_LicenseNumber, vehicleType, vehicleEnergyType);
         }
 
+        private VehicleGenerator.eVehicleType getVehicleTypeFromClient()
+        {
+            VehicleGenerator.eVehicleType Type = VehicleGenerator.eVehicleType.Car;
+
+            Console.WriteLine("Please Enter Your vehicle type: ");
+            Console.WriteLine("Press ");
+
+        }
+
+        private VehicleGenerator.eEnergyType getEnergyTypeFromClient()
+        {
+            string UserInputType = "";
+            VehicleGenerator.eEnergyType energyType = VehicleGenerator.eEnergyType.Fuel;
+
+            Console.WriteLine("Please Enter Your vehicle Energy type: ");
+            UserInputType = Console.ReadLine();
+            //exeption here if not fuel or electric
+            if (UserInputType == "Fuel")
+            {
+                energyType = VehicleGenerator.eEnergyType.Fuel;
+            }
+            else
+            {
+                energyType = VehicleGenerator.eEnergyType.Electric;
+            }
+            return energyType;
+        }
+
+        private void displayLicensesNumbers()
+        {
+            bool validInput = false;
+            string withFilter = "";
+
+            Console.WriteLine(string.Format("Please press 1 if you want to display the license numbers by filter, else press 2:{0}"), Environment.NewLine);
+            Console.WriteLine(string.Format("1. Yes. {0}"), Environment.NewLine);
+            Console.WriteLine(string.Format("2. No. {0}"), Environment.NewLine);
+
+            do
+            {
+                withFilter = Console.ReadLine();
+                if (withFilter == "1")
+                {
+                    displayLicensesNumbersWithoutFilter();
+                    validInput = true;
+                }
+                else if (withFilter == "2")
+                {
+                    displayLicensesNumbersWithFilter();
+                    validInput = true;
+                }
+                else
+                {
+                    // exeption that the input is invalid
+                }
+
+            }
+            while (!validInput);
+
+
+
+        }
         private eClientChosenAction getClientChosenAction()
         {
-            eClientChosenAction chosenAction;
-            bool validInput = false;
+            string chosenAction = "";
 
-            while (!validInput)
-            {
-                validInput = chosen
-            }
-
+            Console.WriteLine(string.Format("Hello, welcome to our garage, please choose an action from the list below:{0}"), Environment.NewLine);
+            Console.WriteLine(string.Format("1. Enter your Vehicle Into our Garage.{0}"), Environment.NewLine);
+            Console.WriteLine(string.Format("2. Display all vehicles license numbers.{0}"), Environment.NewLine);
+            Console.WriteLine(string.Format("3. Change your vehicle's state.{0}"), Environment.NewLine);
+            Console.WriteLine(string.Format("4. Fill the air in yout wheels to max.{0}"), Environment.NewLine);
+            Console.WriteLine(string.Format("5. Fuel your vehicle.{0}"), Environment.NewLine);
+            Console.WriteLine(string.Format("6. Charge your vehicle's battery.{0}"), Environment.NewLine);
+            Console.WriteLine(string.Format("7. Display your vehicle's details.{0}"), Environment.NewLine);
+            Console.WriteLine(string.Format("9. Exit.{0}"), Environment.NewLine);
+            //check here in loop maybe until the input is correct.
+            chosenAction = Console.ReadLine();
+            return (eClientChosenAction)int.Parse(chosenAction);
         }
 
 
