@@ -2,15 +2,6 @@
 {
     public class VehicleGenerator
     {
-        public enum eMaxEnergy
-        {
-            FuelCar,
-            ElectricCar,
-            FuelMotorcycle,
-            ElectricMotorcycle,
-            FuelTruck
-        }
-
         public enum eVehicleType
         {
             Car,

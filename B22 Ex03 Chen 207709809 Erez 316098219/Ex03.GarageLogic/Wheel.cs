@@ -69,5 +69,14 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public float MaxAirPressure
+        {
+            get
+            {
+                return r_MaxAirPressureByManufacturer;
+            }
+        }
+
+
     }
 }

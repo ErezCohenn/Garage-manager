@@ -4,7 +4,7 @@ namespace Ex03.GarageLogic
 {
     public abstract class EnergySource
     {
-        public virtual enum eDetails
+        public enum eDetails
         {
             CurrentAmountOfEnergy,
             MaxEnergy,
@@ -20,7 +20,7 @@ namespace Ex03.GarageLogic
             m_CurrentAmountOfEnergy = 0;
         }
 
-        public virtual Dictionary<string, string> GetEnergyDeatials()
+        public virtual Dictionary<string, string> GetEnergyDetails()
         {
             Dictionary<string, string> deatilsToFill = new Dictionary<string, string>();
 
