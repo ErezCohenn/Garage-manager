@@ -1,11 +1,37 @@
-﻿namespace Ex03.GarageLogic
+﻿using System.Collections.Generic;
+
+namespace Ex03.GarageLogic
 {
     public class Truck : Vehicle
     {
+
+        public enum eDetails
+        {
+            CargoCapcity,
+            CanCarryRefrigerated,
+        }
+
         private float m_CargoCapcity;
         private bool m_CanCarryRefrigerated;
+        private static readonly int sr_NumberOfWheel = 4;
+        private static readonly string[] sr_CarDetails = { "CargoCapcity", "CanCarryRefrigerated" };
+        private const float k_MaximumAirPressure = 24;
 
-        public Truck(float i_ModelName, string i_LicenseNumber, float i_EnergyPercentageLeft, int i_NumberOfVehicleWheels) : base(i_ModelName, i_LicenseNumber, i_EnergyPercentageLeft, i_NumberOfVehicleWheels) { }
+        public Truck(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, sr_NumberOfWheel, k_MaximumAirPressure)
+        {
+            m_CargoCapcity = 50;
+            m_CanCarryRefrigerated = true;
+        }
+
+        public override Dictionary<string, string> GetVehicleDeatials()
+        {
+            Dictionary<string, string> deatilsToFill = base.GetVehicleDeatials();
+
+            deatilsToFill.Add(sr_CarDetails[(int)eDetails.CargoCapcity], string.Empty);
+            deatilsToFill.Add(sr_CarDetails[(int)eDetails.CanCarryRefrigerated], string.Empty);
+
+            return deatilsToFill;
+        }
 
         public float CargoCapcity
         {
@@ -27,6 +53,14 @@
             set
             {
                 m_CanCarryRefrigerated = value;
+            }
+        }
+
+        public static int NumberOfWheels
+        {
+            get
+            {
+                return sr_NumberOfWheel;
             }
         }
     }

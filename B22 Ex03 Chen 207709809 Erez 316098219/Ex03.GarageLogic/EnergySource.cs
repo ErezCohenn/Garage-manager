@@ -1,14 +1,33 @@
-﻿namespace Ex03.GarageLogic
+﻿using System.Collections.Generic;
+
+namespace Ex03.GarageLogic
 {
     public abstract class EnergySource
     {
+        public virtual enum eDetails
+        {
+            CurrentAmountOfEnergy,
+            MaxEnergy,
+        }
+
         private float m_CurrentAmountOfEnergy;
         private readonly float r_MaxEnergy;
+        private static readonly string[] sr_EnergyDetails = { "CurrentAmountOfEnergy", "MaxEnergy" };
 
-        public EnergySource(float i_AmountOfEnergy, float i_MaxEnergy)
+        public EnergySource(float i_MaxEnergy)
         {
-            m_CurrentAmountOfEnergy = i_AmountOfEnergy;
             r_MaxEnergy = i_MaxEnergy;
+            m_CurrentAmountOfEnergy = 0;
+        }
+
+        public virtual Dictionary<string, string> GetEnergyDeatials()
+        {
+            Dictionary<string, string> deatilsToFill = new Dictionary<string, string>();
+
+            deatilsToFill.Add(sr_EnergyDetails[(int)eDetails.CurrentAmountOfEnergy], string.Empty);
+            deatilsToFill.Add(sr_EnergyDetails[(int)eDetails.MaxEnergy], string.Empty);
+
+            return deatilsToFill;
         }
 
         protected void FillEnergy(float i_AmountEnergyToLoad)

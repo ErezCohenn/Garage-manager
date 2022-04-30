@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
@@ -15,13 +12,32 @@ namespace Ex03.GarageLogic
             BB,
         }
 
+        public enum eDetails
+        {
+            LicenseType,
+            EngineCapacity,
+        }
+
         private eLicenseType m_LicenseType;
         private int m_EngineCapacity;
+        private static readonly int sr_NumberOfWheel = 2;
+        private static readonly string[] sr_CarDetails = { "LicenseType", "EngineCapacity" };
+        private const float k_MaximumAirPressure = 29;
 
-        public Motorcycle(string i_LicenseType, int i_EngineCapacity, float i_ModelName, string i_LicenseNumber, float i_EnergyPercentageLeft, int i_NumberOfVehicleWheels) : base(i_ModelName, i_LicenseNumber, i_EnergyPercentageLeft, i_NumberOfVehicleWheels)
+        public Motorcycle(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, sr_NumberOfWheel, k_MaximumAirPressure)
         {
-            // m_LicenseType = i_LicenseType;
-            // m_EngineCapacity = i_EngineCapacity;
+            m_LicenseType = eLicenseType.A;
+            m_EngineCapacity = 50;
+        }
+
+        public override Dictionary<string, string> GetVehicleDeatials()
+        {
+            Dictionary<string, string> deatilsToFill = base.GetVehicleDeatials();
+
+            deatilsToFill.Add(sr_CarDetails[(int)eDetails.LicenseType], string.Empty);
+            deatilsToFill.Add(sr_CarDetails[(int)eDetails.EngineCapacity], string.Empty);
+
+            return deatilsToFill;
         }
 
         public eLicenseType LicenseType
@@ -44,6 +60,14 @@ namespace Ex03.GarageLogic
             set
             {
                 m_EngineCapacity = value;
+            }
+        }
+
+        public static int NumberOfWheels
+        {
+            get
+            {
+                return sr_NumberOfWheel;
             }
         }
     }

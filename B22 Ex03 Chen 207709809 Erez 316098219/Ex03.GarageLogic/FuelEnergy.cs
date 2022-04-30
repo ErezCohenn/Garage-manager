@@ -1,4 +1,6 @@
-﻿namespace Ex03.GarageLogic
+﻿using System.Collections.Generic;
+
+namespace Ex03.GarageLogic
 {
     public class FuelEnergy : EnergySource
     {
@@ -10,10 +12,26 @@
             Soler,
         }
 
+        public new enum eDetails
+        {
+            FuelType,
+        }
+
         private readonly eType r_FuelType;
-        public FuelEnergy(eType i_FuelType, float i_AmountOfFuelInLiters, float i_MaximumAmountOfFuelInLiters) : base(i_AmountOfFuelInLiters, i_MaximumAmountOfFuelInLiters)
+        private static readonly string[] sr_FuelEnergyDetails = { "FuelType" };
+
+        public FuelEnergy(float i_MaximumAmountOfFuelInLiters, eType i_FuelType) : base(i_MaximumAmountOfFuelInLiters)
         {
             r_FuelType = i_FuelType;
+        }
+
+        public override Dictionary<string, string> GetEnergyDeatials()
+        {
+            Dictionary<string, string> deatilsToFill = base.GetEnergyDeatials();
+
+            deatilsToFill.Add(sr_FuelEnergyDetails[(int)eDetails.FuelType], string.Empty);
+
+            return deatilsToFill;
         }
 
         public void ReFuel(float i_AmountFuelInLitersToAdd, eType i_FuelType)
