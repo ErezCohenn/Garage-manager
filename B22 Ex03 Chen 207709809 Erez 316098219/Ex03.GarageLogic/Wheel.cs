@@ -1,17 +1,37 @@
-﻿namespace Ex03.GarageLogic
+﻿using System.Collections.Generic;
+
+namespace Ex03.GarageLogic
 {
     public class Wheel
     {
+        public enum eDetails
+        {
+            CurrentAirPressure,
+            ManufacturerName,
+        }
+
         private readonly string r_ManufacturerName;
         private float m_CurrentAirPressure;
         private float r_MaxAirPressureByManufacturer;
+        private static readonly string[] sr_EnergyDetails = { "CurrentAirPressure", "ManufacturerName" };
 
-        public Wheel(string i_ManufacturerName, float i_CurrentAirPressure, float i_MaxAirPressureByManufacturer)
+        public Wheel(float i_MaxAirPressureByManufacturer)
         {
-            r_ManufacturerName = i_ManufacturerName;
-            m_CurrentAirPressure = i_CurrentAirPressure;
+            r_ManufacturerName = null;
+            m_CurrentAirPressure = 0;
             r_MaxAirPressureByManufacturer = i_MaxAirPressureByManufacturer;
         }
+
+        public virtual Dictionary<string, string> GetEnergyDeatials()
+        {
+            Dictionary<string, string> deatilsToFill = new Dictionary<string, string>();
+
+            deatilsToFill.Add(sr_EnergyDetails[(int)eDetails.CurrentAirPressure], string.Empty);
+            deatilsToFill.Add(sr_EnergyDetails[(int)eDetails.ManufacturerName], string.Empty);
+
+            return deatilsToFill;
+        }
+
         public void WheelInflation(float i_AirToAdd)
         {
             if (m_CurrentAirPressure + i_AirToAdd <= r_MaxAirPressureByManufacturer)

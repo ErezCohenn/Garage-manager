@@ -1,4 +1,6 @@
-﻿namespace Ex03.GarageLogic
+﻿using System.Collections.Generic;
+
+namespace Ex03.GarageLogic
 {
     public class Car : Vehicle
     {
@@ -18,10 +20,33 @@
             Five = 5,
         }
 
+        public enum eDetails
+        {
+            Color,
+            NumberOfDoors,
+        }
+
         private eCarColors m_CarColor;
         private eNumberOfDoors m_NumberOfDoors;
+        private static readonly int sr_NumberOfWheel = 4;
+        private static readonly string[] sr_CarDetails = { "Color", "NumberOfDoors" };
+        private const float k_MaximumAirPressure = 31;
 
-        public Car(float i_ModelName, string i_LicenseNumber, float i_EnergyPercentageLeft, int i_NumberOfVehicleWheels) : base(i_ModelName, i_LicenseNumber, i_EnergyPercentageLeft, i_NumberOfVehicleWheels) { }
+        public Car(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, sr_NumberOfWheel, k_MaximumAirPressure)
+        {
+            m_CarColor = eCarColors.White;
+            m_NumberOfDoors = eNumberOfDoors.Four;
+        }
+
+        public override Dictionary<string, string> GetVehicleDeatials()
+        {
+            Dictionary<string, string> deatilsToFill = base.GetVehicleDeatials();
+
+            deatilsToFill.Add(sr_CarDetails[(int)eDetails.Color], string.Empty);
+            deatilsToFill.Add(sr_CarDetails[(int)eDetails.NumberOfDoors], string.Empty);
+
+            return deatilsToFill;
+        }
 
         public eCarColors CarColors
         {
@@ -44,6 +69,14 @@
             set
             {
                 m_NumberOfDoors = value;
+            }
+        }
+
+        public static int NumberOfWheels
+        {
+            get
+            {
+                return sr_NumberOfWheel;
             }
         }
     }
