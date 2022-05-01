@@ -6,6 +6,7 @@ namespace Ex03.GarageLogic
 {
     public class Garage
     {
+
         public enum eVehicleStatus
         {
             InRepair,
@@ -13,16 +14,31 @@ namespace Ex03.GarageLogic
             PaidUp,
         }
 
-        private readonly Dictionary<string, Client> m_VehiclesInGarage;
+        private readonly Dictionary<string, Client> r_VehiclesInGarage;
+        private readonly VehicleGenerator r_VehiclesGenerator;
 
         public Garage()
         {
-            m_VehiclesInGarage = new Dictionary<string, Client>();
+            r_VehiclesInGarage = new Dictionary<string, Client>();
+            r_VehiclesGenerator = new VehicleGenerator();
         }
 
-        public void AddVehicle(string i_LicenseNumber, VehicleGenerator.eVehicleType i_VehicleType, VehicleGenerator.eEnergyType i_EnergyType)
+        public void AddVehicle(string i_LicenseNumber, VehicleGenerator.eVehicleType i_VehicleType, VehicleGenerator.eEnergyType i_EnergyType, string i_ClientName, string i_ClientPhoneNumber)
         {
+            KeyValuePair<string, Client> newVehicleCard;
+            Vehicle newVehicle = null;
+            Client newClient = null;
 
+            if (isVehicleExists(i_LicenseNumber))
+            {
+                r_VehiclesInGarage[i_LicenseNumber].VehicleStatus = eVehicleStatus.InRepair;
+            }
+            else
+            {
+                newVehicle = r_VehiclesGenerator.ProduceVehicle(i_LicenseNumber, i_VehicleType, i_EnergyType);
+                newClient = new Client(i_ClientName, i_ClientPhoneNumber, newVehicle, eVehicleStatus.InRepair);
+                r_VehiclesInGarage.Add(i_LicenseNumber, newClient);
+            }
         }
 
         public string GetLicenseNumbersByFilter(bool i_InRepairFilter, bool i_FixedFilter, bool i_PaidFilter)
@@ -30,7 +46,7 @@ namespace Ex03.GarageLogic
             StringBuilder licenseNumbers = new StringBuilder();
             int licenseIndex = 1;
 
-            foreach (KeyValuePair<string, Client> cardVehicle in m_VehiclesInGarage)
+            foreach (KeyValuePair<string, Client> cardVehicle in r_VehiclesInGarage)
             {
                 if (i_InRepairFilter && cardVehicle.Value.VehicleStatus == eVehicleStatus.InRepair)
                 {
@@ -59,7 +75,7 @@ namespace Ex03.GarageLogic
 
         public void ChangeVehicleStatus(string i_LicenseNumber, eVehicleStatus i_NewStatus)
         {
-            bool isVehicleExists = isExists(i_LicenseNumber);
+            bool isVehicleExists = this.isVehicleExists(i_LicenseNumber);
 
             if (!isVehicleExists)
             {
@@ -67,18 +83,18 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                m_VehiclesInGarage[i_LicenseNumber].VehicleStatus = i_NewStatus;
+                r_VehiclesInGarage[i_LicenseNumber].VehicleStatus = i_NewStatus;
             }
         }
 
-        private bool isExists(string i_LicenseNumber)
+        private bool isVehicleExists(string i_LicenseNumber)
         {
-            return m_VehiclesInGarage.ContainsKey(i_LicenseNumber);
+            return r_VehiclesInGarage.ContainsKey(i_LicenseNumber);
         }
 
         public void InflateWheelsAirPressureToMaximum(string i_LicenseNumber)
         {
-            bool isVehicleExists = isExists(i_LicenseNumber);
+            bool isVehicleExists = this.isVehicleExists(i_LicenseNumber);
             List<Wheel> vehicleWheels = null;
 
             if (!isVehicleExists)
@@ -87,7 +103,7 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                vehicleWheels = m_VehiclesInGarage[i_LicenseNumber].Vehicle.VehicleWheels;
+                vehicleWheels = r_VehiclesInGarage[i_LicenseNumber].Vehicle.VehicleWheels;
 
                 foreach (Wheel wheel in vehicleWheels)
                 {
@@ -98,7 +114,7 @@ namespace Ex03.GarageLogic
 
         public void RefuelVehicle(string i_LicenseNumber, FuelEnergy.eType i_FuelType, float i_AmountFuelToAdd)
         {
-            bool isVehicleExists = isExists(i_LicenseNumber);
+            bool isVehicleExists = this.isVehicleExists(i_LicenseNumber);
             FuelEnergy energyToReFuel = null;
 
             if (!isVehicleExists)
@@ -106,14 +122,14 @@ namespace Ex03.GarageLogic
                 throw new ArgumentException("Vehicle is not in the Garage!");
             }
 
-            if (m_VehiclesInGarage[i_LicenseNumber].Vehicle.EnergySource is ElectricEnergy)
+            if (r_VehiclesInGarage[i_LicenseNumber].Vehicle.EnergySource is ElectricEnergy)
             {
                 throw new ArgumentException("Vehicle is driven on Electricity!");
             }
 
             try
             {
-                energyToReFuel = m_VehiclesInGarage[i_LicenseNumber].Vehicle.EnergySource as FuelEnergy;
+                energyToReFuel = r_VehiclesInGarage[i_LicenseNumber].Vehicle.EnergySource as FuelEnergy;
                 energyToReFuel.ReFuel(i_AmountFuelToAdd, i_FuelType);
             }
             catch
@@ -124,7 +140,7 @@ namespace Ex03.GarageLogic
 
         public void ChargeElectronicVehicle(string i_LicenseNumber, float i_AmountHoursToCharge)
         {
-            bool isVehicleExists = isExists(i_LicenseNumber);
+            bool isVehicleExists = this.isVehicleExists(i_LicenseNumber);
             ElectricEnergy energyToReFuel = null;
 
             if (!isVehicleExists)
@@ -132,14 +148,14 @@ namespace Ex03.GarageLogic
                 throw new ArgumentException("Vehicle is not in the Garage!");
             }
 
-            if (m_VehiclesInGarage[i_LicenseNumber].Vehicle.EnergySource is FuelEnergy)
+            if (r_VehiclesInGarage[i_LicenseNumber].Vehicle.EnergySource is FuelEnergy)
             {
                 throw new ArgumentException("Vehicle is driven on Fuel!");
             }
 
             try
             {
-                energyToReFuel = m_VehiclesInGarage[i_LicenseNumber].Vehicle.EnergySource as ElectricEnergy;
+                energyToReFuel = r_VehiclesInGarage[i_LicenseNumber].Vehicle.EnergySource as ElectricEnergy;
                 energyToReFuel.ChargeBattery(i_AmountHoursToCharge);
             }
             catch
@@ -150,7 +166,7 @@ namespace Ex03.GarageLogic
 
         public string GetVehicleInformation(string i_LicenseNumber)
         {
-            bool isVehicleExists = isExists(i_LicenseNumber);
+            bool isVehicleExists = this.isVehicleExists(i_LicenseNumber);
 
             if (!isVehicleExists)
             {
@@ -158,7 +174,7 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                return m_VehiclesInGarage[i_LicenseNumber].ToString();
+                return r_VehiclesInGarage[i_LicenseNumber].ToString();
             }
 
         }

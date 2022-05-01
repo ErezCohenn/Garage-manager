@@ -5,6 +5,22 @@ namespace Ex03.GarageLogic
 {
     public class Truck : Vehicle
     {
+        internal static class FuelConstatns
+        {
+            internal const FuelEnergy.eType k_FuelType = FuelEnergy.eType.Soler;
+            internal const float k_FuelAfterGenerate = 80;
+            internal const float k_MaxTankFuelCapacityInLiters = 120;
+
+        }
+
+        internal static class WheelConstatns
+        {
+            internal const float k_AirPressureAfterGenerate = 18;
+            internal const float k_MaxAirPressure = 24;
+            internal static readonly int sr_NumberOfWheel = 16;
+
+        }
+
 
         public enum eDetails
         {

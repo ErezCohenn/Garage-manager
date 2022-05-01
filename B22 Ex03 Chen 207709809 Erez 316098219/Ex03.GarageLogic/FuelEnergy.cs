@@ -20,14 +20,14 @@ namespace Ex03.GarageLogic
         private readonly eType r_FuelType;
         private static readonly string[] sr_FuelEnergyDetails = { "FuelType" };
 
-        public FuelEnergy(float i_MaximumAmountOfFuelInLiters, eType i_FuelType) : base(i_MaximumAmountOfFuelInLiters)
+        public FuelEnergy(float i_MaximumAmountOfFuelInLiters, float i_CurrentFuelLeftInLiters, eType i_FuelType) : base(i_MaximumAmountOfFuelInLiters, i_CurrentFuelLeftInLiters)
         {
             r_FuelType = i_FuelType;
         }
 
-        public override Dictionary<string, string> GetEnergyDetails()
+        public override Dictionary<string, string> GetDetails()
         {
-            Dictionary<string, string> deatilsToFill = base.GetEnergyDetails();
+            Dictionary<string, string> deatilsToFill = base.GetDetails();
 
             deatilsToFill.Add(sr_FuelEnergyDetails[(int)eDetails.FuelType], string.Empty);
 

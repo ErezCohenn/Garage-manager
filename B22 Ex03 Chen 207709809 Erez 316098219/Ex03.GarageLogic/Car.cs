@@ -5,6 +5,29 @@ namespace Ex03.GarageLogic
 {
     public class Car : Vehicle
     {
+        internal static class FuelConstatns
+        {
+            internal const FuelEnergy.eType k_FuelType = FuelEnergy.eType.Octan95;
+            internal const float k_FuelAfterGenerate = 10;
+            internal const float k_MaxTankFuelCapacityInLiters = 38;
+
+        }
+
+        internal static class ElectricConstatns
+        {
+            internal const float k_BattaryAfterGenerate = 1;
+            internal const float k_MaxBattaryCapacityInHours = 3.3f;
+
+        }
+
+        internal static class WheelConstatns
+        {
+            internal const float k_AirPressureAfterGenerate = 20;
+            internal const float k_MaxAirPressure = 29;
+            internal static readonly int sr_NumberOfWheel = 4;
+
+        }
+
         public enum eCarColors
         {
             Red,
@@ -29,11 +52,9 @@ namespace Ex03.GarageLogic
 
         private eCarColors m_CarColor;
         private eNumberOfDoors m_NumberOfDoors;
-        private static readonly int sr_NumberOfWheel = 4;
         private static readonly string[] sr_CarDetails = { "Color", "NumberOfDoors" };
-        private const float k_MaximumAirPressure = 31;
 
-        public Car(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, sr_NumberOfWheel, k_MaximumAirPressure)
+        public Car(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, WheelConstatns.sr_NumberOfWheel, WheelConstatns.k_MaxAirPressure)
         {
             m_CarColor = eCarColors.White;
             m_NumberOfDoors = eNumberOfDoors.Four;
@@ -75,14 +96,6 @@ namespace Ex03.GarageLogic
             set
             {
                 m_NumberOfDoors = value;
-            }
-        }
-
-        public static int NumberOfWheels
-        {
-            get
-            {
-                return sr_NumberOfWheel;
             }
         }
     }
