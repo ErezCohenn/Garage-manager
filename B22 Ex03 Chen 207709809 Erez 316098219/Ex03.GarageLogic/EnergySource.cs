@@ -6,25 +6,23 @@ namespace Ex03.GarageLogic
     {
         public enum eDetails
         {
-            CurrentAmountOfEnergy,
             MaxEnergy,
         }
 
         private float m_CurrentAmountOfEnergy;
-        private readonly float r_MaxEnergy;
-        private static readonly string[] sr_EnergyDetails = { "CurrentAmountOfEnergy", "MaxEnergy" };
+        private readonly float r_MaxEnergyCapacity;
+        private static readonly string[] sr_EnergyDetails = { "MaxEnergy" };
 
-        public EnergySource(float i_MaxEnergy)
+        public EnergySource(float i_MaxEnergy, float i_CurrentAmountOfEnergy)
         {
-            r_MaxEnergy = i_MaxEnergy;
-            m_CurrentAmountOfEnergy = 0;
+            r_MaxEnergyCapacity = i_MaxEnergy;
+            m_CurrentAmountOfEnergy = i_CurrentAmountOfEnergy;
         }
 
-        public virtual Dictionary<string, string> GetEnergyDetails()
+        public virtual Dictionary<string, string> GetDetails()
         {
             Dictionary<string, string> deatilsToFill = new Dictionary<string, string>();
 
-            deatilsToFill.Add(sr_EnergyDetails[(int)eDetails.CurrentAmountOfEnergy], string.Empty);
             deatilsToFill.Add(sr_EnergyDetails[(int)eDetails.MaxEnergy], string.Empty);
 
             return deatilsToFill;
@@ -42,7 +40,7 @@ namespace Ex03.GarageLogic
 
         public float EnergyLeftInPercentage()
         {
-            return (m_CurrentAmountOfEnergy / r_MaxEnergy) * 100;
+            return (m_CurrentAmountOfEnergy / r_MaxEnergyCapacity) * 100;
         }
 
         public override string ToString()
@@ -62,7 +60,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return r_MaxEnergy;
+                return r_MaxEnergyCapacity;
             }
         }
     }

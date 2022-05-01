@@ -43,23 +43,23 @@
 
             if (i_EnergyType == eEnergyType.Electric && i_VehicleType == eVehicleType.Car)
             {
-                energySource = new ElectricEnergy(3.3f);
+                energySource = new ElectricEnergy(Car.ElectricConstatns.k_MaxBattaryCapacityInHours, Car.ElectricConstatns.k_BattaryAfterGenerate);
             }
             else if (i_EnergyType == eEnergyType.Fuel && i_VehicleType == eVehicleType.Car)
             {
-                energySource = new FuelEnergy(38, FuelEnergy.eType.Octan95);
+                energySource = new FuelEnergy(Car.FuelConstatns.k_MaxTankFuelCapacityInLiters, Car.FuelConstatns.k_FuelAfterGenerate, Car.FuelConstatns.k_FuelType);
             }
             else if (i_EnergyType == eEnergyType.Electric && i_VehicleType == eVehicleType.Motorcycle)
             {
-                energySource = new ElectricEnergy(2.5f);
+                energySource = new ElectricEnergy(Motorcycle.ElectricConstatns.k_MaxBattaryCapacityInHours, Motorcycle.ElectricConstatns.k_BattaryAfterGenerate);
             }
             else if (i_EnergyType == eEnergyType.Fuel && i_VehicleType == eVehicleType.Motorcycle)
             {
-                energySource = new FuelEnergy(6.2f, FuelEnergy.eType.Octan98);
+                energySource = new FuelEnergy(Motorcycle.FuelConstatns.k_MaxTankFuelCapacityInLiters, Motorcycle.FuelConstatns.k_FuelAfterGenerate, Motorcycle.FuelConstatns.k_FuelType);
             }
             else if (i_EnergyType == eEnergyType.Fuel && i_VehicleType == eVehicleType.Truck)
             {
-                energySource = new FuelEnergy(120, FuelEnergy.eType.Soler);
+                energySource = new FuelEnergy(Truck.FuelConstatns.k_MaxTankFuelCapacityInLiters, Truck.FuelConstatns.k_FuelAfterGenerate, Truck.FuelConstatns.k_FuelType);
             }
 
             return energySource;

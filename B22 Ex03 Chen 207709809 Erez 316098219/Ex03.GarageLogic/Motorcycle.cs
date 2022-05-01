@@ -5,6 +5,30 @@ namespace Ex03.GarageLogic
 {
     public class Motorcycle : Vehicle
     {
+
+        internal static class FuelConstatns
+        {
+            internal const FuelEnergy.eType k_FuelType = FuelEnergy.eType.Octan98;
+            internal const float k_FuelAfterGenerate = 4;
+            internal const float k_MaxTankFuelCapacityInLiters = 6.2f;
+
+        }
+
+        internal static class ElectricConstatns
+        {
+            internal const float k_BattaryAfterGenerate = 1;
+            internal const float k_MaxBattaryCapacityInHours = 2.5f;
+
+        }
+
+        internal static class WheelConstatns
+        {
+            internal const float k_AirPressureAfterGenerate = 25;
+            internal const float k_MaxAirPressure = 31;
+            internal static readonly int sr_NumberOfWheel = 2;
+
+        }
+
         public enum eLicenseType
         {
             A,
@@ -21,11 +45,9 @@ namespace Ex03.GarageLogic
 
         private eLicenseType m_LicenseType;
         private int m_EngineCapacity;
-        private static readonly int sr_NumberOfWheel = 2;
         private static readonly string[] sr_CarDetails = { "LicenseType", "EngineCapacity" };
-        private const float k_MaximumAirPressure = 29;
 
-        public Motorcycle(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, sr_NumberOfWheel, k_MaximumAirPressure)
+        public Motorcycle(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, WheelConstatns.sr_NumberOfWheel, WheelConstatns.k_MaxAirPressure, WheelConstatns.k_AirPressureAfterGenerate)
         {
             m_LicenseType = eLicenseType.A;
             m_EngineCapacity = 50;
@@ -66,14 +88,6 @@ namespace Ex03.GarageLogic
             set
             {
                 m_EngineCapacity = value;
-            }
-        }
-
-        public static int NumberOfWheels
-        {
-            get
-            {
-                return sr_NumberOfWheel;
             }
         }
     }
