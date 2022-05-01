@@ -57,5 +57,10 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Ex03.GarageLogic">
+      <HintPath>..\Ex03.GarageLogic\obj\Debug\Ex03.GarageLogic.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

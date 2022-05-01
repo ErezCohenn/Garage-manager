@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using StringBuilder = System.Text.StringBuilder;
 using Ex03.GarageLogic;
 
 namespace Ex03.ConsoleUI
@@ -14,9 +16,11 @@ namespace Ex03.ConsoleUI
             FuelVehicle = 5,
             ChargeVehicle = 6,
             DisplayVheicleDetails = 7,
-            Exit = 9,
+            Exit = 8,
 
         }
+        private const int k_MaxNameLength = 20;
+        private readonly List<string> r_Actions;
 
         private Garage m_Garage;
 
@@ -32,11 +36,21 @@ namespace Ex03.ConsoleUI
             do
             {
                 action = getClientChosenAction();
-                if (action != eClientChosenAction.Exit)
+                try
                 {
-                    handleClientAction(action);
+                    if (action != eClientChosenAction.Exit)
+                    {
+                        handleClientAction(action);
+                    }
                 }
-
+                catch (ArgumentException argException)
+                {
+                    Console.WriteLine(argException);
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine
+                }
             }
             while (action != eClientChosenAction.Exit);
 
@@ -45,6 +59,7 @@ namespace Ex03.ConsoleUI
 
         private void handleClientAction(eClientChosenAction i_Action)
         {
+
             if (i_Action == eClientChosenAction.EnterVehicleIntoGarage)
             {
                 enterVehicleIntoGarage();
@@ -79,6 +94,7 @@ namespace Ex03.ConsoleUI
         {
             string licenseNumber = "";
 
+
             Console.WriteLine("Please enter the license number of your vehicle: ");
             licenseNumber = Console.ReadLine();
             if (m_Garage.)//containsKey
@@ -96,37 +112,203 @@ namespace Ex03.ConsoleUI
         {
 
             //get vehicle type from user, and energy type
-            VehicleGenerator.eVehicleType vehicleType = getVehicleTypeFromClient();
-            VehicleGenerator.eEnergyType vehicleEnergyType = getEnergyTypeFromClient();
-            m_Garage.AddVehicle(i_LicenseNumber, vehicleType, vehicleEnergyType);
+            string clientName;
+            string clientPhoneNumber;
+            VehicleGenerator.eVehicleType vehicleType;
+            VehicleGenerator.eEnergyType vehicleEnergyType;
+
+            getTypeFromUser<VehicleGenerator.eVehicleType>(out vehicleType, m_Garage.VehicleGenerator.SupportedVehicles, "vehicle");//getVehicleTypeFromClient();
+            getTypeFromUser<VehicleGenerator.eEnergyType>(out vehicleEnergyType, m_Garage.VehicleGenerator.SupportedEnergySources, "vehicle's energy");//getEnergyTypeFromClient();
+            getClientName(out clientName);
+            getClientPhoneNumber(out clientPhoneNumber);
+            m_Garage.AddVehicle(i_LicenseNumber, vehicleType, vehicleEnergyType, clientName, clientPhoneNumber);
         }
 
-        private VehicleGenerator.eVehicleType getVehicleTypeFromClient()
+        private void getClientPhoneNumber(out string o_ClientPhoneNumber)
         {
-            VehicleGenerator.eVehicleType Type = VehicleGenerator.eVehicleType.Car;
+            bool validePhoneNumber = false;
+            StringBuilder clientPhoneNumber = new StringBuilder();
 
-            Console.WriteLine("Please Enter Your vehicle type: ");
-            Console.WriteLine("Press ");
+            Console.WriteLine("Please enter your phone Number(10 straight digits):");
+            do
+            {
+                clientPhoneNumber.Clear();
+                clientPhoneNumber.Append(Console.ReadLine());
+                if (isValidePhoneNumber(clientPhoneNumber))
+                {
+                    validePhoneNumber = true;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid name, Please enter again.");
+                }
+            }
+            while (!validePhoneNumber);
+
+            o_ClientPhoneNumber = clientPhoneNumber.ToString();
 
         }
 
-        private VehicleGenerator.eEnergyType getEnergyTypeFromClient()
+        private bool isValidePhoneNumber(StringBuilder i_clientPhoneNumber)
         {
-            string UserInputType = "";
-            VehicleGenerator.eEnergyType energyType = VehicleGenerator.eEnergyType.Fuel;
+            return i_clientPhoneNumber.Length == 10 && containOnlyDigits(i_clientPhoneNumber);
+        }
 
-            Console.WriteLine("Please Enter Your vehicle Energy type: ");
-            UserInputType = Console.ReadLine();
-            //exeption here if not fuel or electric
-            if (UserInputType == "Fuel")
+        private bool containOnlyDigits(StringBuilder i_clientPhoneNumber)
+        {
+            int index = 0;
+            bool validInput = true;
+            for (; index < i_clientPhoneNumber.Length && validInput; index++)
             {
-                energyType = VehicleGenerator.eEnergyType.Fuel;
+                if (i_clientPhoneNumber[index] > '9' && i_clientPhoneNumber[index] < '0')
+                {
+                    validInput = false;
+                }
             }
-            else
+            return validInput;
+        }
+
+        private void getClientName(out string o_ClientName)
+        {
+            bool validName = false;
+            StringBuilder clientName = new StringBuilder();
+
+            Console.WriteLine("Please enter your name(max length is 20) without spaces:");
+            do
             {
-                energyType = VehicleGenerator.eEnergyType.Electric;
+                clientName.Clear();
+                clientName.Append(Console.ReadLine());
+                if (isValidName(clientName))
+                {
+                    validName = true;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid name, Please enter again.");
+                }
             }
-            return energyType;
+            while (!validName);
+
+            o_ClientName = clientName.ToString();
+
+        }
+
+        private bool isValidName(StringBuilder i_ClientName)
+        {
+            bool validName = true;
+            char charToCheck;
+
+            if (i_ClientName.Length > k_MaxNameLength)
+            {
+                validName = false;
+            }
+
+            for (int i = 0; i < i_ClientName.Length && validName; i++)
+            {
+                charToCheck = i_ClientName[i];
+                if (charToCheck == ' ')
+                {
+                    validName = false;
+                }
+            }
+
+            return validName;
+        }
+        private void getTypeFromUser<T>(out T o_Type, List<string> i_List, string i_TypeMessage)
+        {
+            bool validInput = false;
+            int chosenType;
+
+            Console.WriteLine(string.Format("Please Enter Your {0} type, press: ", i_TypeMessage));
+            do
+            {
+                printAllSupportedProperties(i_List);
+                validInput = int.TryParse(Console.ReadLine(), out chosenType);
+                if (validInput)
+                {
+                    validInput = inputInRange(chosenType, i_List.Count);
+                }
+
+                if (!validInput)
+                {
+                    Console.WriteLine("Invalid input entered, please try again from the options below:");
+                }
+
+            }
+            while (!validInput);
+
+            o_Type = (T)(object)chosenType;
+        }
+        //private VehicleGenerator.eVehicleType getVehicleTypeFromClient()
+        //{
+        //    bool validInput = false;
+        //    int chosenType;
+        //    VehicleGenerator.eVehicleType Type = VehicleGenerator.eVehicleType.Car;
+        //
+        //    Console.WriteLine("Please Enter Your vehicle type, press: ");
+        //    do
+        //    {
+        //        printAllSupportedProperties(m_Garage.VehicleGenerator.SupportedVehicles);
+        //        validInput = int.TryParse(Console.ReadLine(), out chosenType);
+        //        if (validInput)
+        //        {
+        //            validInput = inputInRange(chosenType, m_Garage.VehicleGenerator.SupportedVehicles.Count);
+        //        }
+        //
+        //        if (!validInput)
+        //        {
+        //            Console.WriteLine("Invalid input entered, please try again from the options below:");
+        //        }
+        //
+        //    }
+        //    while (!validInput);
+        //
+        //    Type = (VehicleGenerator.eVehicleType)chosenType;
+        //    return Type;
+        //}
+        //
+        //private VehicleGenerator.eEnergyType getEnergyTypeFromClient()
+        //{
+        //    bool validInput = false;
+        //    int chosenType;
+        //    VehicleGenerator.eEnergyType Type = VehicleGenerator.eEnergyType.Fuel;
+        //
+        //    Console.WriteLine("Please Enter Your vehicle's Energy type, press: ");
+        //    do
+        //    {
+        //        printAllSupportedProperties(m_Garage.VehicleGenerator.SupportedEnergySources);
+        //        validInput = int.TryParse(Console.ReadLine(), out chosenType);
+        //        if (validInput)
+        //        {
+        //            validInput = inputInRange(chosenType, m_Garage.VehicleGenerator.SupportedEnergySources.Count);
+        //        }
+        //
+        //        if (!validInput)
+        //        {
+        //            Console.WriteLine("Invalid input entered, please try again from the options below:");
+        //        }
+        //
+        //    }
+        //    while (!validInput);
+        //
+        //    Type = (VehicleGenerator.eEnergyType)chosenType;
+        //    return Type;
+        //}
+
+        private void printAllSupportedProperties(List<string> i_SupportedList)
+        {
+            int index = 1;
+
+            foreach (string energyType in i_SupportedList)
+            {
+                Console.WriteLine(string.Format("{0}. {1}"), index, energyType);
+                index++;
+            }
+        }
+
+        private bool inputInRange(int i_Input, int i_SizeOfSupportedList)
+        {
+            return (i_Input >= 1 && i_Input <= i_SizeOfSupportedList);
         }
 
         private void displayLicensesNumbers()
@@ -153,14 +335,45 @@ namespace Ex03.ConsoleUI
                 }
                 else
                 {
-                    // exeption that the input is invalid
+                    throw new FormatException("Ivalid input, please choose 1 (for filter) or 2 (without filter) "); // exeption that the input is invalid
                 }
 
             }
             while (!validInput);
 
+        }
+
+        private void displayLicensesNumbersWithFilter()
+        {
+            string filter = "";
+            bool validInput = false;
 
 
+            Console.WriteLine("Please Enter: ");
+            Console.WriteLine("1. To display the vehicles in repair.");
+            Console.WriteLine("2. To display the fixed vehicles.");
+            Console.WriteLine("3. To display the paid of vehicles.");
+
+
+            do
+            {
+                filter = Console.ReadLine();
+                if (filter == "1")
+                {
+                    displayLicensesNumbersWithoutFilter();
+                    validInput = true;
+                }
+                else if (filter == "2")
+                {
+                    displayLicensesNumbersWithFilter();
+                    validInput = true;
+                }
+                else if (filter == "3")
+                {
+                    throw new FormatException("Ivalid input, please choose 1 (for filter) or 2 (without filter) "); // exeption that the input is invalid
+                }
+            }
+            while (!validInput);
         }
         private eClientChosenAction getClientChosenAction()
         {
@@ -180,6 +393,9 @@ namespace Ex03.ConsoleUI
             return (eClientChosenAction)int.Parse(chosenAction);
         }
 
-
     }
 }
+
+
+
+

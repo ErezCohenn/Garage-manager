@@ -54,7 +54,7 @@ namespace Ex03.GarageLogic
         private eNumberOfDoors m_NumberOfDoors;
         private static readonly string[] sr_CarDetails = { "Color", "NumberOfDoors" };
 
-        public Car(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, WheelConstatns.sr_NumberOfWheel, WheelConstatns.k_MaxAirPressure)
+        public Car(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, 4, WheelConstatns.sr_NumberOfWheel, WheelConstatns.k_MaxAirPressure)
         {
             m_CarColor = eCarColors.White;
             m_NumberOfDoors = eNumberOfDoors.Four;
