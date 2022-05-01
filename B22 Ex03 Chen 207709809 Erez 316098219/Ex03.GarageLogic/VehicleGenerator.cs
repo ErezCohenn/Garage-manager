@@ -1,20 +1,23 @@
-﻿namespace Ex03.GarageLogic
+﻿using System.Collections.Generic;
+namespace Ex03.GarageLogic
 {
     public class VehicleGenerator
     {
         public enum eVehicleType
         {
-            Car,
-            Motorcycle,
-            Truck,
+            Car = 1,
+            Motorcycle = 2,
+            Truck = 3,
         }
 
         public enum eEnergyType
         {
-            Fuel,
-            Electric,
+            Fuel = 1,
+            Electric = 2,
         }
 
+        private readonly List<string> r_SupportedVehicles = new List<string>() { "Car.", "Motorcycle.", "Truck." };
+        private readonly List<string> r_SupportedEnergySources = new List<string>() { "Fuel.", "Electric." };
 
         public Vehicle ProduceVehicle(string i_LicenseNumber, eVehicleType i_VehicleType, eEnergyType i_EnergyType)
         {
@@ -63,6 +66,22 @@
             }
 
             return energySource;
+        }
+
+        public List<string> SupportedVehicles
+        {
+            get
+            {
+                return r_SupportedVehicles;
+            }
+        }
+
+        public List<string> SupportedEnergySources
+        {
+            get
+            {
+                return r_SupportedEnergySources;
+            }
         }
     }
 }

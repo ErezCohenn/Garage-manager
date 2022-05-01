@@ -34,7 +34,7 @@ namespace Ex03.GarageLogic
         private static readonly string[] sr_CarDetails = { "CargoCapcity", "CanCarryRefrigerated" };
         private const float k_MaximumAirPressure = 24;
 
-        public Truck(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, sr_NumberOfWheel, k_MaximumAirPressure)
+        public Truck(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, 16, sr_NumberOfWheel, k_MaximumAirPressure)
         {
             m_CargoCapcity = 50;
             m_CanCarryRefrigerated = true;

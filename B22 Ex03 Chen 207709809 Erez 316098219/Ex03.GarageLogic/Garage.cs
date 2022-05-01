@@ -53,12 +53,12 @@ namespace Ex03.GarageLogic
                     licenseNumbers.Append(string.Format("{0}. {1}{2}", licenseIndex, cardVehicle.Key, Environment.NewLine));
                     licenseIndex++;
                 }
-                else if (i_FixedFilter && cardVehicle.Value.VehicleStatus == eVehicleStatus.Fixed)
+                if (i_FixedFilter && cardVehicle.Value.VehicleStatus == eVehicleStatus.Fixed)
                 {
                     licenseNumbers.Append(string.Format("{0}. {1}{2}", licenseIndex, cardVehicle.Key, Environment.NewLine));
                     licenseIndex++;
                 }
-                else if (i_PaidFilter && cardVehicle.Value.VehicleStatus == eVehicleStatus.PaidUp)
+                if (i_PaidFilter && cardVehicle.Value.VehicleStatus == eVehicleStatus.PaidUp)
                 {
                     licenseNumbers.Append(string.Format("{0}. {1}{2}", licenseIndex, cardVehicle.Key, Environment.NewLine));
                     licenseIndex++;
@@ -177,6 +177,14 @@ namespace Ex03.GarageLogic
                 return r_VehiclesInGarage[i_LicenseNumber].ToString();
             }
 
+        }
+
+        public VehicleGenerator VehicleGenerator
+        {
+            get
+            {
+                return r_VehiclesGenerator;
+            }
         }
     }
 }
