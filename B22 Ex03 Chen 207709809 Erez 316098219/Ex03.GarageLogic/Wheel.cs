@@ -31,13 +31,14 @@ namespace Ex03.GarageLogic
             return deatilsToFill;
         }
 
-        public void WheelInflation(float i_AirToAdd)
+        public void WheelInflation(float i_AmountAirToAdd)
         {
-            if (m_CurrentAirPressure + i_AirToAdd <= r_MaxAirPressureByManufacturer)
+            if (m_CurrentAirPressure + i_AmountAirToAdd > r_MaxAirPressureByManufacturer)
             {
-                m_CurrentAirPressure += i_AirToAdd;
+                throw new ValueOutOfRangeException(r_MaxAirPressureByManufacturer - m_CurrentAirPressure, 0, "Air Pressure amount");
             }
-            // might put here exeption if  m_currentAirPressure + i_AirToAdd > m_maxAirPressureByManufacturer.
+
+            m_CurrentAirPressure += i_AmountAirToAdd;
         }
 
         public float AirPressureLeftInPercentage()

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
@@ -38,7 +39,7 @@ namespace Ex03.GarageLogic
         {
             if (i_FuelType != r_FuelType)
             {
-                // throw exception
+                throw new ArgumentException("Error: Invalid FuelType was inserted");
             }
 
             base.FillEnergy(i_AmountFuelInLitersToAdd);
