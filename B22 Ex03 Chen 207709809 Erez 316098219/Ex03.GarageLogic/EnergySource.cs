@@ -11,7 +11,7 @@ namespace Ex03.GarageLogic
 
         private float m_CurrentAmountOfEnergy;
         private readonly float r_MaxEnergyCapacity;
-        private static readonly string[] sr_EnergyDetails = { "MaxEnergy" };
+        private static readonly string[] sr_EnergyDetails = { "MaxEnergyCapacity" };
 
         public EnergySource(float i_MaxEnergy, float i_CurrentAmountOfEnergy)
         {
@@ -30,9 +30,9 @@ namespace Ex03.GarageLogic
 
         protected void FillEnergy(float i_AmountEnergyToLoad)
         {
-            if (i_AmountEnergyToLoad + m_CurrentAmountOfEnergy > MaxEnergy)
+            if (i_AmountEnergyToLoad + m_CurrentAmountOfEnergy > MaxEnergyCapacity)
             {
-                // throw exception
+                throw new ValueOutOfRangeException(r_MaxEnergyCapacity - m_CurrentAmountOfEnergy, 0, "Energy amount");
             }
 
             m_CurrentAmountOfEnergy += i_AmountEnergyToLoad;
@@ -56,7 +56,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public float MaxEnergy
+        public float MaxEnergyCapacity
         {
             get
             {
