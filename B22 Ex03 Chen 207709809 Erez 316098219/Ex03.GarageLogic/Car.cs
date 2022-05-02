@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -46,8 +47,34 @@ namespace Ex03.GarageLogic
 
         private eColors m_Color;
         private eNumberOfDoors m_NumberOfDoors;
-        private static readonly string[] sr_CarDetails = { "Color", "Doors" };
+        private static readonly string[] sr_CarDetails;
 
+        static Car()
+        {
+            StringBuilder details = new StringBuilder();
+            string[] colors = Enum.GetNames(typeof(eColors));
+            string[] numOfDoors = Enum.GetNames(typeof(eNumberOfDoors));
+            string[] carDetails = new string[2];
+
+            details.Append("Color (");
+            foreach (string color in colors)
+            {
+                details.Append(color + "/");
+            }
+
+            details.Append(")");
+            carDetails[0] = details.ToString();
+            details.Clear();
+            details.Append("Doors (");
+            foreach (string amountOfDoors in numOfDoors)
+            {
+                details.Append(amountOfDoors + "/");
+            }
+
+            details.Append(")");
+            carDetails[1] = details.ToString();
+            sr_CarDetails = carDetails;
+        }
         public Car(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, WheelConstatns.sr_NumberOfWheel, WheelConstatns.k_MaxAirPressure)
         {
             m_Color = eColors.White;

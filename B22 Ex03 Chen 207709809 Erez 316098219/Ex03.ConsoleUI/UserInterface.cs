@@ -28,7 +28,7 @@ namespace Ex03.ConsoleUI
         {
             m_Garage = new Garage();
             r_Actions = new List<string>() {"Enter your Vehicle Into our Garage.", "Display all vehicles license numbers."
-            , "Change your vehicle's state.", "Fill the air in yout wheels to max.", "Fuel your vehicle.", "Charge your vehicle's battery."
+            , "Change your vehicle's state.", "Fill the air in your wheels to max.", "Fuel your vehicle.", "Charge your vehicle's battery."
             , "Display your vehicle's details.", "Exit." };
         }
 
@@ -75,17 +75,20 @@ namespace Ex03.ConsoleUI
                         handleClientAction(action);
                     }
                 }
-                catch (ArgumentException argException) //todo
+                catch (ArgumentException argExcption)
                 {
-                    Console.WriteLine(argException.Message);
+                    Console.WriteLine(argExcption.Message);
                 }
-                catch (FormatException)
+                catch (ValueOutOfRangeException outOfRangeExcption)
                 {
-                    Console.WriteLine();
+                    Console.WriteLine(outOfRangeExcption.Message);
                 }
-                catch (ValueOutOfRangeException)
+                catch (InvalidCastException castExcption)
                 {
+                    Console.WriteLine(castExcption.Message);
                 }
+
+                printContinueMessage();
             }
             while (action != eClientChosenAction.Exit);
 
@@ -132,17 +135,8 @@ namespace Ex03.ConsoleUI
             string vehicleDetails = null;
 
             getClientDetail(out licenseNumber, licenseMessageToScreen, isValidLicenseNumber);
-            try
-            {
-                vehicleDetails = m_Garage.GetVehicleInformation(licenseNumber);
-                Console.WriteLine(vehicleDetails);
-            }
-            catch (ArgumentException argExcption)
-            {
-                Console.WriteLine(argExcption.Message);
-            }
-
-            printContinueMessage();
+            vehicleDetails = m_Garage.GetVehicleInformation(licenseNumber);
+            Console.WriteLine(vehicleDetails);
         }
 
         private void chargeVehicle()
@@ -154,25 +148,8 @@ namespace Ex03.ConsoleUI
 
             getClientDetail(out licenseNumber, licenseMessageToScreen, isValidLicenseNumber);
             getAmountOfEnergyFromUser(out amountOfEelectricity, elecreicityToFillMessageToScreen);
-            try
-            {
-                m_Garage.ChargeElectronicVehicle(licenseNumber, amountOfEelectricity);
-                Console.WriteLine("The vehicle is charged! your current battery condition in percent is: {0}", m_Garage.GetClient(licenseNumber).Vehicle.EnergySource.EnergyLeftInPercentage());
-            }
-            catch (ArgumentException argExcption)
-            {
-                Console.WriteLine(argExcption.Message);
-            }
-            catch (ValueOutOfRangeException outOfRangeExcption)
-            {
-                Console.WriteLine(outOfRangeExcption.Message);
-            }
-            catch (InvalidCastException castExcption)
-            {
-                Console.WriteLine(castExcption.Message);
-            }
-
-            printContinueMessage();
+            m_Garage.ChargeElectronicVehicle(licenseNumber, amountOfEelectricity);
+            Console.WriteLine("The vehicle is charged! your current battery condition in percent is: {0}", m_Garage.GetClient(licenseNumber).Vehicle.EnergySource.EnergyLeftInPercentage());
         }
 
         private void reFuelVehicle()
@@ -186,25 +163,8 @@ namespace Ex03.ConsoleUI
             getClientDetail(out licenseNumber, licenseMessageToScreen, isValidLicenseNumber);
             getTypeFromUser<FuelEnergy.eType>(out fuelType, FuelEnergy.FuelTypes, "Fuel");
             getAmountOfEnergyFromUser(out amountOfFuel, FuelTypeMessageToScreen);
-            try
-            {
-                m_Garage.RefuelVehicle(licenseNumber, fuelType, amountOfFuel);
-                Console.WriteLine("The vehicle is refueled! your current fuel in your tank in percent is: {0}", m_Garage.GetClient(licenseNumber).Vehicle.EnergySource.EnergyLeftInPercentage());
-            }
-            catch (ArgumentException argExcption)
-            {
-                Console.WriteLine(argExcption.Message);
-            }
-            catch (ValueOutOfRangeException outOfRangeExcption)
-            {
-                Console.WriteLine(outOfRangeExcption.Message);
-            }
-            catch (InvalidCastException castExcption)
-            {
-                Console.WriteLine(castExcption.Message);
-            }
-
-            printContinueMessage();
+            m_Garage.RefuelVehicle(licenseNumber, fuelType, amountOfFuel);
+            Console.WriteLine("The vehicle is refueled! your current fuel in your tank in percent is: {0}", m_Garage.GetClient(licenseNumber).Vehicle.EnergySource.EnergyLeftInPercentage());
         }
 
         private void printInvalidInputMessage()
@@ -214,7 +174,7 @@ namespace Ex03.ConsoleUI
 
         private void printContinueMessage()
         {
-            Console.WriteLine("Press any key to return to the main menu...");
+            Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
         }
 
@@ -246,17 +206,8 @@ namespace Ex03.ConsoleUI
             string messageToScreen = "Please enter the license number of your vehicle: ";
 
             getClientDetail(out licenseNumber, messageToScreen, isValidLicenseNumber);
-            try
-            {
-                m_Garage.InflateWheelsAirPressureToMaximum(licenseNumber);
-                Console.WriteLine("All vehicle's wheels have been inflated to the maximum air pressure: {0}", m_Garage.GetClient(licenseNumber).Vehicle.MaxAirPressureInTheWheels());
-            }
-            catch (ArgumentException argExcption)
-            {
-                Console.WriteLine(argExcption.Message);
-            }
-
-            printContinueMessage();
+            m_Garage.InflateWheelsAirPressureToMaximum(licenseNumber);
+            Console.WriteLine("All vehicle's wheels have been inflated to the maximum air pressure: {0}", m_Garage.GetClient(licenseNumber).Vehicle.MaxAirPressureInTheWheels());
         }
 
         private void changeVehicleState()
@@ -264,19 +215,11 @@ namespace Ex03.ConsoleUI
             string licenseNumber;
             string messageToScreen = "Please enter the license number of your vehicle: ";
             Garage.eVehicleStatus statusToChangeTo;
+
             getClientDetail(out licenseNumber, messageToScreen, isValidLicenseNumber);
             getTypeFromUser<Garage.eVehicleStatus>(out statusToChangeTo, m_Garage.StatusInGarage, "desired status");
-            try
-            {
-                m_Garage.ChangeVehicleStatus(licenseNumber, statusToChangeTo);
-                Console.WriteLine("The new vehicle status has been successfully changed!");
-            }
-            catch (ArgumentException argExcption)
-            {
-                Console.WriteLine(argExcption.Message);
-            }
-
-            printContinueMessage();
+            m_Garage.ChangeVehicleStatus(licenseNumber, statusToChangeTo);
+            Console.WriteLine("The new vehicle status has been successfully changed!");
         }
 
         private void enterVehicleIntoGarage()
@@ -289,13 +232,12 @@ namespace Ex03.ConsoleUI
             if (m_Garage.IsVehicleExists(licenseNumber))
             {
                 m_Garage.ChangeVehicleStatus(licenseNumber, Garage.eVehicleStatus.InRepair);
-                Console.WriteLine(string.Format("Hello {0}, Your vehicle is already in the garage, so the vehicle status has been changed to In-Repair"), m_Garage.GetClient(licenseNumber).Name);
+                Console.WriteLine(string.Format("Hello {0}, Your vehicle is already in the garage, so the vehicle status has been changed to In-Repair", m_Garage.GetClient(licenseNumber).Name));
             }
             else
             {
                 enterNewVehicle(licenseNumber);
             }
-
         }
 
         private void enterNewVehicle(string i_LicenseNumber)
@@ -311,18 +253,9 @@ namespace Ex03.ConsoleUI
             getTypeFromUser<VehicleGenerator.eEnergyType>(out vehicleEnergyType, m_Garage.VehicleGenerator.SupportedEnergySources, "vehicle's energy");//getEnergyTypeFromClient();
             getClientDetail(out clientName, nameMessageToScreen, isValidName); //get owner vehicle name
             getClientDetail(out clientPhoneNumber, phoneNumberMessageToScreen, isValidePhoneNumber); //get owner vehicle phone number
-            try
-            {
-                m_Garage.AddVehicle(i_LicenseNumber, vehicleType, vehicleEnergyType, clientName, clientPhoneNumber);
-                addExtraInformation(i_LicenseNumber);
-                Console.WriteLine("The vehicle entered to the garage successfully, thank you for choosing our garage");
-            }
-            catch (AggregateException argExcption)
-            {
-                Console.WriteLine(argExcption.Message);
-            }
-
-            printContinueMessage();
+            m_Garage.AddVehicle(i_LicenseNumber, vehicleType, vehicleEnergyType, clientName, clientPhoneNumber);
+            addExtraInformation(i_LicenseNumber);
+            Console.WriteLine("The vehicle entered to the garage successfully, thank you for choosing our garage");
         }
 
         private void addExtraInformation(string i_LicenseNumber)
@@ -360,6 +293,7 @@ namespace Ex03.ConsoleUI
                 while (!validInput);
             }
         }
+
         private void getClientDetail(out string o_ClientDetail, string i_Message, validateFunctionInput i_ValidateInputOfClient)
         {
             bool valideInput = false;
@@ -397,7 +331,7 @@ namespace Ex03.ConsoleUI
 
             for (int i = 0; i < i_clientPhoneNumber.Length && validInput; i++)
             {
-                if (i_clientPhoneNumber[i] > '9' && i_clientPhoneNumber[i] < '0')
+                if (i_clientPhoneNumber[i] > '9' || i_clientPhoneNumber[i] < '0')
                 {
                     validInput = false;
                     break;
@@ -470,6 +404,7 @@ namespace Ex03.ConsoleUI
             bool validInput = false;
             char withFilter = ' ';
 
+            Console.Clear();
             Console.WriteLine("Please press 1 if you want to display the license numbers by filter, else press 2:");
             Console.WriteLine("1. Yes.");
             Console.WriteLine("2. No.");
@@ -492,21 +427,17 @@ namespace Ex03.ConsoleUI
                 }
             }
             while (!validInput);
-
-            printContinueMessage();
         }
 
         private void displayLicensesNumbersWithoutFilter()
         {
-            bool vehicleInRepair = true;
-            bool vehicleFixed = true;
-            bool vehiclePaidUp = true;
             string licensesNumberByFilter = null;
+            Dictionary<Garage.eVehicleStatus, bool> statusFilter = new Dictionary<Garage.eVehicleStatus, bool> { { Garage.eVehicleStatus.InRepair, true }, { Garage.eVehicleStatus.Fixed, true }, { Garage.eVehicleStatus.PaidUp, true } };
 
             Console.Clear();
             try
             {
-                licensesNumberByFilter = m_Garage.GetLicenseNumbersByFilter(vehicleInRepair, vehicleFixed, vehiclePaidUp);
+                licensesNumberByFilter = m_Garage.GetLicenseNumbersByFilter(statusFilter);
                 Console.WriteLine(licensesNumberByFilter);
             }
             catch (ArgumentException argExcption)
@@ -517,37 +448,27 @@ namespace Ex03.ConsoleUI
 
         private void displayLicensesNumbersWithFilter()
         {
+            int i = 0;
+            Dictionary<Garage.eVehicleStatus, bool> statusFilter = new Dictionary<Garage.eVehicleStatus, bool> { { Garage.eVehicleStatus.InRepair, false }, { Garage.eVehicleStatus.Fixed, false }, { Garage.eVehicleStatus.PaidUp, false } };
             char filter = ' ';
-            bool vehicleInRepair = false;
-            bool vehicleFixed = false;
-            bool vehiclePaidUp = false;
-            bool[] statusFilter = new bool[3] { vehicleInRepair, vehicleFixed, vehiclePaidUp };
             string licensesNumberByFilter = null;
 
             Console.Clear();
-            for (int i = 0; i < statusFilter.Length; i++)
+            foreach (Garage.eVehicleStatus key in Enum.GetValues(typeof(Garage.eVehicleStatus)))
             {
                 Console.WriteLine(string.Format("Please Enter 1 to display license numbers by {0} status, else, enter any other key.", m_Garage.StatusInGarage[i]));
                 filter = Console.ReadKey().KeyChar;
+                Console.WriteLine();
                 if (filter == '1')
                 {
-                    statusFilter[i] = true;
+                    statusFilter[key] = true;
                 }
+                i++;
             }
 
-            try
-            {
-                licensesNumberByFilter = m_Garage.GetLicenseNumbersByFilter(vehicleInRepair, vehicleFixed, vehiclePaidUp);
-                Console.WriteLine(licensesNumberByFilter);
-            }
-            catch (ArgumentException argExcption)
-            {
-                Console.WriteLine(argExcption.Message);
-            }
+            Console.Clear();
+            licensesNumberByFilter = m_Garage.GetLicenseNumbersByFilter(statusFilter);
+            Console.WriteLine(licensesNumberByFilter);
         }
     }
 }
-
-
-
-

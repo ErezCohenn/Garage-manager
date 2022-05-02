@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -39,7 +40,26 @@ namespace Ex03.GarageLogic
 
         private eLicenseType m_LicenseType;
         private int m_EngineCapacity;
-        private static readonly string[] sr_MotorCycleDetails = { "Motorcylce License Type", "Motorcycle Engine Capacity" };
+        private static readonly string[] sr_MotorCycleDetails;
+
+        static Motorcycle()
+        {
+            StringBuilder details = new StringBuilder();
+            string[] licenseType = Enum.GetNames(typeof(eLicenseType));
+            string engineCapacity = "Motorcycle Engine Capacity";
+            string[] motorcycleDetails = new string[2];
+
+            details.Append("Motorcylce License Type (");
+            foreach (string license in licenseType)
+            {
+                details.Append(license + "/");
+            }
+
+            details.Append(")");
+            motorcycleDetails[0] = details.ToString();
+            motorcycleDetails[1] = engineCapacity;
+            sr_MotorCycleDetails = motorcycleDetails;
+        }
 
         public Motorcycle(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, WheelConstatns.sr_NumberOfWheel, WheelConstatns.k_MaxAirPressure)
         {

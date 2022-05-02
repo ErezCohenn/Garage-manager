@@ -50,35 +50,27 @@ namespace Ex03.GarageLogic
             r_VehiclesInGarage.Add(i_LicenseNumber, newClient);
         }
 
-        public string GetLicenseNumbersByFilter(bool i_InRepairFilter, bool i_FixedFilter, bool i_PaidFilter)
+        public string GetLicenseNumbersByFilter(Dictionary<eVehicleStatus, bool> i_StatusFilters)
         {
             StringBuilder licenseNumbers = new StringBuilder();
             int licenseIndex = 1;
 
             foreach (KeyValuePair<string, Client> cardVehicle in r_VehiclesInGarage)
             {
-                if (i_InRepairFilter && cardVehicle.Value.VehicleStatus == eVehicleStatus.InRepair)
+                foreach (KeyValuePair<eVehicleStatus, bool> filter in i_StatusFilters)
                 {
-                    licenseNumbers.Append(string.Format("{0}. {1}{2}", licenseIndex, cardVehicle.Key, Environment.NewLine));
-                    licenseIndex++;
-                }
-
-                if (i_FixedFilter && cardVehicle.Value.VehicleStatus == eVehicleStatus.Fixed)
-                {
-                    licenseNumbers.Append(string.Format("{0}. {1}{2}", licenseIndex, cardVehicle.Key, Environment.NewLine));
-                    licenseIndex++;
-                }
-
-                if (i_PaidFilter && cardVehicle.Value.VehicleStatus == eVehicleStatus.PaidUp)
-                {
-                    licenseNumbers.Append(string.Format("{0}. {1}{2}", licenseIndex, cardVehicle.Key, Environment.NewLine));
-                    licenseIndex++;
+                    if (filter.Value && cardVehicle.Value.VehicleStatus == filter.Key)
+                    {
+                        licenseNumbers.Append(string.Format("{0}. {1}{2}", licenseIndex, cardVehicle.Key, Environment.NewLine));
+                        licenseIndex++;
+                        break;
+                    }
                 }
             }
 
             if (licenseNumbers.ToString().Equals(string.Empty))
             {
-                throw new ArgumentException("Note: There are no vehicles in the Garage");
+                throw new ArgumentException("Note: There are no vehicles found that matching the filters!");
             }
 
             return licenseNumbers.ToString();

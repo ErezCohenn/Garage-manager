@@ -87,7 +87,7 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            return string.Format("Manufacturer wheel Name: {0}{1}Wheel state in percent: {2}{3}", m_ManufacturerName, Environment.NewLine, AirPressureLeftInPercentage(), Environment.NewLine);
+            return string.Format("Manufacturer wheel Name: {0}{1}Wheel state in percent: {2}%{3}", m_ManufacturerName, Environment.NewLine, AirPressureLeftInPercentage(), Environment.NewLine);
         }
 
         public string ManufacturerName

@@ -49,7 +49,7 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            return string.Format("Fuel state in percent: {0}{1}", EnergyLeftInPercentage(), System.Environment.NewLine);
+            return string.Format("Fuel state in percent: {0}%{1}", EnergyLeftInPercentage(), System.Environment.NewLine);
         }
 
         public float CurrentAmountOfEnergy
