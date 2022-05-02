@@ -8,7 +8,8 @@ namespace Ex03.GarageLogic
         private readonly string r_PhoneNumber;
         private readonly Vehicle r_Vehicle;
         private Garage.eVehicleStatus m_VehicleStatus;
-
+        private static readonly int sr_MaxNameLength = 20;
+        private static readonly int sr_PhoneNumberLength = 20;
         public Client(string i_Name, string i_PhoneNumber, Vehicle i_Vehicle, Garage.eVehicleStatus i_VehicleStatus)
         {
             r_Name = i_Name;
@@ -58,6 +59,22 @@ namespace Ex03.GarageLogic
             set
             {
                 m_VehicleStatus = value;
+            }
+        }
+
+        public static int MaxNameLength
+        {
+            get
+            {
+                return sr_MaxNameLength;
+            }
+        }
+
+        public static int PhoneNumberLength
+        {
+            get
+            {
+                return sr_PhoneNumberLength;
             }
         }
     }

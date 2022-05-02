@@ -19,10 +19,12 @@ namespace Ex03.ConsoleUI
             Exit = 8,
 
         }
-        private const int k_MaxNameLength = 20;
-        private readonly List<string> r_Actions;
 
+        private const int k_LicenseNumberLength = 20;
+
+        private readonly List<string> r_Actions;
         private Garage m_Garage;
+        public delegate bool validateFunctionInput(StringBuilder i_Input);
 
         public UserInterface()
         {
@@ -51,6 +53,9 @@ namespace Ex03.ConsoleUI
                 {
                     Console.WriteLine
                 }
+                catch (ValueOutOfRangeException)
+                {
+                }
             }
             while (action != eClientChosenAction.Exit);
 
@@ -59,7 +64,6 @@ namespace Ex03.ConsoleUI
 
         private void handleClientAction(eClientChosenAction i_Action)
         {
-
             if (i_Action == eClientChosenAction.EnterVehicleIntoGarage)
             {
                 enterVehicleIntoGarage();
@@ -90,16 +94,23 @@ namespace Ex03.ConsoleUI
             }
         }
 
+        private void changeVehicleState()
+        {
+            string licenseNumber;
+
+            getClientDetail(out licenseNumber, "Please enter the license number of your vehicle: ", isValidLicenseNumber);
+
+            getTypeFromUser<VehicleGenerator.eVehicleType>(out vehicleType, m_Garage.VehicleGenerator.SupportedVehicles, "vehicle");
+        }
         private void enterVehicleIntoGarage()
         {
             string licenseNumber = "";
 
-
             Console.WriteLine("Please enter the license number of your vehicle: ");
             licenseNumber = Console.ReadLine();
-            if (m_Garage.)//containsKey
+            if (m_Garage.IsVehicleExists(licenseNumber))//containsKey
             {
-                Console.WriteLine(string.format("Hello {0}, your {1}, is already in the garage"), m_Garage.nameOfOwner m_Garage.vehicleType)//the right vehicle connected to the license number)
+                Console.WriteLine(string.Format("Hello {0}, Your vehicle, is already in the garage"), m_Garage.GetClient(licenseNumber));
             }
             else
             {
@@ -119,36 +130,41 @@ namespace Ex03.ConsoleUI
 
             getTypeFromUser<VehicleGenerator.eVehicleType>(out vehicleType, m_Garage.VehicleGenerator.SupportedVehicles, "vehicle");//getVehicleTypeFromClient();
             getTypeFromUser<VehicleGenerator.eEnergyType>(out vehicleEnergyType, m_Garage.VehicleGenerator.SupportedEnergySources, "vehicle's energy");//getEnergyTypeFromClient();
-            getClientName(out clientName);
-            getClientPhoneNumber(out clientPhoneNumber);
+            getClientDetail(out clientName, "Please enter your name(max length is 20) without spaces:", isValidName);
+            getClientDetail(out clientPhoneNumber, "some message", isValidePhoneNumber);
             m_Garage.AddVehicle(i_LicenseNumber, vehicleType, vehicleEnergyType, clientName, clientPhoneNumber);
         }
 
-        private void getClientPhoneNumber(out string o_ClientPhoneNumber)
+        private void getClientDetail(out string o_ClientDetail, String i_Message, validateFunctionInput i_ValidateInputOfClient)
         {
-            bool validePhoneNumber = false;
-            StringBuilder clientPhoneNumber = new StringBuilder();
 
-            Console.WriteLine("Please enter your phone Number(10 straight digits):");
+            bool valideInput = false;
+            StringBuilder clientDetail = new StringBuilder();
+
+            Console.WriteLine((i_Message));
             do
             {
-                clientPhoneNumber.Clear();
-                clientPhoneNumber.Append(Console.ReadLine());
-                if (isValidePhoneNumber(clientPhoneNumber))
+                clientDetail.Clear();
+                clientDetail.Append(Console.ReadLine());
+                if (i_ValidateInputOfClient(clientDetail))
                 {
-                    validePhoneNumber = true;
+                    valideInput = true;
                 }
                 else
                 {
                     Console.WriteLine("Invalid name, Please enter again.");
                 }
             }
-            while (!validePhoneNumber);
+            while (!valideInput);
 
-            o_ClientPhoneNumber = clientPhoneNumber.ToString();
+            o_ClientDetail = clientDetail.ToString();
 
         }
 
+        private bool isValidLicenseNumber(StringBuilder i_ClientInput)
+        {
+            return i_ClientInput.Length == k_LicenseNumberLength && containOnlyDigits(i_ClientInput);
+        }
         private bool isValidePhoneNumber(StringBuilder i_clientPhoneNumber)
         {
             return i_clientPhoneNumber.Length == 10 && containOnlyDigits(i_clientPhoneNumber);
@@ -168,37 +184,12 @@ namespace Ex03.ConsoleUI
             return validInput;
         }
 
-        private void getClientName(out string o_ClientName)
-        {
-            bool validName = false;
-            StringBuilder clientName = new StringBuilder();
-
-            Console.WriteLine("Please enter your name(max length is 20) without spaces:");
-            do
-            {
-                clientName.Clear();
-                clientName.Append(Console.ReadLine());
-                if (isValidName(clientName))
-                {
-                    validName = true;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid name, Please enter again.");
-                }
-            }
-            while (!validName);
-
-            o_ClientName = clientName.ToString();
-
-        }
-
         private bool isValidName(StringBuilder i_ClientName)
         {
             bool validName = true;
             char charToCheck;
 
-            if (i_ClientName.Length > k_MaxNameLength)
+            if (i_ClientName.Length > Client.MaxNameLength)
             {
                 validName = false;
             }

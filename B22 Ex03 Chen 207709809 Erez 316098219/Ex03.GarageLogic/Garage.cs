@@ -190,12 +190,14 @@ namespace Ex03.GarageLogic
 
             if (!isVehicleExists)
             {
+
                 throw new ArgumentException("Error: Vehicle is not in the Garage!");
             }
             else
             {
                 return r_VehiclesInGarage[i_LicenseNumber];
             }
+          
         }
     }
 }
