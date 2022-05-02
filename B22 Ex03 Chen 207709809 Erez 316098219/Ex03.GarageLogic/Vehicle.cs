@@ -6,7 +6,6 @@ namespace Ex03.GarageLogic
 {
     public enum eDetails
     {
-        LicenseNumber,
         ModelName,
     }
 
@@ -16,8 +15,10 @@ namespace Ex03.GarageLogic
         private readonly string r_LicenseNumber;
         private readonly List<Wheel> r_VehicleWheels;
         private readonly EnergySource r_EnergySoucre;
+
         private static readonly int sr_LicenseNumberLength = 7;
         private static readonly string[] sr_VehicleDeatials = { "LicenseNumber", "ModelName" };
+
 
 
         public Vehicle(EnergySource i_EnergySource, string i_LicenseNumber, int i_NumberOfVehicleWheels, float i_MaximumAirPressure)
@@ -37,7 +38,9 @@ namespace Ex03.GarageLogic
             }
         }
 
+
         public virtual Dictionary<string, string> GetVehicleDetails()
+
         {
             Dictionary<string, string> deatilsToFill = concatDetails(r_EnergySoucre.GetDetails(), r_VehicleWheels[0].GetDetails());
 
@@ -71,7 +74,6 @@ namespace Ex03.GarageLogic
             StringBuilder vehicleToString = new StringBuilder();
             int wheelNumber = 1;
 
-            vehicleToString.Append(r_EnergySoucre.ToString());
             foreach (Wheel wheel in r_VehicleWheels)
             {
                 vehicleToString.Append(string.Format("Wheel {0}: ", wheelNumber));
@@ -79,15 +81,11 @@ namespace Ex03.GarageLogic
                 wheelNumber++;
             }
 
+            vehicleToString.Append(r_EnergySoucre.ToString());
             vehicleToString.Append(string.Format("Vehicel Model Name: {0}{1}License Number: {2}{3}", r_ModelName, Environment.NewLine, r_LicenseNumber, Environment.NewLine));
 
             return vehicleToString.ToString();
 
-        }
-
-        public override int GetHashCode()
-        {
-            return r_LicenseNumber.GetHashCode();
         }
 
         public string ModelName

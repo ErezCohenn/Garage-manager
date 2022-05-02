@@ -13,8 +13,8 @@ namespace Ex03.GarageLogic
 
         private readonly string r_ManufacturerName;
         private float m_CurrentAirPressure;
-        private float r_MaxAirPressureByManufacturer;
-        private static readonly string[] sr_WheelDetails = { "ManufacturerName", "CurrentAirPressure" };
+        private readonly float r_MaxAirPressureByManufacturer;
+        private static readonly string[] sr_WheelDetails = { "Manufacturer wheel Name", "Current Air Pressure of the wheel" };
 
         public Wheel(float i_MaxAirPressureByManufacturer, float i_CurrentAirPressure)
         {
@@ -52,7 +52,7 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            return string.Format("Manufacturer wheel Name: {0}{1} Wheel state in percent: {2}{3}", r_ManufacturerName, Environment.NewLine, AirPressureLeftInPercentage(), Environment.NewLine);
+            return string.Format("Manufacturer wheel Name: {0}{1}Wheel state in percent: {2}{3}", r_ManufacturerName, Environment.NewLine, AirPressureLeftInPercentage(), Environment.NewLine);
         }
 
         public string ManufacturerName
@@ -90,7 +90,5 @@ namespace Ex03.GarageLogic
                 return r_MaxAirPressureByManufacturer;
             }
         }
-
-
     }
 }
