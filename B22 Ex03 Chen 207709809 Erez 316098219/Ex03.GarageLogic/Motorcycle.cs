@@ -45,7 +45,7 @@ namespace Ex03.GarageLogic
 
         private eLicenseType m_LicenseType;
         private int m_EngineCapacity;
-        private static readonly string[] sr_CarDetails = { "LicenseType", "EngineCapacity" };
+        private static readonly string[] sr_MotorCycleDetails = { "LicenseType", "EngineCapacity" };
 
         public Motorcycle(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, WheelConstatns.sr_NumberOfWheel, WheelConstatns.k_MaxAirPressure, WheelConstatns.k_AirPressureAfterGenerate)
         {
@@ -57,8 +57,10 @@ namespace Ex03.GarageLogic
         {
             Dictionary<string, string> deatilsToFill = base.GetVehicleDeatials();
 
-            deatilsToFill.Add(sr_CarDetails[(int)eDetails.LicenseType], string.Empty);
-            deatilsToFill.Add(sr_CarDetails[(int)eDetails.EngineCapacity], string.Empty);
+            foreach (string detail in sr_MotorCycleDetails)
+            {
+                deatilsToFill.Add(detail, string.Empty);
+            }
 
             return deatilsToFill;
         }

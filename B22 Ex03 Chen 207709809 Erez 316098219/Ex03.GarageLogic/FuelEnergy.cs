@@ -30,7 +30,10 @@ namespace Ex03.GarageLogic
         {
             Dictionary<string, string> deatilsToFill = base.GetDetails();
 
-            deatilsToFill.Add(sr_FuelEnergyDetails[(int)eDetails.FuelType], string.Empty);
+            foreach (string detail in sr_FuelEnergyDetails)
+            {
+                deatilsToFill.Add(detail, string.Empty);
+            }
 
             return deatilsToFill;
         }

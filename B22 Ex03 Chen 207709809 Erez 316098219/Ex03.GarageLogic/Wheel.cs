@@ -8,12 +8,13 @@ namespace Ex03.GarageLogic
         public enum eDetails
         {
             ManufacturerName,
+            CurrentAirPressure,
         }
 
         private readonly string r_ManufacturerName;
         private float m_CurrentAirPressure;
         private float r_MaxAirPressureByManufacturer;
-        private static readonly string[] sr_EnergyDetails = { "ManufacturerName" };
+        private static readonly string[] sr_WheelDetails = { "ManufacturerName", "CurrentAirPressure" };
 
         public Wheel(float i_MaxAirPressureByManufacturer, float i_CurrentAirPressure)
         {
@@ -26,7 +27,10 @@ namespace Ex03.GarageLogic
         {
             Dictionary<string, string> deatilsToFill = new Dictionary<string, string>();
 
-            deatilsToFill.Add(sr_EnergyDetails[(int)eDetails.ManufacturerName], string.Empty);
+            foreach (string detail in sr_WheelDetails)
+            {
+                deatilsToFill.Add(detail, string.Empty);
+            }
 
             return deatilsToFill;
         }

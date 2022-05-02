@@ -6,12 +6,13 @@ namespace Ex03.GarageLogic
     {
         public enum eDetails
         {
-            MaxEnergy,
+            MaxEnergyCapacity,
+            CurrentAmountOfEnergy,
         }
 
         private float m_CurrentAmountOfEnergy;
         private readonly float r_MaxEnergyCapacity;
-        private static readonly string[] sr_EnergyDetails = { "MaxEnergyCapacity" };
+        private static readonly string[] sr_EnergyDetails = { "MaxEnergyCapacity", "CurrentAmountOfEnergy" };
 
         public EnergySource(float i_MaxEnergy, float i_CurrentAmountOfEnergy)
         {
@@ -23,7 +24,10 @@ namespace Ex03.GarageLogic
         {
             Dictionary<string, string> deatilsToFill = new Dictionary<string, string>();
 
-            deatilsToFill.Add(sr_EnergyDetails[(int)eDetails.MaxEnergy], string.Empty);
+            foreach (string detail in sr_EnergyDetails)
+            {
+                deatilsToFill.Add(detail, string.Empty);
+            }
 
             return deatilsToFill;
         }

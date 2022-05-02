@@ -54,7 +54,7 @@ namespace Ex03.GarageLogic
         private eNumberOfDoors m_NumberOfDoors;
         private static readonly string[] sr_CarDetails = { "Color", "NumberOfDoors" };
 
-        public Car(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, 4, WheelConstatns.sr_NumberOfWheel, WheelConstatns.k_MaxAirPressure)
+        public Car(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, WheelConstatns.sr_NumberOfWheel, WheelConstatns.k_MaxAirPressure, WheelConstatns.k_AirPressureAfterGenerate)
         {
             m_CarColor = eCarColors.White;
             m_NumberOfDoors = eNumberOfDoors.Four;
@@ -64,8 +64,10 @@ namespace Ex03.GarageLogic
         {
             Dictionary<string, string> deatilsToFill = base.GetVehicleDeatials();
 
-            deatilsToFill.Add(sr_CarDetails[(int)eDetails.Color], string.Empty);
-            deatilsToFill.Add(sr_CarDetails[(int)eDetails.NumberOfDoors], string.Empty);
+            foreach (string detail in sr_CarDetails)
+            {
+                deatilsToFill.Add(detail, string.Empty);
+            }
 
             return deatilsToFill;
         }

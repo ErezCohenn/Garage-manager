@@ -31,7 +31,7 @@ namespace Ex03.GarageLogic
         private float m_CargoCapcity;
         private bool m_CanCarryRefrigerated;
         private static readonly int sr_NumberOfWheel = 4;
-        private static readonly string[] sr_CarDetails = { "CargoCapcity", "CanCarryRefrigerated" };
+        private static readonly string[] sr_TruckDetails = { "CargoCapcity", "CanCarryRefrigerated" };
         private const float k_MaximumAirPressure = 24;
 
         public Truck(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, sr_NumberOfWheel, k_MaximumAirPressure, WheelConstatns.k_AirPressureAfterGenerate)
@@ -44,8 +44,10 @@ namespace Ex03.GarageLogic
         {
             Dictionary<string, string> deatilsToFill = base.GetVehicleDeatials();
 
-            deatilsToFill.Add(sr_CarDetails[(int)eDetails.CargoCapcity], string.Empty);
-            deatilsToFill.Add(sr_CarDetails[(int)eDetails.CanCarryRefrigerated], string.Empty);
+            foreach (string detail in sr_TruckDetails)
+            {
+                deatilsToFill.Add(detail, string.Empty);
+            }
 
             return deatilsToFill;
         }

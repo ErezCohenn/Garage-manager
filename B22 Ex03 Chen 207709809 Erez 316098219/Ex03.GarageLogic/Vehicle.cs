@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -38,8 +39,10 @@ namespace Ex03.GarageLogic
         {
             Dictionary<string, string> deatilsToFill = concatDetails(r_EnergySoucre.GetDetails(), r_VehicleWheels[0].GetDetails());
 
-            deatilsToFill.Add(sr_VehicleDeatials[(int)eDetails.LicenseNumber], string.Empty);
-            deatilsToFill.Add(sr_VehicleDeatials[(int)eDetails.ModelName], string.Empty);
+            foreach (string detail in sr_VehicleDeatials)
+            {
+                deatilsToFill.Add(detail, string.Empty);
+            }
 
             return deatilsToFill;
         }
@@ -63,7 +66,22 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            return string.Concat(r_EnergySoucre.ToString(), r_VehicleWheels[0].ToString(), string.Format("Vehicel Model Name: {0}{1} License Number: {2}{3}", r_ModelName, Environment.NewLine, r_LicenseNumber, Environment.NewLine));
+            StringBuilder vehicleToString = new StringBuilder();
+            int wheelNumber = 1;
+
+            vehicleToString.Append(r_EnergySoucre.ToString());
+
+            foreach (Wheel wheel in r_VehicleWheels)
+            {
+                vehicleToString.Append(string.Format("Wheel {0}: ", wheelNumber));
+                vehicleToString.Append(wheel.ToString());
+                wheelNumber++;
+            }
+
+            vehicleToString.Append(string.Format("Vehicel Model Name: {0}{1} License Number: {2}{3}", r_ModelName, Environment.NewLine, r_LicenseNumber, Environment.NewLine));
+
+            return vehicleToString.ToString();
+
         }
 
         public override int GetHashCode()
