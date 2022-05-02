@@ -8,9 +8,9 @@ namespace Ex03.GarageLogic
     {
         public enum eVehicleStatus
         {
-            InRepair,
-            Fixed,
-            PaidUp,
+            InRepair = 1,
+            Fixed = 2,
+            PaidUp = 3,
         }
 
         private readonly Dictionary<string, Client> r_VehiclesInGarage;
@@ -24,20 +24,12 @@ namespace Ex03.GarageLogic
 
         public void AddVehicle(string i_LicenseNumber, VehicleGenerator.eVehicleType i_VehicleType, VehicleGenerator.eEnergyType i_EnergyType, string i_ClientName, string i_ClientPhoneNumber)
         {
-            KeyValuePair<string, Client> newVehicleCard;
             Vehicle newVehicle = null;
             Client newClient = null;
 
-            if (isVehicleExists(i_LicenseNumber))
-            {
-                r_VehiclesInGarage[i_LicenseNumber].VehicleStatus = eVehicleStatus.InRepair;
-            }
-            else
-            {
-                newVehicle = r_VehiclesGenerator.ProduceVehicle(i_LicenseNumber, i_VehicleType, i_EnergyType);
-                newClient = new Client(i_ClientName, i_ClientPhoneNumber, newVehicle, eVehicleStatus.InRepair);
-                r_VehiclesInGarage.Add(i_LicenseNumber, newClient);
-            }
+            newVehicle = r_VehiclesGenerator.ProduceVehicle(i_LicenseNumber, i_VehicleType, i_EnergyType);
+            newClient = new Client(i_ClientName, i_ClientPhoneNumber, newVehicle, eVehicleStatus.InRepair);
+            r_VehiclesInGarage.Add(i_LicenseNumber, newClient);
         }
 
         public string GetLicenseNumbersByFilter(bool i_InRepairFilter, bool i_FixedFilter, bool i_PaidFilter)
@@ -68,7 +60,7 @@ namespace Ex03.GarageLogic
 
             if (licenseNumbers.ToString().Equals(string.Empty))
             {
-                throw new ArgumentException("Vehicle is not in the Garage!");
+                throw new ArgumentException("Note: There are no vehicles in the Garage");
             }
 
             return licenseNumbers.ToString();
@@ -76,11 +68,11 @@ namespace Ex03.GarageLogic
 
         public void ChangeVehicleStatus(string i_LicenseNumber, eVehicleStatus i_NewStatus)
         {
-            bool isVehicleExists = this.isVehicleExists(i_LicenseNumber);
+            bool isVehicleExists = this.IsVehicleExists(i_LicenseNumber);
 
             if (!isVehicleExists)
             {
-                throw new ArgumentException("Vehicle is not in the Garage!");
+                throw new ArgumentException("Error: Vehicle is not in the Garage!");
             }
             else
             {
@@ -88,19 +80,19 @@ namespace Ex03.GarageLogic
             }
         }
 
-        private bool isVehicleExists(string i_LicenseNumber)
+        public bool IsVehicleExists(string i_LicenseNumber)
         {
             return r_VehiclesInGarage.ContainsKey(i_LicenseNumber);
         }
 
         public void InflateWheelsAirPressureToMaximum(string i_LicenseNumber)
         {
-            bool isVehicleExists = this.isVehicleExists(i_LicenseNumber);
+            bool isVehicleExists = this.IsVehicleExists(i_LicenseNumber);
             List<Wheel> vehicleWheels = null;
 
             if (!isVehicleExists)
             {
-                throw new ArgumentException("Vehicle is not in the Garage!");
+                throw new ArgumentException("Error: Vehicle is not in the Garage!");
             }
             else
             {
@@ -115,17 +107,17 @@ namespace Ex03.GarageLogic
 
         public void RefuelVehicle(string i_LicenseNumber, FuelEnergy.eType i_FuelType, float i_AmountFuelToAdd)
         {
-            bool isVehicleExists = this.isVehicleExists(i_LicenseNumber);
+            bool isVehicleExists = this.IsVehicleExists(i_LicenseNumber);
             FuelEnergy energyToReFuel = null;
 
             if (!isVehicleExists)
             {
-                throw new ArgumentException("Vehicle is not in the Garage!");
+                throw new ArgumentException("Error: Vehicle is not in the Garage!");
             }
 
             if (r_VehiclesInGarage[i_LicenseNumber].Vehicle.EnergySource is ElectricEnergy)
             {
-                throw new ArgumentException("Vehicle is driven on Electricity!");
+                throw new ArgumentException("Error: Vehicle is driven on Electricity!");
             }
 
             try
@@ -133,25 +125,29 @@ namespace Ex03.GarageLogic
                 energyToReFuel = r_VehiclesInGarage[i_LicenseNumber].Vehicle.EnergySource as FuelEnergy;
                 energyToReFuel.ReFuel(i_AmountFuelToAdd, i_FuelType);
             }
-            catch
+            catch (ArgumentException)
             {
                 // todo
+            }
+            catch (ValueOutOfRangeException)
+            {
+                //todo
             }
         }
 
         public void ChargeElectronicVehicle(string i_LicenseNumber, float i_AmountHoursToCharge)
         {
-            bool isVehicleExists = this.isVehicleExists(i_LicenseNumber);
+            bool isVehicleExists = this.IsVehicleExists(i_LicenseNumber);
             ElectricEnergy energyToReFuel = null;
 
             if (!isVehicleExists)
             {
-                throw new ArgumentException("Vehicle is not in the Garage!");
+                throw new ArgumentException("Error: Vehicle is not in the Garage!");
             }
 
             if (r_VehiclesInGarage[i_LicenseNumber].Vehicle.EnergySource is FuelEnergy)
             {
-                throw new ArgumentException("Vehicle is driven on Fuel!");
+                throw new ArgumentException("Error: Vehicle is driven on Fuel!");
             }
 
             try
@@ -159,7 +155,7 @@ namespace Ex03.GarageLogic
                 energyToReFuel = r_VehiclesInGarage[i_LicenseNumber].Vehicle.EnergySource as ElectricEnergy;
                 energyToReFuel.ChargeBattery(i_AmountHoursToCharge);
             }
-            catch
+            catch (ValueOutOfRangeException)
             {
                 // todo
             }
@@ -167,11 +163,11 @@ namespace Ex03.GarageLogic
 
         public string GetVehicleInformation(string i_LicenseNumber)
         {
-            bool isVehicleExists = this.isVehicleExists(i_LicenseNumber);
+            bool isVehicleExists = this.IsVehicleExists(i_LicenseNumber);
 
             if (!isVehicleExists)
             {
-                throw new ArgumentException("Vehicle is not in the Garage!");
+                throw new ArgumentException("Error: Vehicle is not in the Garage!");
             }
             else
             {
@@ -185,6 +181,20 @@ namespace Ex03.GarageLogic
             get
             {
                 return r_VehiclesGenerator;
+            }
+        }
+
+        public Client GetClient(string i_LicenseNumber)
+        {
+            bool isVehicleExists = IsVehicleExists(i_LicenseNumber);
+
+            if (!isVehicleExists)
+            {
+                throw new ArgumentException("Error: Vehicle is not in the Garage!");
+            }
+            else
+            {
+                return r_VehiclesInGarage[i_LicenseNumber];
             }
         }
     }

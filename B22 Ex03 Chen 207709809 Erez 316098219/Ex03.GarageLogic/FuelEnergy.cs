@@ -21,7 +21,7 @@ namespace Ex03.GarageLogic
         private readonly eType r_FuelType;
         private static readonly string[] sr_FuelEnergyDetails = { "FuelType" };
 
-        public FuelEnergy(float i_MaximumAmountOfFuelInLiters, float i_CurrentFuelLeftInLiters, eType i_FuelType) : base(i_MaximumAmountOfFuelInLiters, i_CurrentFuelLeftInLiters)
+        public FuelEnergy(float i_MaximumAmountOfFuelInLiters, eType i_FuelType, float i_CurrentFuelLeftInLiters = 0) : base(i_MaximumAmountOfFuelInLiters, i_CurrentFuelLeftInLiters)
         {
             r_FuelType = i_FuelType;
         }

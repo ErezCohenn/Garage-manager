@@ -19,7 +19,7 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            string vehicleDetailsString = string.Format("Vehicle Details: {0} Owner: {1}{2} Phone number: {3}{4} Status in the Garage: {5}{6}", Environment.NewLine, r_Name, Environment.NewLine, r_PhoneNumber, Environment.NewLine, m_VehicleStatus, Environment.NewLine);
+            string vehicleDetailsString = string.Format("Vehicle Details:{0}Owner: {1}{2}Phone number: {3}{4}Status in the Garage: {5}{6}", Environment.NewLine, r_Name, Environment.NewLine, r_PhoneNumber, Environment.NewLine, m_VehicleStatus, Environment.NewLine);
 
             return string.Concat(vehicleDetailsString, r_Vehicle.ToString());
         }
