@@ -54,10 +54,10 @@ namespace Ex03.GarageLogic
             m_NumberOfDoors = eNumberOfDoors.Four;
         }
 
+
         public override Dictionary<string, string> GetVehicleDetials()
         {
             Dictionary<string, string> deatilsToFill = base.GetVehicleDetials();
-
             foreach (string detail in sr_CarDetails)
             {
                 deatilsToFill.Add(detail, string.Empty);

@@ -12,7 +12,7 @@ namespace Ex03.GarageLogic
             Fixed = 2,
             PaidUp = 3,
         }
-
+        private readonly List<string> r_StatusInGarage = new List<string>() { "In repair.", "Fixed.", "Paid up." };
         private readonly Dictionary<string, Client> r_VehiclesInGarage;
         private readonly VehicleGenerator r_VehiclesGenerator;
 
@@ -184,6 +184,14 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public List<string> StatusInGarage
+        {
+            get
+            {
+                return r_StatusInGarage;
+            }
+        }
+
         public Client GetClient(string i_LicenseNumber)
         {
             bool isVehicleExists = IsVehicleExists(i_LicenseNumber);
@@ -197,7 +205,7 @@ namespace Ex03.GarageLogic
             {
                 return r_VehiclesInGarage[i_LicenseNumber];
             }
-          
+
         }
     }
 }
