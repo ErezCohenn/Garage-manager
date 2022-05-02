@@ -169,7 +169,7 @@ namespace Ex03.ConsoleUI
 
         private void printInvalidInputMessage()
         {
-            Console.WriteLine("Invalid input inserted! Please try again");
+            Console.WriteLine("Invalid input inserted! Please try again.");
         }
 
         private void printContinueMessage()
@@ -247,13 +247,11 @@ namespace Ex03.ConsoleUI
             string nameMessageToScreen = "Please enter your name without spaces (Note: the max name length is 20):";
             string phoneNumberMessageToScreen = "Please enter your phone Number(Note: A phone number contains 10 digits exactly):";
             VehicleGenerator.eVehicleType vehicleType;
-            VehicleGenerator.eEnergyType vehicleEnergyType;
 
             getTypeFromUser<VehicleGenerator.eVehicleType>(out vehicleType, m_Garage.VehicleGenerator.SupportedVehicles, "vehicle");//getVehicleTypeFromClient();
-            getTypeFromUser<VehicleGenerator.eEnergyType>(out vehicleEnergyType, m_Garage.VehicleGenerator.SupportedEnergySources, "vehicle's energy");//getEnergyTypeFromClient();
             getClientDetail(out clientName, nameMessageToScreen, isValidName); //get owner vehicle name
             getClientDetail(out clientPhoneNumber, phoneNumberMessageToScreen, isValidePhoneNumber); //get owner vehicle phone number
-            m_Garage.AddVehicle(i_LicenseNumber, vehicleType, vehicleEnergyType, clientName, clientPhoneNumber);
+            m_Garage.AddVehicle(i_LicenseNumber, vehicleType, clientName, clientPhoneNumber);
             addExtraInformation(i_LicenseNumber);
             Console.WriteLine("The vehicle entered to the garage successfully, thank you for choosing our garage");
         }

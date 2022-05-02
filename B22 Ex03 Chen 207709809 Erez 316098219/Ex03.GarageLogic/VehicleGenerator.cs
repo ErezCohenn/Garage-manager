@@ -7,36 +7,38 @@ namespace Ex03.GarageLogic
     {
         public enum eVehicleType
         {
-            Car = 1,
-            Motorcycle = 2,
-            Truck = 3,
+            FuelCar = 1,
+            ElectricCar = 2,
+            FuelMotorcycle = 3,
+            ElectricMotorcycle = 4,
+            FuelTruck = 5,
         }
 
-        public enum eEnergyType
-        {
-            Fuel = 1,
-            Electric = 2,
-        }
+        private readonly List<string> r_SupportedVehicles = new List<string>() { "Fuel Car.", "Electric Car.", "Fuel Motorcycle.", "Electric Motorcycle.", "Fuel Truck." };
 
-        private readonly List<string> r_SupportedVehicles = new List<string>() { "Car.", "Motorcycle.", "Truck." };
-        private readonly List<string> r_SupportedEnergySources = new List<string>() { "Fuel.", "Electric." };
-
-        public Vehicle ProduceVehicle(string i_LicenseNumber, eVehicleType i_VehicleType, eEnergyType i_EnergyType)
+        public Vehicle ProduceVehicle(string i_LicenseNumber, eVehicleType i_VehicleType)
         {
             Vehicle vehicle = null;
-            EnergySource energy = produceEnergySource(i_EnergyType, i_VehicleType);
 
-            if (i_VehicleType == eVehicleType.Car)
+            if (i_VehicleType == eVehicleType.FuelCar)
             {
-                vehicle = new Car(energy, i_LicenseNumber);
+                vehicle = new Car(new FuelEnergy(Car.FuelConstatns.k_MaxTankFuelCapacityInLiters, Car.FuelConstatns.k_FuelType), i_LicenseNumber);
             }
-            else if (i_VehicleType == eVehicleType.Motorcycle)
+            else if (i_VehicleType == eVehicleType.ElectricCar)
             {
-                vehicle = new Motorcycle(energy, i_LicenseNumber);
+                vehicle = new Car(new ElectricEnergy(Car.ElectricConstatns.k_MaxBattaryCapacityInHours), i_LicenseNumber);
             }
-            else if (i_VehicleType == eVehicleType.Truck)
+            else if (i_VehicleType == eVehicleType.FuelMotorcycle)
             {
-                vehicle = new Truck(energy, i_LicenseNumber);
+                vehicle = new Motorcycle(new FuelEnergy(Motorcycle.FuelConstatns.k_MaxTankFuelCapacityInLiters, Motorcycle.FuelConstatns.k_FuelType), i_LicenseNumber);
+            }
+            else if (i_VehicleType == eVehicleType.ElectricMotorcycle)
+            {
+                vehicle = new Motorcycle(new ElectricEnergy(Motorcycle.ElectricConstatns.k_MaxBattaryCapacityInHours), i_LicenseNumber);
+            }
+            else if (i_VehicleType == eVehicleType.FuelTruck)
+            {
+                vehicle = new Truck(new FuelEnergy(Truck.FuelConstatns.k_MaxTankFuelCapacityInLiters, Truck.FuelConstatns.k_FuelType), i_LicenseNumber);
             }
 
             return vehicle;
@@ -52,47 +54,11 @@ namespace Ex03.GarageLogic
             }
         }
 
-        private EnergySource produceEnergySource(eEnergyType i_EnergyType, eVehicleType i_VehicleType)
-        {
-            EnergySource energySource = null;
-
-            if (i_EnergyType == eEnergyType.Electric && i_VehicleType == eVehicleType.Car)
-            {
-                energySource = new ElectricEnergy(Car.ElectricConstatns.k_MaxBattaryCapacityInHours);
-            }
-            else if (i_EnergyType == eEnergyType.Fuel && i_VehicleType == eVehicleType.Car)
-            {
-                energySource = new FuelEnergy(Car.FuelConstatns.k_MaxTankFuelCapacityInLiters, Car.FuelConstatns.k_FuelType);
-            }
-            else if (i_EnergyType == eEnergyType.Electric && i_VehicleType == eVehicleType.Motorcycle)
-            {
-                energySource = new ElectricEnergy(Motorcycle.ElectricConstatns.k_MaxBattaryCapacityInHours);
-            }
-            else if (i_EnergyType == eEnergyType.Fuel && i_VehicleType == eVehicleType.Motorcycle)
-            {
-                energySource = new FuelEnergy(Motorcycle.FuelConstatns.k_MaxTankFuelCapacityInLiters, Motorcycle.FuelConstatns.k_FuelType);
-            }
-            else if (i_EnergyType == eEnergyType.Fuel && i_VehicleType == eVehicleType.Truck)
-            {
-                energySource = new FuelEnergy(Truck.FuelConstatns.k_MaxTankFuelCapacityInLiters, Truck.FuelConstatns.k_FuelType);
-            }
-
-            return energySource;
-        }
-
         public List<string> SupportedVehicles
         {
             get
             {
                 return r_SupportedVehicles;
-            }
-        }
-
-        public List<string> SupportedEnergySources
-        {
-            get
-            {
-                return r_SupportedEnergySources;
             }
         }
     }
