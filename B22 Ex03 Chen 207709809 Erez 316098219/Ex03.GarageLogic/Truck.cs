@@ -38,9 +38,9 @@ namespace Ex03.GarageLogic
             m_CanCarryRefrigerated = true;
         }
 
-        public override Dictionary<string, string> GetVehicleDeatials()
+        public override Dictionary<string, string> GetVehicleDetails()
         {
-            Dictionary<string, string> deatilsToFill = base.GetVehicleDeatials();
+            Dictionary<string, string> deatilsToFill = base.GetVehicleDetails();
 
             foreach (string detail in sr_TruckDetails)
             {

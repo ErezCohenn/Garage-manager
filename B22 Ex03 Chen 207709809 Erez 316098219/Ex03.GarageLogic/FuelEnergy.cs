@@ -7,12 +7,13 @@ namespace Ex03.GarageLogic
     {
         public enum eType
         {
-            Octan98,
-            Octan96,
-            Octan95,
-            Soler,
+            Octan98 = 1,
+            Octan96 = 2,
+            Octan95 = 3,
+            Soler = 4,
         }
 
+        private static readonly List<string> sr_FuelTypes = new List<string>() { "Octan98", "Octan96", "Octan95", "Soler" };
         public new enum eDetails
         {
             FuelType,
@@ -58,6 +59,14 @@ namespace Ex03.GarageLogic
             get
             {
                 return r_FuelType;
+            }
+        }
+
+        public static List<string> FuelTypes
+        {
+            get
+            {
+                return sr_FuelTypes;
             }
         }
     }

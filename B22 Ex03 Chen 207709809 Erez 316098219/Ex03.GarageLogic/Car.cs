@@ -57,9 +57,9 @@ namespace Ex03.GarageLogic
             m_NumberOfDoors = eNumberOfDoors.Four;
         }
 
-        public override Dictionary<string, string> GetVehicleDeatials()
+        public override Dictionary<string, string> GetVehicleDetails()
         {
-            Dictionary<string, string> deatilsToFill = base.GetVehicleDeatials();
+            Dictionary<string, string> deatilsToFill = base.GetVehicleDetails();
 
             foreach (string detail in sr_CarDetails)
             {
