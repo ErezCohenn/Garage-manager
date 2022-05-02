@@ -9,21 +9,18 @@ namespace Ex03.GarageLogic
         internal static class FuelConstatns
         {
             internal const FuelEnergy.eType k_FuelType = FuelEnergy.eType.Octan98;
-            internal const float k_FuelAfterGenerate = 4;
             internal const float k_MaxTankFuelCapacityInLiters = 6.2f;
 
         }
 
         internal static class ElectricConstatns
         {
-            internal const float k_BattaryAfterGenerate = 1;
             internal const float k_MaxBattaryCapacityInHours = 2.5f;
 
         }
 
         internal static class WheelConstatns
         {
-            internal const float k_AirPressureAfterGenerate = 25;
             internal const float k_MaxAirPressure = 31;
             internal static readonly int sr_NumberOfWheel = 2;
 
@@ -47,7 +44,7 @@ namespace Ex03.GarageLogic
         private int m_EngineCapacity;
         private static readonly string[] sr_MotorCycleDetails = { "LicenseType", "EngineCapacity" };
 
-        public Motorcycle(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, WheelConstatns.sr_NumberOfWheel, WheelConstatns.k_MaxAirPressure, WheelConstatns.k_AirPressureAfterGenerate)
+        public Motorcycle(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, WheelConstatns.sr_NumberOfWheel, WheelConstatns.k_MaxAirPressure)
         {
             m_LicenseType = eLicenseType.A;
             m_EngineCapacity = 50;
@@ -67,7 +64,7 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            return string.Concat(base.ToString(), string.Format("MotorCycle License type: {0}{1} Engine Capacity: {2}{3}", m_LicenseType, Environment.NewLine, m_EngineCapacity, Environment.NewLine));
+            return string.Concat(base.ToString(), string.Format("MotorCycle License type: {0}{1}Engine Capacity: {2}{3}", m_LicenseType, Environment.NewLine, m_EngineCapacity, Environment.NewLine));
         }
 
         public eLicenseType LicenseType

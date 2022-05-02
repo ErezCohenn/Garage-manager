@@ -8,9 +8,9 @@ namespace Ex03.GarageLogic
     {
         public enum eVehicleStatus
         {
-            InRepair,
-            Fixed,
-            PaidUp,
+            InRepair = 1,
+            Fixed = 2,
+            PaidUp = 3,
         }
 
         private readonly Dictionary<string, Client> r_VehiclesInGarage;
@@ -60,7 +60,7 @@ namespace Ex03.GarageLogic
 
             if (licenseNumbers.ToString().Equals(string.Empty))
             {
-                throw new ArgumentException("Vehicle is not in the Garage!");
+                throw new ArgumentException("Note: There are no vehicles in the Garage");
             }
 
             return licenseNumbers.ToString();
@@ -72,7 +72,7 @@ namespace Ex03.GarageLogic
 
             if (!isVehicleExists)
             {
-                throw new ArgumentException("Vehicle is not in the Garage!");
+                throw new ArgumentException("Error: Vehicle is not in the Garage!");
             }
             else
             {
@@ -92,7 +92,7 @@ namespace Ex03.GarageLogic
 
             if (!isVehicleExists)
             {
-                throw new ArgumentException("Vehicle is not in the Garage!");
+                throw new ArgumentException("Error: Vehicle is not in the Garage!");
             }
             else
             {
@@ -112,12 +112,12 @@ namespace Ex03.GarageLogic
 
             if (!isVehicleExists)
             {
-                throw new ArgumentException("Vehicle is not in the Garage!");
+                throw new ArgumentException("Error: Vehicle is not in the Garage!");
             }
 
             if (r_VehiclesInGarage[i_LicenseNumber].Vehicle.EnergySource is ElectricEnergy)
             {
-                throw new ArgumentException("Vehicle is driven on Electricity!");
+                throw new ArgumentException("Error: Vehicle is driven on Electricity!");
             }
 
             try
@@ -125,9 +125,13 @@ namespace Ex03.GarageLogic
                 energyToReFuel = r_VehiclesInGarage[i_LicenseNumber].Vehicle.EnergySource as FuelEnergy;
                 energyToReFuel.ReFuel(i_AmountFuelToAdd, i_FuelType);
             }
-            catch
+            catch (ArgumentException)
             {
                 // todo
+            }
+            catch (ValueOutOfRangeException)
+            {
+                //todo
             }
         }
 
@@ -138,12 +142,12 @@ namespace Ex03.GarageLogic
 
             if (!isVehicleExists)
             {
-                throw new ArgumentException("Vehicle is not in the Garage!");
+                throw new ArgumentException("Error: Vehicle is not in the Garage!");
             }
 
             if (r_VehiclesInGarage[i_LicenseNumber].Vehicle.EnergySource is FuelEnergy)
             {
-                throw new ArgumentException("Vehicle is driven on Fuel!");
+                throw new ArgumentException("Error: Vehicle is driven on Fuel!");
             }
 
             try
@@ -151,7 +155,7 @@ namespace Ex03.GarageLogic
                 energyToReFuel = r_VehiclesInGarage[i_LicenseNumber].Vehicle.EnergySource as ElectricEnergy;
                 energyToReFuel.ChargeBattery(i_AmountHoursToCharge);
             }
-            catch
+            catch (ValueOutOfRangeException)
             {
                 // todo
             }
@@ -163,7 +167,7 @@ namespace Ex03.GarageLogic
 
             if (!isVehicleExists)
             {
-                throw new ArgumentException("Vehicle is not in the Garage!");
+                throw new ArgumentException("Error: Vehicle is not in the Garage!");
             }
             else
             {
@@ -186,14 +190,14 @@ namespace Ex03.GarageLogic
 
             if (!isVehicleExists)
             {
-                throw new ArgumentException("Vehicle is not in the Garage!");
+
+                throw new ArgumentException("Error: Vehicle is not in the Garage!");
             }
             else
             {
                 return r_VehiclesInGarage[i_LicenseNumber];
             }
+          
         }
-
-
     }
 }
