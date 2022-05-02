@@ -4,9 +4,9 @@
     {
         public static void Main()
         {
-            UserInterface startGarage = new UserInterface();
+            UserInterface garageManagment = new UserInterface();
 
-            startGarage.GarageIsOpen();
+            garageManagment.GarageIsOpen();
         }
     }
 }

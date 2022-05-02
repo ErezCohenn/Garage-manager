@@ -7,6 +7,96 @@ namespace Ex03.ConsoleUI
 {
     public class UserInterface
     {
+        /******************************************************/
+        private void createTestVehicles()
+        {
+            //************First fuel car**************//
+            m_Garage.AddVehicle("1234567", VehicleGenerator.eVehicleType.FuelCar, "Tikva", "1111111111");
+            Dictionary<string, string> extraDetails = m_Garage.GetClient("1234567").Vehicle.GetVehicleDetails();
+            extraDetails["Current Amount Of Energy"] = "10";
+            extraDetails["Manufacturer wheel Name"] = "2KOOL4SKOOL";
+            extraDetails["Current Air Pressure of the wheel"] = "15";
+            extraDetails["ModelName"] = "Ferari x-325";
+            extraDetails["Color (Red/White/Green/Blue/)"] = "Red";
+            extraDetails["Doors (Two/Three/Four/Five/)"] = "Four";
+
+            foreach (KeyValuePair<string, string> extra in extraDetails)
+            {
+                m_Garage.AddExtraDetailsToVehicle("1234567", extra);
+            }
+
+            extraDetails.Clear();
+
+            //************Second electric car**************//
+            m_Garage.AddVehicle("2345678", VehicleGenerator.eVehicleType.ElectricCar, "Menash", "2222222222");
+            extraDetails = m_Garage.GetClient("2345678").Vehicle.GetVehicleDetails();
+            extraDetails["Current Amount Of Energy"] = "3";
+            extraDetails["Manufacturer wheel Name"] = "2KOOL5SKOOL";
+            extraDetails["Current Air Pressure of the wheel"] = "15";
+            extraDetails["ModelName"] = "Mitsubishi-Attrage";
+            extraDetails["Color (Red/White/Green/Blue/)"] = "White";
+            extraDetails["Doors (Two/Three/Four/Five/)"] = "Two";
+
+            foreach (KeyValuePair<string, string> extra in extraDetails)
+            {
+                m_Garage.AddExtraDetailsToVehicle("2345678", extra);
+            }
+
+            extraDetails.Clear();
+
+            //************third fuel motorcycle**************//
+            m_Garage.AddVehicle("3456789", VehicleGenerator.eVehicleType.FuelMotorcycle, "Nahum", "3333333333");
+            extraDetails = m_Garage.GetClient("3456789").Vehicle.GetVehicleDetails();
+            extraDetails["Current Amount Of Energy"] = "1";
+            extraDetails["Manufacturer wheel Name"] = "2KOOL6SKOOL";
+            extraDetails["Current Air Pressure of the wheel"] = "2";
+            extraDetails["ModelName"] = "Honda-NemesisXG";
+            extraDetails["Motorcylce License Type (A/A1/B1/BB/)"] = "A";
+            extraDetails["Motorcycle Engine Capacity"] = "2";
+
+            foreach (KeyValuePair<string, string> extra in extraDetails)
+            {
+                m_Garage.AddExtraDetailsToVehicle("3456789", extra);
+            }
+
+            extraDetails.Clear();
+
+            //************fourth electric motorcycle**************//
+            m_Garage.AddVehicle("3456743", VehicleGenerator.eVehicleType.FuelMotorcycle, "AlsoABigMoma", "4444444444");
+            extraDetails = m_Garage.GetClient("3456743").Vehicle.GetVehicleDetails();
+            extraDetails["Current Amount Of Energy"] = "1.1";
+            extraDetails["Manufacturer wheel Name"] = "2KOOL7SKOOL";
+            extraDetails["Current Air Pressure of the wheel"] = "1.1";
+            extraDetails["ModelName"] = "BigMoma";
+            extraDetails["Motorcylce License Type (A/A1/B1/BB/)"] = "A1";
+            extraDetails["Motorcycle Engine Capacity"] = "5";
+
+            foreach (KeyValuePair<string, string> extra in extraDetails)
+            {
+                m_Garage.AddExtraDetailsToVehicle("3456743", extra);
+            }
+
+            Dictionary<string, string> extraDetails2;
+
+            //************fifth fuel motorcycle**************//
+            m_Garage.AddVehicle("5678123", VehicleGenerator.eVehicleType.FuelTruck, "chen", "5555555555");
+            extraDetails2 = m_Garage.GetClient("5678123").Vehicle.GetVehicleDetails();
+            extraDetails2["Current Amount Of Energy"] = "5.3";
+            extraDetails2["Manufacturer wheel Name"] = "2KOOL8SKOOL";
+            extraDetails2["Current Air Pressure of the wheel"] = "15";
+            extraDetails2["ModelName"] = "Toyota";
+            extraDetails2["CargoCapcity"] = "45";
+            extraDetails2["CanCarryRefrigerated"] = "True";
+
+            foreach (KeyValuePair<string, string> extra in extraDetails2)
+            {
+                m_Garage.AddExtraDetailsToVehicle("5678123", extra);
+            }
+
+        }
+
+        /******************************************************/
+
         public enum eClientChosenAction
         {
             EnterVehicleIntoGarage = 1,
@@ -64,7 +154,7 @@ namespace Ex03.ConsoleUI
         public void GarageIsOpen()
         {
             eClientChosenAction action;
-
+            createTestVehicles();///delete!!!!!!!!!!!!!!
             do
             {
                 getClientChosenAction(out action);
