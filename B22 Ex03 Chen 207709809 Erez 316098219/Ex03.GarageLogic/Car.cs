@@ -55,9 +55,10 @@ namespace Ex03.GarageLogic
         }
 
 
-        public override Dictionary<string, string> GetVehicleDetials()
+        public override Dictionary<string, string> GetVehicleDetails()
         {
-            Dictionary<string, string> deatilsToFill = base.GetVehicleDetials();
+            Dictionary<string, string> deatilsToFill = base.GetVehicleDetails();
+
             foreach (string detail in sr_CarDetails)
             {
                 deatilsToFill.Add(detail, string.Empty);

@@ -23,9 +23,9 @@ namespace Ex03.GarageLogic
         }
 
 
-        public void AddExtraDetailsToVehicle(string i_LicenseNumber, Dictionary<string, string> i_DetailsToFill)
+        public void AddExtraDetailsToVehicle(string i_LicenseNumber, KeyValuePair<string, string> i_DetailsToFill)
         {
-            bool isVehicleExists = this.IsVehicleExists(i_LicenseNumber);
+            bool isVehicleExists = IsVehicleExists(i_LicenseNumber);
 
             if (!isVehicleExists)
             {
