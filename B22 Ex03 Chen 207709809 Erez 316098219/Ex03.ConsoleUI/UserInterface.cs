@@ -129,16 +129,20 @@ namespace Ex03.ConsoleUI
             bool validInput = false;
 
             Console.Clear();
-            Console.WriteLine(string.Format("Hello client, welcome to our garage, please choose an action from the list below"));
+            Console.WriteLine("==================================================================================");
+            Console.WriteLine("Hello client, welcome to our garage, please choose an action from the list below:");
+            Console.WriteLine("==================================================================================");
             do
             {
                 numberOfAction = 1;
                 foreach (string action in r_Actions)
                 {
                     Console.WriteLine(string.Format("{0}. {1}", numberOfAction, action));
+                    Console.WriteLine("----------------------------------------------------------------------------------");
                     numberOfAction++;
                 }
 
+                Console.WriteLine("==================================================================================");
                 validInput = int.TryParse(Console.ReadLine(), out chosenAction) && inputInRange(chosenAction, r_Actions.Count);
                 if (!validInput)
                 {
