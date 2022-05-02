@@ -15,7 +15,11 @@ namespace Ex03.GarageLogic
         private readonly string r_LicenseNumber;
         private readonly List<Wheel> r_VehicleWheels;
         private readonly EnergySource r_EnergySoucre;
-        private static readonly string[] sr_VehicleDeatials = { "Vehicle Model Name" };
+
+        private static readonly int sr_LicenseNumberLength = 7;
+        private static readonly string[] sr_VehicleDeatials = { "LicenseNumber", "ModelName" };
+
+
 
         public Vehicle(EnergySource i_EnergySource, string i_LicenseNumber, int i_NumberOfVehicleWheels, float i_MaximumAirPressure)
         {
@@ -34,7 +38,9 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public virtual Dictionary<string, string> GetVehicleDetials()
+
+        public virtual Dictionary<string, string> GetVehicleDetails()
+
         {
             Dictionary<string, string> deatilsToFill = concatDetails(r_EnergySoucre.GetDetails(), r_VehicleWheels[0].GetDetails());
 
@@ -146,6 +152,14 @@ namespace Ex03.GarageLogic
         public static string GetDetail(eDetails detail)
         {
             return sr_VehicleDeatials[(int)detail];
+        }
+
+        public static int LicenseNumberLength
+        {
+            get
+            {
+                return sr_LicenseNumberLength;
+            }
         }
     }
 }

@@ -47,10 +47,10 @@ namespace Ex03.GarageLogic
             m_EngineCapacity = 50;
         }
 
-        public override Dictionary<string, string> GetVehicleDetials()
-        {
-            Dictionary<string, string> deatilsToFill = base.GetVehicleDetials();
 
+        public override Dictionary<string, string> GetVehicleDetails()
+        {
+            Dictionary<string, string> deatilsToFill = base.GetVehicleDetails();
             foreach (string detail in sr_MotorCycleDetails)
             {
                 deatilsToFill.Add(detail, string.Empty);

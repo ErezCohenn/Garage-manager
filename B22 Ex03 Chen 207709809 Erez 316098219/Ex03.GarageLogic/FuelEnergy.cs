@@ -7,10 +7,10 @@ namespace Ex03.GarageLogic
     {
         public enum eType
         {
-            Octan98,
-            Octan96,
-            Octan95,
-            Soler,
+            Octan98 = 1,
+            Octan96 = 2,
+            Octan95 = 3,
+            Soler = 4,
         }
 
         private readonly eType r_FuelType;
@@ -53,6 +53,5 @@ namespace Ex03.GarageLogic
                 return sr_FuelTypes;
             }
         }
-
     }
 }

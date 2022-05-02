@@ -20,15 +20,33 @@ namespace Ex03.ConsoleUI
 
         }
 
-        private const int k_LicenseNumberLength = 20;
 
-        private readonly List<string> r_Actions;
+
+
         private Garage m_Garage;
         public delegate bool validateFunctionInput(StringBuilder i_Input);
+        private readonly List<string> r_Actions = new List<string>() {"Enter your Vehicle Into our Garage.", "Display all vehicles license numbers."
+            , "Change your vehicle's state.", "Fill the air in yout wheels to max.", "Fuel your vehicle.", "Charge your vehicle's battery."
+            , "Display your vehicle's details.", "Exit." };
 
         public UserInterface()
         {
             m_Garage = new Garage();
+        }
+
+        private eClientChosenAction getClientChosenAction()
+        {
+            string chosenAction = "";
+            int numberOfAction = 1;
+            Console.WriteLine(string.Format("Hello, welcome to our garage, please choose an action from the list below:{0}"), Environment.NewLine);
+            foreach (string action in r_Actions)
+            {
+                Console.WriteLine(string.Format("{0}. {1}", numberOfAction, action));
+                numberOfAction++;
+            }
+            //check here in loop maybe until the input is correct.
+            chosenAction = Console.ReadLine();
+            return (eClientChosenAction)int.Parse(chosenAction);
         }
 
         public void GarageIsOpen()
@@ -59,7 +77,7 @@ namespace Ex03.ConsoleUI
             }
             while (action != eClientChosenAction.Exit);
 
-            Console.WriteLine("Thank you for coming to our garage, goodbye");
+            Console.WriteLine("Thank you for coming to our garage, goodbye.");
         }
 
         private void handleClientAction(eClientChosenAction i_Action)
@@ -94,13 +112,82 @@ namespace Ex03.ConsoleUI
             }
         }
 
+        private void displayVheicleDetails()
+        {
+            string licenseNumber;
+            string licenseMessageToScreen = "Please enter the license number of your vehicle: ";
+            getClientDetail(out licenseNumber, licenseMessageToScreen, isValidLicenseNumber);
+
+            Console.WriteLine(m_Garage.GetVehicleInformation(licenseNumber));
+        }
+
+        private void chargeVehicle()
+        {
+            string licenseNumber;
+            float amountOfEelectricity;
+            string licenseMessageToScreen = "Please enter the license number of your vehicle: ";
+            string elecreicityToFillMessageToScreen = "Please enter the amount of electricity to charge your vehicle with: ";
+
+            getClientDetail(out licenseNumber, licenseMessageToScreen, isValidLicenseNumber);
+            getAmountOfEnergyFromUser(out amountOfEelectricity, elecreicityToFillMessageToScreen);
+
+            m_Garage.ChargeElectronicVehicle(licenseNumber, amountOfEelectricity);
+        }
+
+        private void fuelVehicle()
+        {
+            string licenseNumber;
+            string licenseMessageToScreen = "Please enter the license number of your vehicle: ";
+            string FuelTypeMessageToScreen = "Please enter the amount of fuel you wish to refuel with: ";
+            FuelEnergy.eType fuelType;
+            float amountOfFuel;
+
+            getClientDetail(out licenseNumber, licenseMessageToScreen, isValidLicenseNumber);
+            getTypeFromUser<FuelEnergy.eType>(out fuelType, FuelEnergy.FuelTypes, "Fuel");
+            getAmountOfEnergyFromUser(out amountOfFuel, FuelTypeMessageToScreen);
+            m_Garage.RefuelVehicle(licenseNumber, fuelType, amountOfFuel);
+        }
+
+        private void getAmountOfEnergyFromUser(out float o_AmountOfFuel, string i_EnergyTypeMessage)
+        {
+            bool validInput = false;
+            string userInput = "";
+            float inputedAmount = 0;
+
+            Console.WriteLine(i_EnergyTypeMessage);
+            while (!validInput)
+            {
+                userInput = Console.ReadLine();
+                try
+                {
+                    validInput = float.TryParse(userInput, out inputedAmount);
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Invalid input, please input float number");
+                }
+            }
+            o_AmountOfFuel = inputedAmount;
+
+        }
+
+        private void fillAirToMax()
+        {
+            string licenseNumber;
+            string messageToScreen = "Please enter the license number of your vehicle: ";
+
+            getClientDetail(out licenseNumber, messageToScreen, isValidLicenseNumber);
+            m_Garage.InflateWheelsAirPressureToMaximum(licenseNumber);
+        }
+
         private void changeVehicleState()
         {
             string licenseNumber;
-
-            getClientDetail(out licenseNumber, "Please enter the license number of your vehicle: ", isValidLicenseNumber);
-
-            getTypeFromUser<VehicleGenerator.eVehicleType>(out vehicleType, m_Garage.VehicleGenerator.SupportedVehicles, "vehicle");
+            string messageToScreen = "Please enter the license number of your vehicle: ";
+            Garage.eVehicleStatus statusToChangeTo;
+            getClientDetail(out licenseNumber, messageToScreen, isValidLicenseNumber);
+            getTypeFromUser<Garage.eVehicleStatus>(out statusToChangeTo, m_Garage.StatusInGarage, "desired status");
+            m_Garage.ChangeVehicleStatus(licenseNumber, statusToChangeTo);
         }
         private void enterVehicleIntoGarage()
         {
@@ -125,16 +212,47 @@ namespace Ex03.ConsoleUI
             //get vehicle type from user, and energy type
             string clientName;
             string clientPhoneNumber;
+            string nameMessageToScreen = "Please enter your name(max length is 20) without spaces:";
+            string phoneNumberMessageToScreen = "Please enter your phone Number(10 straight digits):";
             VehicleGenerator.eVehicleType vehicleType;
             VehicleGenerator.eEnergyType vehicleEnergyType;
 
             getTypeFromUser<VehicleGenerator.eVehicleType>(out vehicleType, m_Garage.VehicleGenerator.SupportedVehicles, "vehicle");//getVehicleTypeFromClient();
             getTypeFromUser<VehicleGenerator.eEnergyType>(out vehicleEnergyType, m_Garage.VehicleGenerator.SupportedEnergySources, "vehicle's energy");//getEnergyTypeFromClient();
-            getClientDetail(out clientName, "Please enter your name(max length is 20) without spaces:", isValidName);
-            getClientDetail(out clientPhoneNumber, "some message", isValidePhoneNumber);
+            getClientDetail(out clientName, nameMessageToScreen, isValidName);
+            getClientDetail(out clientPhoneNumber, phoneNumberMessageToScreen, isValidePhoneNumber);
             m_Garage.AddVehicle(i_LicenseNumber, vehicleType, vehicleEnergyType, clientName, clientPhoneNumber);
+            addExtraInformation(i_LicenseNumber);
         }
 
+        private void addExtraInformation(string i_LicenseNumber)
+        {
+            Dictionary<string, string> extraDetailsToAdd = m_Garage.GetClient(i_LicenseNumber).Vehicle.GetVehicleDetails();
+            bool validInput = false;
+
+
+            foreach (KeyValuePair<string, string> details in extraDetailsToAdd)
+            {
+                Console.WriteLine(string.Format("Please enter {0}", details.Key));
+                extraDetailsToAdd[details.Key] = Console.ReadLine();
+                while (!validInput)
+                {
+                    try
+                    {
+                        //m_Garage.;
+                        validInput = true;
+                    }
+                    catch ()
+                    {
+                        Console.WriteLine();//get as an argument
+                    }
+
+
+
+                }
+
+            }
+        }
         private void getClientDetail(out string o_ClientDetail, String i_Message, validateFunctionInput i_ValidateInputOfClient)
         {
 
@@ -163,7 +281,7 @@ namespace Ex03.ConsoleUI
 
         private bool isValidLicenseNumber(StringBuilder i_ClientInput)
         {
-            return i_ClientInput.Length == k_LicenseNumberLength && containOnlyDigits(i_ClientInput);
+            return i_ClientInput.Length == Vehicle.LicenseNumberLength && containOnlyDigits(i_ClientInput);
         }
         private bool isValidePhoneNumber(StringBuilder i_clientPhoneNumber)
         {
@@ -308,8 +426,8 @@ namespace Ex03.ConsoleUI
             string withFilter = "";
 
             Console.WriteLine(string.Format("Please press 1 if you want to display the license numbers by filter, else press 2:{0}"), Environment.NewLine);
-            Console.WriteLine(string.Format("1. Yes. {0}"), Environment.NewLine);
-            Console.WriteLine(string.Format("2. No. {0}"), Environment.NewLine);
+            Console.WriteLine("1. Yes.");
+            Console.WriteLine("2. No.");
 
             do
             {
@@ -334,56 +452,34 @@ namespace Ex03.ConsoleUI
 
         }
 
+        private void displayLicensesNumbersWithoutFilter()
+        {
+            bool vehicleInRepair = true;
+            bool vehicleFixed = true;
+            bool vehiclePaidUp = true;
+            m_Garage.GetLicenseNumbersByFilter(vehicleInRepair, vehicleFixed, vehiclePaidUp);
+        }
+
         private void displayLicensesNumbersWithFilter()
         {
+            int i = 0;
             string filter = "";
-            bool validInput = false;
+            bool vehicleInRepair = false;
+            bool vehicleFixed = false;
+            bool vehiclePaidUp = false;
+            bool[] statusFilter = new bool[3] { vehicleInRepair, vehicleFixed, vehiclePaidUp };
 
-
-            Console.WriteLine("Please Enter: ");
-            Console.WriteLine("1. To display the vehicles in repair.");
-            Console.WriteLine("2. To display the fixed vehicles.");
-            Console.WriteLine("3. To display the paid of vehicles.");
-
-
-            do
+            for (; i < statusFilter.Length; i++)
             {
+                Console.WriteLine(string.Format("Please Enter 1 to display by {0} status, else, enter any other key.", m_Garage.StatusInGarage[i]));
                 filter = Console.ReadLine();
                 if (filter == "1")
                 {
-                    displayLicensesNumbersWithoutFilter();
-                    validInput = true;
-                }
-                else if (filter == "2")
-                {
-                    displayLicensesNumbersWithFilter();
-                    validInput = true;
-                }
-                else if (filter == "3")
-                {
-                    throw new FormatException("Ivalid input, please choose 1 (for filter) or 2 (without filter) "); // exeption that the input is invalid
+                    statusFilter[i] = true;
                 }
             }
-            while (!validInput);
+            m_Garage.GetLicenseNumbersByFilter(vehicleInRepair, vehicleFixed, vehiclePaidUp);
         }
-        private eClientChosenAction getClientChosenAction()
-        {
-            string chosenAction = "";
-
-            Console.WriteLine(string.Format("Hello, welcome to our garage, please choose an action from the list below:{0}"), Environment.NewLine);
-            Console.WriteLine(string.Format("1. Enter your Vehicle Into our Garage.{0}"), Environment.NewLine);
-            Console.WriteLine(string.Format("2. Display all vehicles license numbers.{0}"), Environment.NewLine);
-            Console.WriteLine(string.Format("3. Change your vehicle's state.{0}"), Environment.NewLine);
-            Console.WriteLine(string.Format("4. Fill the air in yout wheels to max.{0}"), Environment.NewLine);
-            Console.WriteLine(string.Format("5. Fuel your vehicle.{0}"), Environment.NewLine);
-            Console.WriteLine(string.Format("6. Charge your vehicle's battery.{0}"), Environment.NewLine);
-            Console.WriteLine(string.Format("7. Display your vehicle's details.{0}"), Environment.NewLine);
-            Console.WriteLine(string.Format("9. Exit.{0}"), Environment.NewLine);
-            //check here in loop maybe until the input is correct.
-            chosenAction = Console.ReadLine();
-            return (eClientChosenAction)int.Parse(chosenAction);
-        }
-
     }
 }
 
