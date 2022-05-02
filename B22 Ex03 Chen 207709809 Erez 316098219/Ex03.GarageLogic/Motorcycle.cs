@@ -10,20 +10,17 @@ namespace Ex03.GarageLogic
         {
             internal const FuelEnergy.eType k_FuelType = FuelEnergy.eType.Octan98;
             internal const float k_MaxTankFuelCapacityInLiters = 6.2f;
-
         }
 
         internal static class ElectricConstatns
         {
             internal const float k_MaxBattaryCapacityInHours = 2.5f;
-
         }
 
         internal static class WheelConstatns
         {
             internal const float k_MaxAirPressure = 31;
             internal static readonly int sr_NumberOfWheel = 2;
-
         }
 
         public enum eLicenseType
@@ -40,9 +37,9 @@ namespace Ex03.GarageLogic
             EngineCapacity,
         }
 
-        private eLicenseType m_LicenseType;
-        private int m_EngineCapacity;
-        private static readonly string[] sr_MotorCycleDetails = { "LicenseType", "EngineCapacity" };
+        private readonly eLicenseType m_LicenseType;
+        private readonly int m_EngineCapacity;
+        private static readonly string[] sr_MotorCycleDetails = { "Motorcylce License Type", "Motorcycle Engine Capacity" };
 
         public Motorcycle(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, WheelConstatns.sr_NumberOfWheel, WheelConstatns.k_MaxAirPressure)
         {
@@ -50,9 +47,9 @@ namespace Ex03.GarageLogic
             m_EngineCapacity = 50;
         }
 
-        public override Dictionary<string, string> GetVehicleDeatials()
+        public override Dictionary<string, string> GetVehicleDetials()
         {
-            Dictionary<string, string> deatilsToFill = base.GetVehicleDeatials();
+            Dictionary<string, string> deatilsToFill = base.GetVehicleDetials();
 
             foreach (string detail in sr_MotorCycleDetails)
             {
@@ -64,7 +61,9 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            return string.Concat(base.ToString(), string.Format("MotorCycle License type: {0}{1}Engine Capacity: {2}{3}", m_LicenseType, Environment.NewLine, m_EngineCapacity, Environment.NewLine));
+            string motorCycleToString = string.Format("MotorCycle License type: {0}{1}Engine Capacity: {2}{3}", m_LicenseType, Environment.NewLine, m_EngineCapacity, Environment.NewLine);
+
+            return string.Concat(base.ToString(), motorCycleToString);
         }
 
         public eLicenseType LicenseType
@@ -73,20 +72,12 @@ namespace Ex03.GarageLogic
             {
                 return m_LicenseType;
             }
-            set
-            {
-                m_LicenseType = value;
-            }
         }
         public int EngineCapacity
         {
             get
             {
                 return m_EngineCapacity;
-            }
-            set
-            {
-                m_EngineCapacity = value;
             }
         }
     }

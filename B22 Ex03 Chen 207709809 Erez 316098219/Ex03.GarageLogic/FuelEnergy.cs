@@ -19,7 +19,7 @@ namespace Ex03.GarageLogic
         }
 
         private readonly eType r_FuelType;
-        private static readonly string[] sr_FuelEnergyDetails = { "FuelType" };
+        private static readonly string[] sr_FuelEnergyDetails = { "Fuel Type" };
 
         public FuelEnergy(float i_MaximumAmountOfFuelInLiters, eType i_FuelType, float i_CurrentFuelLeftInLiters = 0) : base(i_MaximumAmountOfFuelInLiters, i_CurrentFuelLeftInLiters)
         {
@@ -50,7 +50,9 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            return string.Concat(base.ToString(), string.Format("Fuel Type: {0}{1}", r_FuelType, System.Environment.NewLine));
+            string fuelEnergyToString = string.Format("Fuel Type: {0}{1}", r_FuelType, System.Environment.NewLine);
+
+            return string.Concat(base.ToString(), fuelEnergyToString);
         }
 
         public eType FuelType

@@ -12,7 +12,7 @@ namespace Ex03.GarageLogic
 
         private float m_CurrentAmountOfEnergy;
         private readonly float r_MaxEnergyCapacity;
-        private static readonly string[] sr_EnergyDetails = { "MaxEnergyCapacity", "CurrentAmountOfEnergy" };
+        private static readonly string[] sr_EnergyDetails = { "Max Energy of Capacity", "Current Amount Of Energy" };
 
         public EnergySource(float i_MaxEnergy, float i_CurrentAmountOfEnergy)
         {
