@@ -12,7 +12,7 @@ namespace Ex03.GarageLogic
             Fixed = 2,
             PaidUp = 3,
         }
-        private readonly List<string> r_StatusInGarage = new List<string>() { "In repair.", "Fixed.", "Paid up." };
+        private readonly List<string> r_StatusInGarage = new List<string>() { "In repair", "Fixed", "Paid up" };
         private readonly Dictionary<string, Client> r_VehiclesInGarage;
         private readonly VehicleGenerator r_VehiclesGenerator;
 
@@ -38,6 +38,12 @@ namespace Ex03.GarageLogic
         {
             Vehicle newVehicle = null;
             Client newClient = null;
+            bool isVehicleExists = IsVehicleExists(i_LicenseNumber);
+
+            if (isVehicleExists)
+            {
+                throw new ArgumentException("Error: Vehicle is already exsists in the Garage!");
+            }
 
             newVehicle = r_VehiclesGenerator.ProduceVehicle(i_LicenseNumber, i_VehicleType, i_EnergyType);
             newClient = new Client(i_ClientName, i_ClientPhoneNumber, newVehicle, eVehicleStatus.InRepair);

@@ -4,7 +4,9 @@
     {
         public static void Main()
         {
+            UserInterface startGarage = new UserInterface();
 
+            startGarage.GarageIsOpen();
         }
     }
 }
