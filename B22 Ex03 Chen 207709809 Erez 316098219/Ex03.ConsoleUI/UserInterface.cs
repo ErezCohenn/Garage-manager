@@ -167,6 +167,10 @@ namespace Ex03.ConsoleUI
             {
                 Console.WriteLine(outOfRangeExcption.Message);
             }
+            catch (InvalidCastException castExcption)
+            {
+                Console.WriteLine(castExcption.Message);
+            }
 
             printContinueMessage();
         }
@@ -194,6 +198,10 @@ namespace Ex03.ConsoleUI
             catch (ValueOutOfRangeException outOfRangeExcption)
             {
                 Console.WriteLine(outOfRangeExcption.Message);
+            }
+            catch (InvalidCastException castExcption)
+            {
+                Console.WriteLine(castExcption.Message);
             }
 
             printContinueMessage();
@@ -276,7 +284,7 @@ namespace Ex03.ConsoleUI
             string licenseNumber = "";
 
             Console.Clear();
-            Console.WriteLine("Please enter the license number of your vehicle (Note: the leng of the license number is exactly 7): ");
+            Console.WriteLine("Please enter the license number of your vehicle (Note: the length of the license number is exactly 7): ");
             licenseNumber = Console.ReadLine();
             if (m_Garage.IsVehicleExists(licenseNumber))
             {
@@ -426,7 +434,7 @@ namespace Ex03.ConsoleUI
             int chosenType;
 
             Console.Clear();
-            Console.WriteLine(string.Format("Please Enter Your {0} type, press: ", i_TypeMessage));
+            Console.WriteLine(string.Format("Please Enter Your {0} type: ", i_TypeMessage));
             do
             {
                 printAllSupportedProperties(i_List);

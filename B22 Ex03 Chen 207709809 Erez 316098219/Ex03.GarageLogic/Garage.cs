@@ -138,19 +138,8 @@ namespace Ex03.GarageLogic
                 throw new ArgumentException("Error: Vehicle is driven on Electricity!");
             }
 
-            try
-            {
-                energyToReFuel = r_VehiclesInGarage[i_LicenseNumber].Vehicle.EnergySource as FuelEnergy;
-                energyToReFuel.ReFuel(i_AmountFuelToAdd, i_FuelType);
-            }
-            catch (ArgumentException)
-            {
-                // todo
-            }
-            catch (ValueOutOfRangeException)
-            {
-                //todo
-            }
+            energyToReFuel = r_VehiclesInGarage[i_LicenseNumber].Vehicle.EnergySource as FuelEnergy;
+            energyToReFuel.ReFuel(i_AmountFuelToAdd, i_FuelType);
         }
 
         public void ChargeElectronicVehicle(string i_LicenseNumber, float i_AmountHoursToCharge)
@@ -168,15 +157,11 @@ namespace Ex03.GarageLogic
                 throw new ArgumentException("Error: Vehicle is driven on Fuel!");
             }
 
-            try
-            {
-                energyToReFuel = r_VehiclesInGarage[i_LicenseNumber].Vehicle.EnergySource as ElectricEnergy;
-                energyToReFuel.ChargeBattery(i_AmountHoursToCharge);
-            }
-            catch (ValueOutOfRangeException)
-            {
-                // todo
-            }
+
+            energyToReFuel = r_VehiclesInGarage[i_LicenseNumber].Vehicle.EnergySource as ElectricEnergy;
+            energyToReFuel.ChargeBattery(i_AmountHoursToCharge);
+
+
         }
 
         public string GetVehicleInformation(string i_LicenseNumber)
