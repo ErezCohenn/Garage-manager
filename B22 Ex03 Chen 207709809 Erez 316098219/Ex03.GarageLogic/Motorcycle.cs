@@ -37,8 +37,8 @@ namespace Ex03.GarageLogic
             EngineCapacity,
         }
 
-        private readonly eLicenseType m_LicenseType;
-        private readonly int m_EngineCapacity;
+        private eLicenseType m_LicenseType;
+        private int m_EngineCapacity;
         private static readonly string[] sr_MotorCycleDetails = { "Motorcylce License Type", "Motorcycle Engine Capacity" };
 
         public Motorcycle(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, WheelConstatns.sr_NumberOfWheel, WheelConstatns.k_MaxAirPressure)
@@ -57,6 +57,55 @@ namespace Ex03.GarageLogic
             }
 
             return deatilsToFill;
+        }
+
+        public override bool UpdateDetail(KeyValuePair<string, string> i_DetailToFill)
+        {
+            bool isDetailFound = false;
+
+            if (i_DetailToFill.Key == sr_MotorCycleDetails[(int)eDetails.LicenseType])
+            {
+                isDetailFound = true;
+                convertAndSetLicenseType(i_DetailToFill.Value);
+
+            }
+            else if (i_DetailToFill.Key == sr_MotorCycleDetails[(int)eDetails.EngineCapacity])
+            {
+                isDetailFound = true;
+                convertAndSetEngineCapacity(i_DetailToFill.Value);
+            }
+            else
+            {
+                isDetailFound = base.UpdateDetail(i_DetailToFill);
+            }
+
+            return isDetailFound;
+        }
+
+        private void convertAndSetEngineCapacity(string i_EngineCapacity)
+        {
+            int convertedeEngineCapacity;
+            bool isParseSuccssed = int.TryParse(i_EngineCapacity, out convertedeEngineCapacity);
+
+            if (!isParseSuccssed)
+            {
+                throw new FormatException("Error: Faild to parse from string to Engine Capacity");
+            }
+
+            m_EngineCapacity = convertedeEngineCapacity;
+        }
+
+        private void convertAndSetLicenseType(string i_LicenseType)
+        {
+            eLicenseType convertedeLicenseType;
+            bool isParseSuccssed = Enum.TryParse(i_LicenseType, out convertedeLicenseType);
+
+            if (!isParseSuccssed)
+            {
+                throw new FormatException("Error: Faild to parse from string to License Type");
+            }
+
+            m_LicenseType = convertedeLicenseType;
         }
 
         public override string ToString()
@@ -79,6 +128,11 @@ namespace Ex03.GarageLogic
             {
                 return m_EngineCapacity;
             }
+        }
+
+        public static string GetDetail(eDetails detail)
+        {
+            return sr_MotorCycleDetails[(int)detail];
         }
     }
 }

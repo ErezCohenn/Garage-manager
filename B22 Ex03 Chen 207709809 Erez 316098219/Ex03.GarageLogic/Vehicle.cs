@@ -11,7 +11,7 @@ namespace Ex03.GarageLogic
 
     public abstract class Vehicle
     {
-        private readonly string r_ModelName;
+        private string m_ModelName;
         private readonly string r_LicenseNumber;
         private readonly List<Wheel> r_VehicleWheels;
         private readonly EnergySource r_EnergySoucre;
@@ -19,7 +19,7 @@ namespace Ex03.GarageLogic
 
         public Vehicle(EnergySource i_EnergySource, string i_LicenseNumber, int i_NumberOfVehicleWheels, float i_MaximumAirPressure)
         {
-            r_ModelName = null;
+            m_ModelName = null;
             r_EnergySoucre = i_EnergySource;
             r_LicenseNumber = i_LicenseNumber;
             r_VehicleWheels = new List<Wheel>(i_NumberOfVehicleWheels);
@@ -44,6 +44,35 @@ namespace Ex03.GarageLogic
             }
 
             return deatilsToFill;
+        }
+
+        public virtual bool UpdateDetail(KeyValuePair<string, string> i_DetailToFill)
+        {
+            bool isDetailFound = false;
+
+            if (i_DetailToFill.Key == sr_VehicleDeatials[(int)eDetails.ModelName])
+            {
+                m_ModelName = i_DetailToFill.Value;
+                isDetailFound = true;
+
+            }
+            else
+            {
+                isDetailFound = r_EnergySoucre.UpdateDetail(i_DetailToFill);
+                if (!isDetailFound)
+                {
+                    foreach (Wheel wheel in r_VehicleWheels)
+                    {
+                        isDetailFound = wheel.UpdateDetail(i_DetailToFill);
+                        if (!isDetailFound) //stop searching the detail for all the wheels
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return isDetailFound;
         }
 
         private Dictionary<string, string> concatDetails(Dictionary<string, string> firstDictionarySource, Dictionary<string, string> secondDictionarySource)
@@ -76,7 +105,7 @@ namespace Ex03.GarageLogic
             }
 
             vehicleToString.Append(r_EnergySoucre.ToString());
-            vehicleToString.Append(string.Format("Vehicel Model Name: {0}{1}License Number: {2}{3}", r_ModelName, Environment.NewLine, r_LicenseNumber, Environment.NewLine));
+            vehicleToString.Append(string.Format("Vehicel Model Name: {0}{1}License Number: {2}{3}", m_ModelName, Environment.NewLine, r_LicenseNumber, Environment.NewLine));
 
             return vehicleToString.ToString();
 
@@ -86,7 +115,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return r_ModelName;
+                return m_ModelName;
             }
         }
 
@@ -112,6 +141,11 @@ namespace Ex03.GarageLogic
             {
                 return r_EnergySoucre;
             }
+        }
+
+        public static string GetDetail(eDetails detail)
+        {
+            return sr_VehicleDeatials[(int)detail];
         }
     }
 }

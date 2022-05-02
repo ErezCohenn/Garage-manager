@@ -24,8 +24,8 @@ namespace Ex03.GarageLogic
             CanCarryRefrigerated,
         }
 
-        private readonly float m_CargoCapcity;
-        private readonly bool m_CanCarryRefrigerated;
+        private float m_CargoCapcity;
+        private bool m_CanCarryRefrigerated;
         private static readonly int sr_NumberOfWheel = 4;
         private static readonly string[] sr_TruckDetails = { "CargoCapcity", "CanCarryRefrigerated" };
 
@@ -45,6 +45,55 @@ namespace Ex03.GarageLogic
             }
 
             return deatilsToFill;
+        }
+
+        public override bool UpdateDetail(KeyValuePair<string, string> i_DetailToFill)
+        {
+            bool isDetailFound = false;
+
+            if (i_DetailToFill.Key == sr_TruckDetails[(int)eDetails.CanCarryRefrigerated])
+            {
+                isDetailFound = true;
+                convertAndSetCanCarryRefrigerated(i_DetailToFill.Value);
+
+            }
+            else if (i_DetailToFill.Key == sr_TruckDetails[(int)eDetails.CargoCapcity])
+            {
+                isDetailFound = true;
+                convertAndSetCargoCapcity(i_DetailToFill.Value);
+            }
+            else
+            {
+                isDetailFound = base.UpdateDetail(i_DetailToFill);
+            }
+
+            return isDetailFound;
+        }
+
+        private void convertAndSetCargoCapcity(string i_CargoCapcity)
+        {
+            float convertedCargoCapcity;
+            bool isParseSuccssed = float.TryParse(i_CargoCapcity, out convertedCargoCapcity);
+
+            if (!isParseSuccssed)
+            {
+                throw new FormatException("Error: Faild to parse from string to Cargo Capcity");
+            }
+
+            m_CargoCapcity = convertedCargoCapcity;
+        }
+
+        private void convertAndSetCanCarryRefrigerated(string i_CanCarryRefrigerated)
+        {
+            bool convertedCanCarryRefrigerated;
+            bool isParseSuccssed = bool.TryParse(i_CanCarryRefrigerated, out convertedCanCarryRefrigerated);
+
+            if (!isParseSuccssed)
+            {
+                throw new FormatException("Error: Faild to parse from string to Carry Refrigerated");
+            }
+
+            m_CanCarryRefrigerated = convertedCanCarryRefrigerated;
         }
 
         public override string ToString()
@@ -76,6 +125,11 @@ namespace Ex03.GarageLogic
             {
                 return sr_NumberOfWheel;
             }
+        }
+
+        public static string GetDetail(eDetails detail)
+        {
+            return sr_TruckDetails[(int)detail];
         }
     }
 }

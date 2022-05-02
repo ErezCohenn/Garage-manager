@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
@@ -6,13 +7,12 @@ namespace Ex03.GarageLogic
     {
         public enum eDetails
         {
-            MaxEnergyCapacity,
             CurrentAmountOfEnergy,
         }
 
         private float m_CurrentAmountOfEnergy;
         private readonly float r_MaxEnergyCapacity;
-        private static readonly string[] sr_EnergyDetails = { "Max Energy of Capacity", "Current Amount Of Energy" };
+        private static readonly string[] sr_EnergyDetails = { "Current Amount Of Energy" };
 
         public EnergySource(float i_MaxEnergy, float i_CurrentAmountOfEnergy)
         {
@@ -66,6 +66,38 @@ namespace Ex03.GarageLogic
             {
                 return r_MaxEnergyCapacity;
             }
+        }
+
+        public static string GetDetail(eDetails detail)
+        {
+            return sr_EnergyDetails[(int)detail];
+        }
+
+        public virtual bool UpdateDetail(KeyValuePair<string, string> i_DetailToFill)
+        {
+            bool isDetailFound = false;
+
+            if (i_DetailToFill.Key == sr_EnergyDetails[(int)eDetails.CurrentAmountOfEnergy])
+            {
+                isDetailFound = true;
+                convertAndSetCurrentAmountOfEnergy(i_DetailToFill.Value);
+            }
+
+            return isDetailFound;
+        }
+
+        private void convertAndSetCurrentAmountOfEnergy(string i_CurrentAmountOfEnergy)
+        {
+            bool isParseSuccssed = false;
+            float convertedEnergy;
+
+            isParseSuccssed = float.TryParse(i_CurrentAmountOfEnergy, out convertedEnergy);
+            if (!isParseSuccssed)
+            {
+                throw new FormatException("Error: Faild to parse from string to current Amount Of Energy");
+            }
+
+            FillEnergy(convertedEnergy);
         }
     }
 }
