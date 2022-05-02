@@ -13,30 +13,12 @@ namespace Ex03.GarageLogic
             Soler = 4,
         }
 
-        private static readonly List<string> sr_FuelTypes = new List<string>() { "Octan98", "Octan96", "Octan95", "Soler" };
-        public new enum eDetails
-        {
-            FuelType,
-        }
-
         private readonly eType r_FuelType;
-        private static readonly string[] sr_FuelEnergyDetails = { "Fuel Type" };
+        private static readonly List<string> sr_FuelTypes = new List<string>() { "Octan98", "Octan96", "Octan95", "Soler" };
 
         public FuelEnergy(float i_MaximumAmountOfFuelInLiters, eType i_FuelType, float i_CurrentFuelLeftInLiters = 0) : base(i_MaximumAmountOfFuelInLiters, i_CurrentFuelLeftInLiters)
         {
             r_FuelType = i_FuelType;
-        }
-
-        public override Dictionary<string, string> GetDetails()
-        {
-            Dictionary<string, string> deatilsToFill = base.GetDetails();
-
-            foreach (string detail in sr_FuelEnergyDetails)
-            {
-                deatilsToFill.Add(detail, string.Empty);
-            }
-
-            return deatilsToFill;
         }
 
         public void ReFuel(float i_AmountFuelInLitersToAdd, eType i_FuelType)

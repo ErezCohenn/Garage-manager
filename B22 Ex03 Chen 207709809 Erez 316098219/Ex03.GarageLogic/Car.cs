@@ -22,7 +22,7 @@ namespace Ex03.GarageLogic
             internal static readonly int sr_NumberOfWheel = 4;
         }
 
-        public enum eCarColors
+        public enum eColors
         {
             Red,
             White,
@@ -44,13 +44,13 @@ namespace Ex03.GarageLogic
             NumberOfDoors,
         }
 
-        private readonly eCarColors m_CarColor;
-        private readonly eNumberOfDoors m_NumberOfDoors;
-        private static readonly string[] sr_CarDetails = { "Color of the car", "Number Of Doors pf the car" };
+        private eColors m_Color;
+        private eNumberOfDoors m_NumberOfDoors;
+        private static readonly string[] sr_CarDetails = { "Color", "Doors" };
 
         public Car(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, WheelConstatns.sr_NumberOfWheel, WheelConstatns.k_MaxAirPressure)
         {
-            m_CarColor = eCarColors.White;
+            m_Color = eColors.White;
             m_NumberOfDoors = eNumberOfDoors.Four;
         }
 
@@ -66,18 +66,67 @@ namespace Ex03.GarageLogic
             return deatilsToFill;
         }
 
+        public override bool UpdateDetail(KeyValuePair<string, string> i_DetailToFill)
+        {
+            bool isDetailFound = false;
+
+            if (i_DetailToFill.Key == sr_CarDetails[(int)eDetails.Color])
+            {
+                isDetailFound = true;
+                convertAndSetColor(i_DetailToFill.Value);
+
+            }
+            else if (i_DetailToFill.Key == sr_CarDetails[(int)eDetails.NumberOfDoors])
+            {
+                isDetailFound = true;
+                convertAndSetNumberOfDoors(i_DetailToFill.Value);
+            }
+            else
+            {
+                isDetailFound = base.UpdateDetail(i_DetailToFill);
+            }
+
+            return isDetailFound;
+        }
+
+        private void convertAndSetNumberOfDoors(string i_NumberOfDoors)
+        {
+            eNumberOfDoors convertedNumberOfDoors;
+            bool isParseSuccssed = Enum.TryParse(i_NumberOfDoors, out convertedNumberOfDoors);
+
+            if (!isParseSuccssed)
+            {
+                throw new FormatException("Error: Faild to parse from string to Number of doors");
+            }
+
+            m_NumberOfDoors = convertedNumberOfDoors;
+        }
+
+        private void convertAndSetColor(string i_Color)
+        {
+            eColors convertedColor;
+            bool isParseSuccssed = Enum.TryParse(i_Color, out convertedColor);
+
+            if (!isParseSuccssed)
+            {
+                throw new FormatException("Error: Faild to parse from string to Color");
+            }
+
+            m_Color = convertedColor;
+        }
+
         public override string ToString()
         {
-            string carToString = string.Format("Car color: {0}{1} Number Of Doors: {2}{3}", m_CarColor, Environment.NewLine, m_NumberOfDoors, Environment.NewLine);
+            string carToString = string.Format("Car color: {0}{1} Number Of Doors: {2}{3}", m_Color, Environment.NewLine, m_NumberOfDoors, Environment.NewLine);
 
             return string.Concat(base.ToString(), carToString);
         }
 
-        public eCarColors CarColors
+        public eColors CarColors
         {
             get
             {
-                return m_CarColor;
+                return m_Color;
             }
         }
 
@@ -87,6 +136,11 @@ namespace Ex03.GarageLogic
             {
                 return m_NumberOfDoors;
             }
+        }
+
+        public static string GetDetail(eDetails detail)
+        {
+            return sr_CarDetails[(int)detail];
         }
     }
 }

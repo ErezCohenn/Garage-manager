@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+
 namespace Ex03.GarageLogic
 {
     public class VehicleGenerator
@@ -40,29 +42,39 @@ namespace Ex03.GarageLogic
             return vehicle;
         }
 
+        public void AddExtraDetailsToVehicle(Vehicle i_VehicleToUpdate, KeyValuePair<string, string> i_DetailToFill)
+        {
+            bool isDetailFound = i_VehicleToUpdate.UpdateDetail(i_DetailToFill);
+
+            if (!isDetailFound)
+            {
+                throw new ArgumentException("Error: Detail type was inserted is not found");
+            }
+        }
+
         private EnergySource produceEnergySource(eEnergyType i_EnergyType, eVehicleType i_VehicleType)
         {
             EnergySource energySource = null;
 
             if (i_EnergyType == eEnergyType.Electric && i_VehicleType == eVehicleType.Car)
             {
-                energySource = new ElectricEnergy(Car.ElectricConstatns.k_MaxBattaryCapacityInHours, Car.ElectricConstatns.k_BattaryAfterGenerate);
+                energySource = new ElectricEnergy(Car.ElectricConstatns.k_MaxBattaryCapacityInHours);
             }
             else if (i_EnergyType == eEnergyType.Fuel && i_VehicleType == eVehicleType.Car)
             {
-                energySource = new FuelEnergy(Car.FuelConstatns.k_MaxTankFuelCapacityInLiters, Car.FuelConstatns.k_FuelAfterGenerate, Car.FuelConstatns.k_FuelType);
+                energySource = new FuelEnergy(Car.FuelConstatns.k_MaxTankFuelCapacityInLiters, Car.FuelConstatns.k_FuelType);
             }
             else if (i_EnergyType == eEnergyType.Electric && i_VehicleType == eVehicleType.Motorcycle)
             {
-                energySource = new ElectricEnergy(Motorcycle.ElectricConstatns.k_MaxBattaryCapacityInHours, Motorcycle.ElectricConstatns.k_BattaryAfterGenerate);
+                energySource = new ElectricEnergy(Motorcycle.ElectricConstatns.k_MaxBattaryCapacityInHours);
             }
             else if (i_EnergyType == eEnergyType.Fuel && i_VehicleType == eVehicleType.Motorcycle)
             {
-                energySource = new FuelEnergy(Motorcycle.FuelConstatns.k_MaxTankFuelCapacityInLiters, Motorcycle.FuelConstatns.k_FuelAfterGenerate, Motorcycle.FuelConstatns.k_FuelType);
+                energySource = new FuelEnergy(Motorcycle.FuelConstatns.k_MaxTankFuelCapacityInLiters, Motorcycle.FuelConstatns.k_FuelType);
             }
             else if (i_EnergyType == eEnergyType.Fuel && i_VehicleType == eVehicleType.Truck)
             {
-                energySource = new FuelEnergy(Truck.FuelConstatns.k_MaxTankFuelCapacityInLiters, Truck.FuelConstatns.k_FuelAfterGenerate, Truck.FuelConstatns.k_FuelType);
+                energySource = new FuelEnergy(Truck.FuelConstatns.k_MaxTankFuelCapacityInLiters, Truck.FuelConstatns.k_FuelType);
             }
 
             return energySource;

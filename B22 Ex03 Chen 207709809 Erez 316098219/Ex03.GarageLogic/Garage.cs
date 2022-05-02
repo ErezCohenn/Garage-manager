@@ -22,6 +22,18 @@ namespace Ex03.GarageLogic
             r_VehiclesGenerator = new VehicleGenerator();
         }
 
+
+        public void AddExtraDetailsToVehicle(string i_LicenseNumber, Dictionary<string, string> i_DetailsToFill)
+        {
+            bool isVehicleExists = this.IsVehicleExists(i_LicenseNumber);
+
+            if (!isVehicleExists)
+            {
+                throw new ArgumentException("Error: Vehicle is not in the Garage!");
+            }
+
+            r_VehiclesGenerator.AddExtraDetailsToVehicle(r_VehiclesInGarage[i_LicenseNumber].Vehicle, i_DetailsToFill);
+        }
         public void AddVehicle(string i_LicenseNumber, VehicleGenerator.eVehicleType i_VehicleType, VehicleGenerator.eEnergyType i_EnergyType, string i_ClientName, string i_ClientPhoneNumber)
         {
             Vehicle newVehicle = null;
