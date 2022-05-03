@@ -164,10 +164,5 @@ namespace Ex03.GarageLogic
                 return m_NumberOfDoors;
             }
         }
-
-        public static string GetDetail(eDetails detail)
-        {
-            return sr_CarDetails[(int)detail];
-        }
     }
 }

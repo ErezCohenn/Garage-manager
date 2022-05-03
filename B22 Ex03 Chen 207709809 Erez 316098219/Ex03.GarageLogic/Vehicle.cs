@@ -115,6 +115,16 @@ namespace Ex03.GarageLogic
             return vehicleToString.ToString();
         }
 
+        public float SetMaxAirPressureForTheWheels()
+        {
+            if (m_VehicleWheels.Count == 0)
+            {
+                throw new ArgumentException("Error: There are no wheels to the vehicle");
+            }
+
+            return m_VehicleWheels[0].MaxAirPressure;
+        }
+
         public string ModelName
         {
             get
@@ -147,27 +157,12 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public static string GetDetail(eDetails detail)
-        {
-            return sr_VehicleDeatials[(int)detail];
-        }
-
         public static int LicenseNumberLength
         {
             get
             {
                 return sr_LicenseNumberLength;
             }
-        }
-
-        public float MaxAirPressureInTheWheels()
-        {
-            if (m_VehicleWheels.Count == 0)
-            {
-                throw new ArgumentException("Error: There are no wheels to the vehicle");
-            }
-
-            return m_VehicleWheels[0].MaxAirPressure;
         }
     }
 }
