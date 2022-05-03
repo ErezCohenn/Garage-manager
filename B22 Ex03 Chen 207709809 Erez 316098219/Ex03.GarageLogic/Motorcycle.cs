@@ -71,6 +71,7 @@ namespace Ex03.GarageLogic
         public override Dictionary<string, string> GetVehicleDetails()
         {
             Dictionary<string, string> deatilsToFill = base.GetVehicleDetails();
+
             foreach (string detail in sr_MotorCycleDetails)
             {
                 deatilsToFill.Add(detail, string.Empty);
@@ -146,11 +147,6 @@ namespace Ex03.GarageLogic
             {
                 return m_EngineCapacity;
             }
-        }
-
-        public static string GetDetail(eDetails detail)
-        {
-            return sr_MotorCycleDetails[(int)detail];
         }
     }
 }

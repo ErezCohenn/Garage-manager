@@ -68,7 +68,6 @@ namespace Ex03.GarageLogic
             return isDetailFound;
         }
 
-
         private void convertAndSetCurrentAirPressure(string i_CurrentAirPressure)
         {
             bool isParseSuccssed = false;
@@ -124,11 +123,6 @@ namespace Ex03.GarageLogic
             {
                 return r_MaxAirPressureByManufacturer;
             }
-        }
-
-        public static string GetDetail(eDetails detail)
-        {
-            return sr_WheelDetails[(int)detail];
         }
     }
 }

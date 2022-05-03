@@ -305,7 +305,7 @@ namespace Ex03.ConsoleUI
 
             getClientDetail(out licenseNumber, messageToScreen, isValidLicenseNumber);
             m_Garage.InflateWheelsAirPressureToMaximum(licenseNumber);
-            Console.WriteLine("All vehicle's wheels have been inflated to the maximum air pressure: {0}", m_Garage.GetClient(licenseNumber).Vehicle.MaxAirPressureInTheWheels());
+            Console.WriteLine("All vehicle's wheels have been inflated to the maximum air pressure: {0}", m_Garage.GetClient(licenseNumber).Vehicle.SetMaxAirPressureForTheWheels());
         }
 
         private void changeVehicleState()

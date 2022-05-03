@@ -17,7 +17,6 @@ namespace Ex03.GarageLogic
             internal static readonly int sr_NumberOfWheel = 16;
         }
 
-
         public enum eDetails
         {
             CargoCapcity,

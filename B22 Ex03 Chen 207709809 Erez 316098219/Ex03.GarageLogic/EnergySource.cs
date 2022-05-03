@@ -68,11 +68,6 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public static string GetDetail(eDetails detail)
-        {
-            return sr_EnergyDetails[(int)detail];
-        }
-
         public virtual bool UpdateDetail(KeyValuePair<string, string> i_DetailToFill)
         {
             bool isDetailFound = false;
