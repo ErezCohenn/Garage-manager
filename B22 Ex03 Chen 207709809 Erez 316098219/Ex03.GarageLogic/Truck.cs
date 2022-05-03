@@ -99,9 +99,8 @@ namespace Ex03.GarageLogic
         public override string ToString()
         {
             string canCarryRefrigeratedString = m_CanCarryRefrigerated == true ? "Yes" : "No";
-            string truckToString = string.Format("Truck Cargo Capcit: {0}{1}m_CanCarryRefrigerated: {2}{3}", m_CargoCapcity, Environment.NewLine, canCarryRefrigeratedString, Environment.NewLine);
 
-            return string.Concat(base.ToString(), truckToString);
+            return string.Concat(base.ToString(), string.Format("Truck Cargo Capacity: {0}{1}m_CanCarryRefrigerated: {2}{3}", m_CargoCapcity, Environment.NewLine, canCarryRefrigeratedString, Environment.NewLine));
         }
 
         public float CargoCapcity

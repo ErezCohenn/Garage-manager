@@ -113,7 +113,6 @@ namespace Ex03.GarageLogic
             vehicleToString.Append(string.Format("Vehicel Model Name: {0}{1}License Number: {2}{3}", m_ModelName, Environment.NewLine, r_LicenseNumber, Environment.NewLine));
 
             return vehicleToString.ToString();
-
         }
 
         public string ModelName

@@ -79,7 +79,7 @@ namespace Ex03.GarageLogic
 
         public void ChangeVehicleStatus(string i_LicenseNumber, eVehicleStatus i_NewStatus)
         {
-            bool isVehicleExists = this.IsVehicleExists(i_LicenseNumber);
+            bool isVehicleExists = IsVehicleExists(i_LicenseNumber);
 
             if (!isVehicleExists)
             {

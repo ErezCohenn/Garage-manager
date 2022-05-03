@@ -33,9 +33,7 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            string fuelEnergyToString = string.Format("Fuel Type: {0}{1}", r_FuelType, System.Environment.NewLine);
-
-            return string.Concat(base.ToString(), fuelEnergyToString);
+            return string.Concat(base.ToString(), string.Format("Fuel Type: {0}{1}", r_FuelType, System.Environment.NewLine));
         }
 
         public eType FuelType

@@ -130,9 +130,7 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            string motorCycleToString = string.Format("MotorCycle License type: {0}{1}Engine Capacity: {2}{3}", m_LicenseType, Environment.NewLine, m_EngineCapacity, Environment.NewLine);
-
-            return string.Concat(base.ToString(), motorCycleToString);
+            return string.Concat(base.ToString(), string.Format("MotorCycle License type: {0}{1}Engine Capacity: {2}{3}", m_LicenseType, Environment.NewLine, m_EngineCapacity, Environment.NewLine));
         }
 
         public eLicenseType LicenseType
