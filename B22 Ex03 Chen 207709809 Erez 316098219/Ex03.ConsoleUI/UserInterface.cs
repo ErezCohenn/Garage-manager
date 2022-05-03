@@ -232,6 +232,7 @@ namespace Ex03.ConsoleUI
             string vehicleDetails = null;
 
             getClientDetail(out licenseNumber, licenseMessageToScreen, isValidLicenseNumber);
+            Console.Clear();
             vehicleDetails = m_Garage.GetVehicleInformation(licenseNumber);
             Console.WriteLine(vehicleDetails);
         }

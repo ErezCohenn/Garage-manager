@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -20,9 +21,20 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            string vehicleDetailsString = string.Format("Vehicle Details:{0}Owner: {1}{2}Phone number: {3}{4}Status in the Garage: {5}{6}", Environment.NewLine, r_Name, Environment.NewLine, r_PhoneNumber, Environment.NewLine, m_VehicleStatus, Environment.NewLine);
+            StringBuilder vehicleDetails = new StringBuilder();
 
-            return string.Concat(vehicleDetailsString, r_Vehicle.ToString());
+            vehicleDetails.Append("=================================================================");
+            vehicleDetails.Append(Environment.NewLine);
+            vehicleDetails.Append("Vehicle Details:");
+            vehicleDetails.Append(Environment.NewLine);
+            vehicleDetails.Append("=================================================================");
+            vehicleDetails.Append(Environment.NewLine);
+            vehicleDetails.Append(string.Format("Owner: {1}{2}Phone number: {3}{4}Status in the Garage: {5}{6}", Environment.NewLine, r_Name, Environment.NewLine, r_PhoneNumber, Environment.NewLine, m_VehicleStatus, Environment.NewLine));
+            vehicleDetails.Append(r_Vehicle.ToString());
+            vehicleDetails.Append("=================================================================");
+            vehicleDetails.Append(Environment.NewLine);
+
+            return vehicleDetails.ToString();
         }
 
         public string Name
