@@ -182,7 +182,10 @@ namespace Ex03.ConsoleUI
                     Console.WriteLine(castExcption.Message);
                 }
 
-                printContinueMessage();
+                if (action != eClientChosenAction.Exit)
+                {
+                    printContinueMessage();
+                }
             }
             while (action != eClientChosenAction.Exit);
 
@@ -268,7 +271,7 @@ namespace Ex03.ConsoleUI
 
         private void printContinueMessage()
         {
-            Console.WriteLine("Press any key to continue...");
+            Console.WriteLine("Press any key to return to the main menu...");
             Console.ReadKey();
         }
 
