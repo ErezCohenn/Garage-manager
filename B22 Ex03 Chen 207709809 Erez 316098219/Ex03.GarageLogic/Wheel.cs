@@ -14,7 +14,26 @@ namespace Ex03.GarageLogic
         private string m_ManufacturerName;
         private float m_CurrentAirPressure;
         private readonly float r_MaxAirPressureByManufacturer;
-        private static readonly string[] sr_WheelDetails = { "Manufacturer wheel Name", "Current Air Pressure of the wheel" };
+        private static readonly Dictionary<string, string> sr_WheelDetails;//{ "Manufacturer wheel Name", "Current Air Pressure of the wheel" };
+
+        static Wheel()
+        {
+            Dictionary<string, string> wheelDetails = new Dictionary<string, string>();
+
+            wheelDetails.Add(Enum.GetName(typeof(eDetails), eDetails.CurrentAirPressure), getCurrentAirPressureMessage());
+            wheelDetails.Add(Enum.GetName(typeof(eDetails), eDetails.ManufacturerName), getManufacturerNameMessage());
+            sr_WheelDetails = wheelDetails;
+        }
+
+        private static string getManufacturerNameMessage()
+        {
+            return "Please enter the manufacturer name of the wheels:";
+        }
+
+        private static string getCurrentAirPressureMessage()
+        {
+            return "Please enter the current air pressure in the wheels:";
+        }
 
         public Wheel(float i_MaxAirPressureByManufacturer, float i_CurrentAirPressure)
         {
@@ -25,14 +44,7 @@ namespace Ex03.GarageLogic
 
         public virtual Dictionary<string, string> GetDetails()
         {
-            Dictionary<string, string> deatilsToFill = new Dictionary<string, string>();
-
-            foreach (string detail in sr_WheelDetails)
-            {
-                deatilsToFill.Add(detail, string.Empty);
-            }
-
-            return deatilsToFill;
+            return sr_WheelDetails;
         }
 
         public void WheelInflation(float i_AmountAirToAdd)
@@ -54,12 +66,12 @@ namespace Ex03.GarageLogic
         {
             bool isDetailFound = false;
 
-            if (i_DetailToFill.Key == sr_WheelDetails[(int)eDetails.CurrentAirPressure])
+            if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.CurrentAirPressure))
             {
                 isDetailFound = true;
                 convertAndSetCurrentAirPressure(i_DetailToFill.Value);
             }
-            else if (i_DetailToFill.Key == sr_WheelDetails[(int)eDetails.ManufacturerName])
+            else if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.ManufacturerName))
             {
                 isDetailFound = true;
                 m_ManufacturerName = i_DetailToFill.Value;

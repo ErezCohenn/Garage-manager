@@ -79,19 +79,19 @@ namespace Ex03.ConsoleUI
             Dictionary<string, string> extraDetails2;
 
             //************fifth fuel motorcycle**************//
-            m_Garage.AddVehicle("5678123", VehicleGenerator.eVehicleType.FuelTruck, "chen", "5555555555");
-            extraDetails2 = m_Garage.GetClient("5678123").Vehicle.GetVehicleDetails();
-            extraDetails2["Current Amount Of Energy"] = "5.3";
-            extraDetails2["Manufacturer wheel Name"] = "2KOOL8SKOOL";
-            extraDetails2["Current Air Pressure of the wheel"] = "15";
-            extraDetails2["ModelName"] = "Toyota";
-            extraDetails2["CargoCapcity"] = "45";
-            extraDetails2["CanCarryRefrigerated"] = "True";
+            /*   m_Garage.AddVehicle("5678123", VehicleGenerator.eVehicleType.FuelTruck, "chen", "5555555555");
+               extraDetails2 = m_Garage.GetClient("5678123").Vehicle.GetVehicleDetails();
+               extraDetails2["Current Amount Of Energy"] = "5.3";
+               extraDetails2["Manufacturer wheel Name"] = "2KOOL8SKOOL";
+               extraDetails2["Current Air Pressure of the wheel"] = "15";
+               extraDetails2["ModelName"] = "Toyota";
+               extraDetails2["CargoCapcity"] = "45";
+               extraDetails2["CanCarryRefrigerated"] = "True";
 
-            foreach (KeyValuePair<string, string> extra in extraDetails2)
-            {
-                m_Garage.AddExtraDetailsToVehicle("5678123", extra);
-            }
+               foreach (KeyValuePair<string, string> extra in extraDetails2)
+               {
+                   m_Garage.AddExtraDetailsToVehicle("5678123", extra);
+               }*/
 
         }
 
@@ -158,7 +158,7 @@ namespace Ex03.ConsoleUI
         public void GarageIsOpen()
         {
             eClientChosenAction action;
-            createTestVehicles();///delete!!!!!!!!!!!!!!
+            // createTestVehicles();///delete!!!!!!!!!!!!!!
             do
             {
                 getClientChosenAction(out action);
@@ -351,26 +351,26 @@ namespace Ex03.ConsoleUI
             getClientDetail(out clientPhoneNumber, phoneNumberMessageToScreen, isValidePhoneNumber); //get owner vehicle phone number
             m_Garage.AddVehicle(i_LicenseNumber, vehicleType, clientName, clientPhoneNumber);
             addExtraInformation(i_LicenseNumber);
-            Console.WriteLine("The vehicle entered to the garage successfully, thank you for choosing our garage");
+            Console.WriteLine(string.Format("The vehicle entered to the garage successfully, thank you for choosing our garage{0}", Environment.NewLine));
         }
 
         private void addExtraInformation(string i_LicenseNumber)
         {
             Dictionary<string, string> extraDetailsToAdd = m_Garage.GetClient(i_LicenseNumber).Vehicle.GetVehicleDetails();
-            List<string> keys = new List<string>(extraDetailsToAdd.Keys);
             bool validInput = false;
+            List<string> keys = new List<string>(extraDetailsToAdd.Keys);
 
-            Console.Clear();
-            foreach (string key in keys)
+            foreach (string keyDetaild in keys)
             {
-                Console.WriteLine(string.Format("Please enter {0}:", key));
+                Console.Clear();
+                Console.WriteLine(extraDetailsToAdd[keyDetaild]);
                 validInput = false;
                 do
                 {
                     try
                     {
-                        extraDetailsToAdd[key] = Console.ReadLine();
-                        m_Garage.AddExtraDetailsToVehicle(i_LicenseNumber, new KeyValuePair<string, string>(key, extraDetailsToAdd[key]));
+                        extraDetailsToAdd[keyDetaild] = Console.ReadLine();
+                        m_Garage.AddExtraDetailsToVehicle(i_LicenseNumber, new KeyValuePair<string, string>(keyDetaild, extraDetailsToAdd[keyDetaild]));
                         validInput = true;
                     }
                     catch (FormatException exceptionThrown)
@@ -544,7 +544,7 @@ namespace Ex03.ConsoleUI
 
         private void displayLicensesNumbersWithFilter()
         {
-            int i = 0;
+            int index = 0;
             Dictionary<Garage.eVehicleStatus, bool> statusFilter = new Dictionary<Garage.eVehicleStatus, bool> { { Garage.eVehicleStatus.InRepair, false }, { Garage.eVehicleStatus.Fixed, false }, { Garage.eVehicleStatus.PaidUp, false } };
             char filter = ' ';
             string licensesNumberByFilter = null;
@@ -552,14 +552,15 @@ namespace Ex03.ConsoleUI
             Console.Clear();
             foreach (Garage.eVehicleStatus key in Enum.GetValues(typeof(Garage.eVehicleStatus)))
             {
-                Console.WriteLine(string.Format("Please Enter 1 to display license numbers by {0} status, else, enter any other key.", m_Garage.StatusInGarage[i]));
+                Console.WriteLine(string.Format("Please Enter 1 to display license numbers by {0} status, else, enter any other key.", m_Garage.StatusInGarage[index]));
                 filter = Console.ReadKey().KeyChar;
                 Console.WriteLine();
                 if (filter == '1')
                 {
                     statusFilter[key] = true;
                 }
-                i++;
+
+                index++;
             }
 
             Console.Clear();

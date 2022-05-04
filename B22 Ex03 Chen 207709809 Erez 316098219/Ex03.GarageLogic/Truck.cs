@@ -26,7 +26,26 @@ namespace Ex03.GarageLogic
         private float m_CargoCapcity;
         private bool m_CanCarryRefrigerated;
         private static readonly int sr_NumberOfWheel = 4;
-        private static readonly string[] sr_TruckDetails = { "CargoCapcity", "CanCarryRefrigerated" };
+        private static readonly Dictionary<string, string> sr_TruckDetails;//{ "Cargo Capcity", "if the truck can carry refrigerated (Yes/No)" };
+
+        static Truck()
+        {
+            Dictionary<string, string> truckDetails = new Dictionary<string, string>();
+
+            truckDetails.Add(Enum.GetName(typeof(eDetails), eDetails.CanCarryRefrigerated), getIfTruckCanCarryRefrigeratedMessage());
+            truckDetails.Add(Enum.GetName(typeof(eDetails), eDetails.CargoCapcity), getCargoCapcityMessage());
+            sr_TruckDetails = truckDetails;
+        }
+
+        private static string getCargoCapcityMessage()
+        {
+            return "Please enter the crago capacity of the truck):";
+        }
+
+        private static string getIfTruckCanCarryRefrigeratedMessage()
+        {
+            return "Please enter if the truck can carry refrigerated (Yes/ No):";
+        }
 
         public Truck(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, sr_NumberOfWheel, WheelConstatns.k_MaxAirPressure)
         {
@@ -35,28 +54,20 @@ namespace Ex03.GarageLogic
         }
         public override Dictionary<string, string> GetVehicleDetails()
         {
-            Dictionary<string, string> deatilsToFill = base.GetVehicleDetails();
-
-
-            foreach (string detail in sr_TruckDetails)
-            {
-                deatilsToFill.Add(detail, string.Empty);
-            }
-
-            return deatilsToFill;
+            return base.concatDetails(base.GetVehicleDetails(), sr_TruckDetails);
         }
 
         public override bool UpdateDetail(KeyValuePair<string, string> i_DetailToFill)
         {
             bool isDetailFound = false;
 
-            if (i_DetailToFill.Key == sr_TruckDetails[(int)eDetails.CanCarryRefrigerated])
+            if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.CanCarryRefrigerated))
             {
                 isDetailFound = true;
                 convertAndSetCanCarryRefrigerated(i_DetailToFill.Value);
 
             }
-            else if (i_DetailToFill.Key == sr_TruckDetails[(int)eDetails.CargoCapcity])
+            else if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.CargoCapcity))
             {
                 isDetailFound = true;
                 convertAndSetCargoCapcity(i_DetailToFill.Value);
@@ -76,7 +87,7 @@ namespace Ex03.GarageLogic
 
             if (!isParseSuccssed)
             {
-                throw new FormatException("Error: Faild to parse from string to Cargo Capcity");
+                throw new FormatException("Error: Invalid input of Cargo Capacity inserted! please try again");
             }
 
             m_CargoCapcity = convertedCargoCapcity;
@@ -84,15 +95,14 @@ namespace Ex03.GarageLogic
 
         private void convertAndSetCanCarryRefrigerated(string i_CanCarryRefrigerated)
         {
-            bool convertedCanCarryRefrigerated;
-            bool isParseSuccssed = bool.TryParse(i_CanCarryRefrigerated, out convertedCanCarryRefrigerated);
+            bool validInput = i_CanCarryRefrigerated == "Yes" || i_CanCarryRefrigerated == "No";
 
-            if (!isParseSuccssed)
+            if (!validInput)
             {
-                throw new FormatException("Error: Faild to parse from string to Carry Refrigerated");
+                throw new FormatException("Error: Invalid input of Carry Refrigerated inserted! please try again");
             }
 
-            m_CanCarryRefrigerated = convertedCanCarryRefrigerated;
+            m_CanCarryRefrigerated = i_CanCarryRefrigerated == "Yes" ? true : false;
         }
 
         public override string ToString()
@@ -123,11 +133,6 @@ namespace Ex03.GarageLogic
             {
                 return sr_NumberOfWheel;
             }
-        }
-
-        public static string GetDetail(eDetails detail)
-        {
-            return sr_TruckDetails[(int)detail];
         }
     }
 }
