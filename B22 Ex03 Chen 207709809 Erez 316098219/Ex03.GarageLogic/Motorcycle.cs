@@ -81,7 +81,7 @@ namespace Ex03.GarageLogic
 
         public override Dictionary<string, string> GetVehicleDetails()
         {
-            return base.concatDetails(base.GetVehicleDetails(), sr_MotorcycleDetails);
+            return Utiles.ConcatDictionaries(base.GetVehicleDetails(), sr_MotorcycleDetails);
         }
 
         public override bool UpdateDetail(KeyValuePair<string, string> i_DetailToFill)
@@ -91,13 +91,17 @@ namespace Ex03.GarageLogic
             if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.LicenseType))
             {
                 isDetailFound = true;
-                convertAndSetLicenseType(i_DetailToFill.Value);
+                if (!Enum.IsDefined(typeof(eLicenseType), i_DetailToFill.Value))
+                {
+                    throw new FormatException("Error: Invalid input inserted! please try again.");
+                }
 
+                Utiles.ConvertAndSetFromStringToType<eLicenseType>(i_DetailToFill.Value, out m_LicenseType, Enum.TryParse<eLicenseType>);
             }
             else if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.EngineCapacity))
             {
                 isDetailFound = true;
-                convertAndSetEngineCapacity(i_DetailToFill.Value);
+                Utiles.ConvertAndSetFromStringToType<int>(i_DetailToFill.Value, out m_EngineCapacity, int.TryParse);
             }
             else
             {
@@ -105,32 +109,6 @@ namespace Ex03.GarageLogic
             }
 
             return isDetailFound;
-        }
-
-        private void convertAndSetEngineCapacity(string i_EngineCapacity)
-        {
-            int convertedeEngineCapacity;
-            bool isParseSuccssed = int.TryParse(i_EngineCapacity, out convertedeEngineCapacity);
-
-            if (!isParseSuccssed)
-            {
-                throw new FormatException("Error: Invalid input of Engine Capacity inserted! please try again");
-            }
-
-            m_EngineCapacity = convertedeEngineCapacity;
-        }
-
-        private void convertAndSetLicenseType(string i_LicenseType)
-        {
-            eLicenseType convertedeLicenseType;
-            bool isParseSuccssed = Enum.TryParse(i_LicenseType, out convertedeLicenseType);
-
-            if (!isParseSuccssed)
-            {
-                throw new FormatException("Error: Invalid input of License Type inserted! please try again");
-            }
-
-            m_LicenseType = convertedeLicenseType;
         }
 
         public override string ToString()

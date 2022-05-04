@@ -13,12 +13,12 @@ namespace Ex03.ConsoleUI
             //************First fuel car**************//
             m_Garage.AddVehicle("1234567", VehicleGenerator.eVehicleType.FuelCar, "Tikva", "1111111111");
             Dictionary<string, string> extraDetails = m_Garage.GetClient("1234567").Vehicle.GetVehicleDetails();
-            extraDetails["Current Amount Of Energy"] = "10";
-            extraDetails["Manufacturer wheel Name"] = "2KOOL4SKOOL";
-            extraDetails["Current Air Pressure of the wheel"] = "15";
+            extraDetails["CurrentAmountOfEnergy"] = "10";
+            extraDetails["ManufacturerName"] = "2KOOL4SKOOL";
+            extraDetails["CurrentAirPressure"] = "15";
             extraDetails["ModelName"] = "Ferari x-325";
-            extraDetails["Color (Red/White/Green/Blue/)"] = "Red";
-            extraDetails["Doors (Two/Three/Four/Five/)"] = "Four";
+            extraDetails["Color"] = "Red";
+            extraDetails["NumberOfDoors"] = "Four";
 
             foreach (KeyValuePair<string, string> extra in extraDetails)
             {
@@ -30,12 +30,12 @@ namespace Ex03.ConsoleUI
             //************Second electric car**************//
             m_Garage.AddVehicle("2345678", VehicleGenerator.eVehicleType.ElectricCar, "Menash", "2222222222");
             extraDetails = m_Garage.GetClient("2345678").Vehicle.GetVehicleDetails();
-            extraDetails["Current Amount Of Energy"] = "3";
-            extraDetails["Manufacturer wheel Name"] = "2KOOL5SKOOL";
-            extraDetails["Current Air Pressure of the wheel"] = "15";
+            extraDetails["CurrentAmountOfEnergy"] = "3";
+            extraDetails["ManufacturerName"] = "2KOOL5SKOOL";
+            extraDetails["CurrentAirPressure"] = "15";
             extraDetails["ModelName"] = "Mitsubishi-Attrage";
-            extraDetails["Color (Red/White/Green/Blue/)"] = "White";
-            extraDetails["Doors (Two/Three/Four/Five/)"] = "Two";
+            extraDetails["Color"] = "White";
+            extraDetails["NumberOfDoors"] = "Two";
 
             foreach (KeyValuePair<string, string> extra in extraDetails)
             {
@@ -47,12 +47,12 @@ namespace Ex03.ConsoleUI
             //************third fuel motorcycle**************//
             m_Garage.AddVehicle("3456789", VehicleGenerator.eVehicleType.FuelMotorcycle, "Nahum", "3333333333");
             extraDetails = m_Garage.GetClient("3456789").Vehicle.GetVehicleDetails();
-            extraDetails["Current Amount Of Energy"] = "1";
-            extraDetails["Manufacturer wheel Name"] = "2KOOL6SKOOL";
-            extraDetails["Current Air Pressure of the wheel"] = "2";
+            extraDetails["CurrentAmountOfEnergy"] = "1";
+            extraDetails["ManufacturerName"] = "2KOOL6SKOOL";
+            extraDetails["CurrentAirPressure"] = "2";
             extraDetails["ModelName"] = "Honda-NemesisXG";
-            extraDetails["Motorcylce License Type (A/A1/B1/BB/)"] = "A";
-            extraDetails["Motorcycle Engine Capacity"] = "2";
+            extraDetails["LicenseType"] = "A";
+            extraDetails["EngineCapacity"] = "2";
 
             foreach (KeyValuePair<string, string> extra in extraDetails)
             {
@@ -64,12 +64,12 @@ namespace Ex03.ConsoleUI
             //************fourth electric motorcycle**************//
             m_Garage.AddVehicle("3456743", VehicleGenerator.eVehicleType.FuelMotorcycle, "AlsoABigMoma", "4444444444");
             extraDetails = m_Garage.GetClient("3456743").Vehicle.GetVehicleDetails();
-            extraDetails["Current Amount Of Energy"] = "1.1";
-            extraDetails["Manufacturer wheel Name"] = "2KOOL7SKOOL";
-            extraDetails["Current Air Pressure of the wheel"] = "1.1";
+            extraDetails["CurrentAmountOfEnergy"] = "1.1";
+            extraDetails["ManufacturerName"] = "2KOOL7SKOOL";
+            extraDetails["CurrentAirPressure"] = "1.1";
             extraDetails["ModelName"] = "BigMoma";
-            extraDetails["Motorcylce License Type (A/A1/B1/BB/)"] = "A1";
-            extraDetails["Motorcycle Engine Capacity"] = "5";
+            extraDetails["LicenseType"] = "A1";
+            extraDetails["EngineCapacity"] = "5";
 
             foreach (KeyValuePair<string, string> extra in extraDetails)
             {
@@ -79,19 +79,19 @@ namespace Ex03.ConsoleUI
             Dictionary<string, string> extraDetails2;
 
             //************fifth fuel motorcycle**************//
-            /*   m_Garage.AddVehicle("5678123", VehicleGenerator.eVehicleType.FuelTruck, "chen", "5555555555");
-               extraDetails2 = m_Garage.GetClient("5678123").Vehicle.GetVehicleDetails();
-               extraDetails2["Current Amount Of Energy"] = "5.3";
-               extraDetails2["Manufacturer wheel Name"] = "2KOOL8SKOOL";
-               extraDetails2["Current Air Pressure of the wheel"] = "15";
-               extraDetails2["ModelName"] = "Toyota";
-               extraDetails2["CargoCapcity"] = "45";
-               extraDetails2["CanCarryRefrigerated"] = "True";
+            m_Garage.AddVehicle("5678123", VehicleGenerator.eVehicleType.FuelTruck, "chen", "5555555555");
+            extraDetails2 = m_Garage.GetClient("5678123").Vehicle.GetVehicleDetails();
+            extraDetails2["CurrentAmountOfEnergy"] = "5.3";
+            extraDetails2["ManufacturerName"] = "2KOOL8SKOOL";
+            extraDetails2["CurrentAirPressure"] = "15";
+            extraDetails2["ModelName"] = "Toyota";
+            extraDetails2["CargoCapcity"] = "45";
+            extraDetails2["CanCarryRefrigerated"] = "Yes";
 
-               foreach (KeyValuePair<string, string> extra in extraDetails2)
-               {
-                   m_Garage.AddExtraDetailsToVehicle("5678123", extra);
-               }*/
+            foreach (KeyValuePair<string, string> extra in extraDetails2)
+            {
+                m_Garage.AddExtraDetailsToVehicle("5678123", extra);
+            }
 
         }
 
@@ -158,7 +158,7 @@ namespace Ex03.ConsoleUI
         public void GarageIsOpen()
         {
             eClientChosenAction action;
-            // createTestVehicles();///delete!!!!!!!!!!!!!!
+            createTestVehicles();///delete!!!!!!!!!!!!!!
             do
             {
                 getClientChosenAction(out action);
@@ -322,11 +322,11 @@ namespace Ex03.ConsoleUI
 
         private void enterVehicleIntoGarage()
         {
-            string licenseNumber = "";
+            string licenseNumber;
+            string licenseNumberMessageToScreen = "Please enter the license number of your vehicle (Note: the length of the license number is exactly 7): ";
 
             Console.Clear();
-            Console.WriteLine("Please enter the license number of your vehicle (Note: the length of the license number is exactly 7): ");
-            licenseNumber = Console.ReadLine();
+            getClientDetail(out licenseNumber, licenseNumberMessageToScreen, isValidLicenseNumber);
             if (m_Garage.IsVehicleExists(licenseNumber))
             {
                 m_Garage.ChangeVehicleStatus(licenseNumber, Garage.eVehicleStatus.InRepair);
@@ -360,17 +360,17 @@ namespace Ex03.ConsoleUI
             bool validInput = false;
             List<string> keys = new List<string>(extraDetailsToAdd.Keys);
 
-            foreach (string keyDetaild in keys)
+            foreach (string keyDetail in keys)
             {
                 Console.Clear();
-                Console.WriteLine(extraDetailsToAdd[keyDetaild]);
+                Console.WriteLine(extraDetailsToAdd[keyDetail]);
                 validInput = false;
                 do
                 {
                     try
                     {
-                        extraDetailsToAdd[keyDetaild] = Console.ReadLine();
-                        m_Garage.AddExtraDetailsToVehicle(i_LicenseNumber, new KeyValuePair<string, string>(keyDetaild, extraDetailsToAdd[keyDetaild]));
+                        extraDetailsToAdd[keyDetail] = Console.ReadLine();
+                        m_Garage.AddExtraDetailsToVehicle(i_LicenseNumber, new KeyValuePair<string, string>(keyDetail, extraDetailsToAdd[keyDetail]));
                         validInput = true;
                     }
                     catch (FormatException exceptionThrown)

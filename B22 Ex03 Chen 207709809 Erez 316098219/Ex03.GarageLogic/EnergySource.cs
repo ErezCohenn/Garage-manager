@@ -77,28 +77,16 @@ namespace Ex03.GarageLogic
         public virtual bool UpdateDetail(KeyValuePair<string, string> i_DetailToFill)
         {
             bool isDetailFound = false;
+            float convertedEnergy;
 
             if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.CurrentAmountOfEnergy))
             {
                 isDetailFound = true;
-                convertAndSetCurrentAmountOfEnergy(i_DetailToFill.Value);
+                Utiles.ConvertAndSetFromStringToType<float>(i_DetailToFill.Value, out convertedEnergy, float.TryParse);
+                FillEnergy(convertedEnergy);
             }
 
             return isDetailFound;
-        }
-
-        private void convertAndSetCurrentAmountOfEnergy(string i_CurrentAmountOfEnergy)
-        {
-            bool isParseSuccssed = false;
-            float convertedEnergy;
-
-            isParseSuccssed = float.TryParse(i_CurrentAmountOfEnergy, out convertedEnergy);
-            if (!isParseSuccssed)
-            {
-                throw new FormatException("Error: Invalid input of Energy inserted! please try again.");
-            }
-
-            FillEnergy(convertedEnergy);
         }
     }
 }

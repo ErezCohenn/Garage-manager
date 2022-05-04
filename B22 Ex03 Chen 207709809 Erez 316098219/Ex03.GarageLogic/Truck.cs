@@ -54,7 +54,7 @@ namespace Ex03.GarageLogic
         }
         public override Dictionary<string, string> GetVehicleDetails()
         {
-            return base.concatDetails(base.GetVehicleDetails(), sr_TruckDetails);
+            return Utiles.ConcatDictionaries(base.GetVehicleDetails(), sr_TruckDetails);
         }
 
         public override bool UpdateDetail(KeyValuePair<string, string> i_DetailToFill)
@@ -70,7 +70,7 @@ namespace Ex03.GarageLogic
             else if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.CargoCapcity))
             {
                 isDetailFound = true;
-                convertAndSetCargoCapcity(i_DetailToFill.Value);
+                Utiles.ConvertAndSetFromStringToType<float>(i_DetailToFill.Value, out m_CargoCapcity, float.TryParse);
             }
             else
             {
@@ -78,19 +78,6 @@ namespace Ex03.GarageLogic
             }
 
             return isDetailFound;
-        }
-
-        private void convertAndSetCargoCapcity(string i_CargoCapcity)
-        {
-            float convertedCargoCapcity;
-            bool isParseSuccssed = float.TryParse(i_CargoCapcity, out convertedCargoCapcity);
-
-            if (!isParseSuccssed)
-            {
-                throw new FormatException("Error: Invalid input of Cargo Capacity inserted! please try again");
-            }
-
-            m_CargoCapcity = convertedCargoCapcity;
         }
 
         private void convertAndSetCanCarryRefrigerated(string i_CanCarryRefrigerated)
