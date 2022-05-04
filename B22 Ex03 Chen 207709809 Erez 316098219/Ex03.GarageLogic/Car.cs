@@ -47,34 +47,49 @@ namespace Ex03.GarageLogic
 
         private eColors m_Color;
         private eNumberOfDoors m_NumberOfDoors;
-        private static readonly string[] sr_CarDetails;
+        private static readonly Dictionary<string, string> sr_CarDetails;
 
         static Car()
         {
-            StringBuilder details = new StringBuilder();
-            string[] colors = Enum.GetNames(typeof(eColors));
-            string[] numOfDoors = Enum.GetNames(typeof(eNumberOfDoors));
-            string[] carDetails = new string[2];
+            Dictionary<string, string> carDetails = new Dictionary<string, string>();
 
-            details.Append("Color (");
-            foreach (string color in colors)
-            {
-                details.Append(color + "/");
-            }
-
-            details.Append(")");
-            carDetails[0] = details.ToString();
-            details.Clear();
-            details.Append("Doors (");
-            foreach (string amountOfDoors in numOfDoors)
-            {
-                details.Append(amountOfDoors + "/");
-            }
-
-            details.Append(")");
-            carDetails[1] = details.ToString();
+            carDetails.Add(Enum.GetName(typeof(eDetails), eDetails.Color), getColorMessage());
+            carDetails.Add(Enum.GetName(typeof(eDetails), eDetails.NumberOfDoors), getDoorsMessage());
             sr_CarDetails = carDetails;
         }
+
+        private static string getDoorsMessage()
+        {
+            string[] doors = Enum.GetNames(typeof(eNumberOfDoors));
+            StringBuilder messageToClient = new StringBuilder();
+
+            messageToClient.Append("Please enter one of the following doors amount of the car:");
+            messageToClient.Append(Environment.NewLine);
+            foreach (string door in doors)
+            {
+                messageToClient.Append(door);
+                messageToClient.Append(Environment.NewLine);
+            }
+
+            return messageToClient.ToString();
+        }
+
+        private static string getColorMessage()
+        {
+            string[] colors = Enum.GetNames(typeof(eColors));
+            StringBuilder messageToClient = new StringBuilder();
+
+            messageToClient.Append("Please enter one of the following colors of the car:");
+            messageToClient.Append(Environment.NewLine);
+            foreach (string color in colors)
+            {
+                messageToClient.Append(color);
+                messageToClient.Append(Environment.NewLine);
+            }
+
+            return messageToClient.ToString();
+        }
+
         public Car(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, WheelConstatns.sr_NumberOfWheel, WheelConstatns.k_MaxAirPressure)
         {
             m_Color = eColors.White;
@@ -83,27 +98,20 @@ namespace Ex03.GarageLogic
 
         public override Dictionary<string, string> GetVehicleDetails()
         {
-            Dictionary<string, string> deatilsToFill = base.GetVehicleDetails();
-
-            foreach (string detail in sr_CarDetails)
-            {
-                deatilsToFill.Add(detail, string.Empty);
-            }
-
-            return deatilsToFill;
+            return base.concatDetails(base.GetVehicleDetails(), sr_CarDetails);
         }
 
         public override bool UpdateDetail(KeyValuePair<string, string> i_DetailToFill)
         {
             bool isDetailFound = false;
 
-            if (i_DetailToFill.Key == sr_CarDetails[(int)eDetails.Color])
+            if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.Color))
             {
                 isDetailFound = true;
                 convertAndSetColor(i_DetailToFill.Value);
 
             }
-            else if (i_DetailToFill.Key == sr_CarDetails[(int)eDetails.NumberOfDoors])
+            else if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.NumberOfDoors))
             {
                 isDetailFound = true;
                 convertAndSetNumberOfDoors(i_DetailToFill.Value);
@@ -123,7 +131,7 @@ namespace Ex03.GarageLogic
 
             if (!isParseSuccssed)
             {
-                throw new FormatException("Error: Faild to parse from string to Number of doors");
+                throw new FormatException("Error: Invalid input of Doors inserted! please try again.");
             }
 
             m_NumberOfDoors = convertedNumberOfDoors;
@@ -136,7 +144,7 @@ namespace Ex03.GarageLogic
 
             if (!isParseSuccssed)
             {
-                throw new FormatException("Error: Faild to parse from string to Color");
+                throw new FormatException("Error: Invalid input of Color inserted! please try again.");
             }
 
             m_Color = convertedColor;

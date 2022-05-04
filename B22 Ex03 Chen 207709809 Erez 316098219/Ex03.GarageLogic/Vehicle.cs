@@ -16,9 +16,20 @@ namespace Ex03.GarageLogic
         private List<Wheel> m_VehicleWheels;
         private readonly EnergySource r_EnergySoucre;
         private static readonly int sr_LicenseNumberLength = 7;
-        private static readonly string[] sr_VehicleDeatials = { "ModelName" };
+        private static readonly Dictionary<string, string> sr_VehicleDetails;
 
+        static Vehicle()
+        {
+            Dictionary<string, string> vehicleDetails = new Dictionary<string, string>();
 
+            vehicleDetails.Add(Enum.GetName(typeof(eDetails), eDetails.ModelName), getModelNameMessage());
+            sr_VehicleDetails = vehicleDetails;
+        }
+
+        private static string getModelNameMessage()
+        {
+            return "Please enter the model name of the vehicle:";
+        }
 
         public Vehicle(EnergySource i_EnergySource, string i_LicenseNumber, int i_NumberOfVehicleWheels, float i_MaximumAirPressure)
         {
@@ -39,14 +50,21 @@ namespace Ex03.GarageLogic
 
 
         public virtual Dictionary<string, string> GetVehicleDetails()
-
         {
-            Dictionary<string, string> deatilsToFill = concatDetails(r_EnergySoucre.GetDetails(), m_VehicleWheels[0].GetDetails());
+            Dictionary<string, string> deatilsToFill = null;
 
-            foreach (string detail in sr_VehicleDeatials)
+            if (m_VehicleWheels.Count == 0)
             {
-                deatilsToFill.Add(detail, string.Empty);
+                throw new ArgumentException("Error: The vehicle has no wheels!");
             }
+
+            if (r_EnergySoucre == null)
+            {
+                throw new ArgumentException("Error: The vehicle has no energy source!");
+            }
+
+            deatilsToFill = concatDetails(r_EnergySoucre.GetDetails(), m_VehicleWheels[0].GetDetails());
+            deatilsToFill = concatDetails(deatilsToFill, sr_VehicleDetails);
 
             return deatilsToFill;
         }
@@ -55,7 +73,7 @@ namespace Ex03.GarageLogic
         {
             bool isDetailFound = false;
 
-            if (i_DetailToFill.Key == sr_VehicleDeatials[(int)eDetails.ModelName])
+            if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.ModelName))
             {
                 m_ModelName = i_DetailToFill.Value;
                 isDetailFound = true;
@@ -80,7 +98,7 @@ namespace Ex03.GarageLogic
             return isDetailFound;
         }
 
-        private Dictionary<string, string> concatDetails(Dictionary<string, string> firstDictionarySource, Dictionary<string, string> secondDictionarySource)
+        protected Dictionary<string, string> concatDetails(Dictionary<string, string> firstDictionarySource, Dictionary<string, string> secondDictionarySource)
         {
             Dictionary<string, string> dictionaryDestantaion = new Dictionary<string, string>();
 

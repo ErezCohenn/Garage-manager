@@ -40,25 +40,36 @@ namespace Ex03.GarageLogic
 
         private eLicenseType m_LicenseType;
         private int m_EngineCapacity;
-        private static readonly string[] sr_MotorCycleDetails;
+        private static readonly Dictionary<string, string> sr_MotorcycleDetails;
 
         static Motorcycle()
         {
-            StringBuilder details = new StringBuilder();
-            string[] licenseType = Enum.GetNames(typeof(eLicenseType));
-            string engineCapacity = "Motorcycle Engine Capacity";
-            string[] motorcycleDetails = new string[2];
+            Dictionary<string, string> motorcycleDetails = new Dictionary<string, string>();
 
-            details.Append("Motorcylce License Type (");
-            foreach (string license in licenseType)
+            motorcycleDetails.Add(Enum.GetName(typeof(eDetails), eDetails.EngineCapacity), getEngineCapacityMessage());
+            motorcycleDetails.Add(Enum.GetName(typeof(eDetails), eDetails.LicenseType), getLicenseTypeMessage());
+            sr_MotorcycleDetails = motorcycleDetails;
+        }
+
+        private static string getLicenseTypeMessage()
+        {
+            string[] licenses = Enum.GetNames(typeof(eLicenseType));
+            StringBuilder messageToClient = new StringBuilder();
+
+            messageToClient.Append("Please enter one of the following license of the motorcycle:");
+            messageToClient.Append(Environment.NewLine);
+            foreach (string license in licenses)
             {
-                details.Append(license + "/");
+                messageToClient.Append(license);
+                messageToClient.Append(Environment.NewLine);
             }
 
-            details.Append(")");
-            motorcycleDetails[0] = details.ToString();
-            motorcycleDetails[1] = engineCapacity;
-            sr_MotorCycleDetails = motorcycleDetails;
+            return messageToClient.ToString();
+        }
+
+        private static string getEngineCapacityMessage()
+        {
+            return "Please enter the engine capacity of your motorcycle:";
         }
 
         public Motorcycle(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, WheelConstatns.sr_NumberOfWheel, WheelConstatns.k_MaxAirPressure)
@@ -70,27 +81,20 @@ namespace Ex03.GarageLogic
 
         public override Dictionary<string, string> GetVehicleDetails()
         {
-            Dictionary<string, string> deatilsToFill = base.GetVehicleDetails();
-
-            foreach (string detail in sr_MotorCycleDetails)
-            {
-                deatilsToFill.Add(detail, string.Empty);
-            }
-
-            return deatilsToFill;
+            return base.concatDetails(base.GetVehicleDetails(), sr_MotorcycleDetails);
         }
 
         public override bool UpdateDetail(KeyValuePair<string, string> i_DetailToFill)
         {
             bool isDetailFound = false;
 
-            if (i_DetailToFill.Key == sr_MotorCycleDetails[(int)eDetails.LicenseType])
+            if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.LicenseType))
             {
                 isDetailFound = true;
                 convertAndSetLicenseType(i_DetailToFill.Value);
 
             }
-            else if (i_DetailToFill.Key == sr_MotorCycleDetails[(int)eDetails.EngineCapacity])
+            else if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.EngineCapacity))
             {
                 isDetailFound = true;
                 convertAndSetEngineCapacity(i_DetailToFill.Value);
@@ -110,7 +114,7 @@ namespace Ex03.GarageLogic
 
             if (!isParseSuccssed)
             {
-                throw new FormatException("Error: Faild to parse from string to Engine Capacity");
+                throw new FormatException("Error: Invalid input of Engine Capacity inserted! please try again");
             }
 
             m_EngineCapacity = convertedeEngineCapacity;
@@ -123,7 +127,7 @@ namespace Ex03.GarageLogic
 
             if (!isParseSuccssed)
             {
-                throw new FormatException("Error: Faild to parse from string to License Type");
+                throw new FormatException("Error: Invalid input of License Type inserted! please try again");
             }
 
             m_LicenseType = convertedeLicenseType;

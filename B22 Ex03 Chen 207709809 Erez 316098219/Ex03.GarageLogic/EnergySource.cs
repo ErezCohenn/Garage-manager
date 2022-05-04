@@ -12,7 +12,20 @@ namespace Ex03.GarageLogic
 
         private float m_CurrentAmountOfEnergy;
         private readonly float r_MaxEnergyCapacity;
-        private static readonly string[] sr_EnergyDetails = { "Current Amount Of Energy" };
+        private static readonly Dictionary<string, string> sr_EnergyDetails;
+
+        static EnergySource()
+        {
+            Dictionary<string, string> energyDetails = new Dictionary<string, string>();
+
+            energyDetails.Add(Enum.GetName(typeof(eDetails), eDetails.CurrentAmountOfEnergy), getCurrentAmountOfEnergyMessage());
+            sr_EnergyDetails = energyDetails;
+        }
+
+        private static string getCurrentAmountOfEnergyMessage()
+        {
+            return "Please enter the current amount of energy in your vehicle:";
+        }
 
         public EnergySource(float i_MaxEnergy, float i_CurrentAmountOfEnergy)
         {
@@ -22,14 +35,7 @@ namespace Ex03.GarageLogic
 
         public virtual Dictionary<string, string> GetDetails()
         {
-            Dictionary<string, string> deatilsToFill = new Dictionary<string, string>();
-
-            foreach (string detail in sr_EnergyDetails)
-            {
-                deatilsToFill.Add(detail, string.Empty);
-            }
-
-            return deatilsToFill;
+            return sr_EnergyDetails;
         }
 
         protected void FillEnergy(float i_AmountEnergyToLoad)
@@ -72,7 +78,7 @@ namespace Ex03.GarageLogic
         {
             bool isDetailFound = false;
 
-            if (i_DetailToFill.Key == sr_EnergyDetails[(int)eDetails.CurrentAmountOfEnergy])
+            if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.CurrentAmountOfEnergy))
             {
                 isDetailFound = true;
                 convertAndSetCurrentAmountOfEnergy(i_DetailToFill.Value);
@@ -89,7 +95,7 @@ namespace Ex03.GarageLogic
             isParseSuccssed = float.TryParse(i_CurrentAmountOfEnergy, out convertedEnergy);
             if (!isParseSuccssed)
             {
-                throw new FormatException("Error: Faild to parse from string to current Amount Of Energy");
+                throw new FormatException("Error: Invalid input of Energy inserted! please try again.");
             }
 
             FillEnergy(convertedEnergy);
