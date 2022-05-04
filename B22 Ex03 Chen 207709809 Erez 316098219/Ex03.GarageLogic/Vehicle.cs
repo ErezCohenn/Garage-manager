@@ -11,12 +11,12 @@ namespace Ex03.GarageLogic
 
     public abstract class Vehicle
     {
-        private string m_ModelName;
-        private readonly string r_LicenseNumber;
-        private List<Wheel> m_VehicleWheels;
-        private readonly EnergySource r_EnergySoucre;
-        private static readonly int sr_LicenseNumberLength = 7;
+        private static readonly int sr_LicenseNumberLength;
         private static readonly Dictionary<string, string> sr_VehicleDetails;
+        private readonly string r_LicenseNumber;
+        private readonly EnergySource r_EnergySoucre;
+        private string m_ModelName;
+        private List<Wheel> m_VehicleWheels;
 
         static Vehicle()
         {
@@ -24,6 +24,7 @@ namespace Ex03.GarageLogic
 
             vehicleDetails.Add(Enum.GetName(typeof(eDetails), eDetails.ModelName), getModelNameMessage());
             sr_VehicleDetails = vehicleDetails;
+            sr_LicenseNumberLength = 7;
         }
 
         private static string getModelNameMessage()
@@ -33,6 +34,11 @@ namespace Ex03.GarageLogic
 
         public Vehicle(EnergySource i_EnergySource, string i_LicenseNumber, int i_NumberOfVehicleWheels, float i_MaximumAirPressure)
         {
+            if (i_EnergySource == null)
+            {
+                throw new NullReferenceException("Error: Failed to create energy source!");
+            }
+
             m_ModelName = null;
             r_EnergySoucre = i_EnergySource;
             r_LicenseNumber = i_LicenseNumber;
@@ -47,7 +53,6 @@ namespace Ex03.GarageLogic
                 m_VehicleWheels.Add(new Wheel(i_MaximumAirPressure, 0));
             }
         }
-
 
         public virtual Dictionary<string, string> GetVehicleDetails()
         {
@@ -75,14 +80,13 @@ namespace Ex03.GarageLogic
 
             if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.ModelName))
             {
+                isDetailFound = true;
                 if (string.Empty == i_DetailToFill.Value)
                 {
                     throw new FormatException("Error: Invalid input inserted! please try again.");
                 }
 
                 m_ModelName = i_DetailToFill.Value;
-                isDetailFound = true;
-
             }
             else
             {
@@ -92,6 +96,10 @@ namespace Ex03.GarageLogic
                     foreach (Wheel wheel in m_VehicleWheels)
                     {
                         isDetailFound = wheel.UpdateDetail(i_DetailToFill);
+                        if (!isDetailFound)
+                        {
+                            break;
+                        }
                     }
                 }
             }

@@ -5,10 +5,11 @@ namespace Ex03.GarageLogic
 {
     public static class Utiles
     {
-        public delegate bool TryParse<Type>(string i_FromString, out Type io_Result);
-        public static void ConvertAndSetFromStringToType<Type>(string i_FromString, out Type io_ToType, TryParse<Type> i_TryParseMethod)
+        public delegate bool TryParse<Type>(string i_FromString, out Type o_ToType);
+
+        public static void ConvertAndSetFromStringToType<Type>(string i_FromString, out Type o_ToType, TryParse<Type> i_TryParseMethod)
         {
-            bool isParseSuccssed = i_TryParseMethod(i_FromString, out io_ToType);
+            bool isParseSuccssed = i_TryParseMethod(i_FromString, out o_ToType);
 
             if (!isParseSuccssed)
             {

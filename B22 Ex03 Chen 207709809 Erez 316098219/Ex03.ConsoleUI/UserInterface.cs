@@ -107,11 +107,10 @@ namespace Ex03.ConsoleUI
             ChargeVehicle = 6,
             DisplayVheicleDetails = 7,
             Exit = 8,
-
         }
 
         private Garage m_Garage;
-        public delegate bool validateFunctionInput(StringBuilder i_Input);
+        private delegate bool validateFunctionInput(StringBuilder i_Input);
         private readonly List<string> r_Actions;
 
         public UserInterface()
@@ -158,7 +157,6 @@ namespace Ex03.ConsoleUI
         public void GarageIsOpen()
         {
             eClientChosenAction action;
-            createTestVehicles();///delete!!!!!!!!!!!!!!
             do
             {
                 getClientChosenAction(out action);
@@ -385,6 +383,10 @@ namespace Ex03.ConsoleUI
                     {
                         Console.WriteLine(exceptionThrown.Message);
                     }
+                    catch (NullReferenceException nullException)
+                    {
+                        Console.WriteLine(nullException.Message);
+                    }
                 }
                 while (!validInput);
             }
@@ -557,7 +559,6 @@ namespace Ex03.ConsoleUI
                 do
                 {
                     filter = Console.ReadLine();
-                    validInput = filter == "1" || filter == "2";
                     if (filter == "1")
                     {
                         statusFilter[key] = true;

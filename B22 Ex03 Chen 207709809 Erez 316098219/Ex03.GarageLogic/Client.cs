@@ -5,12 +5,19 @@ namespace Ex03.GarageLogic
 {
     public class Client
     {
+        private static readonly int sr_MaxNameLength;
+        private static readonly int sr_PhoneNumberLength;
         private readonly string r_Name;
         private readonly string r_PhoneNumber;
         private readonly Vehicle r_Vehicle;
         private Garage.eVehicleStatus m_VehicleStatus;
-        private static readonly int sr_MaxNameLength = 20;
-        private static readonly int sr_PhoneNumberLength = 20;
+
+        static Client()
+        {
+            sr_MaxNameLength = 20;
+            sr_PhoneNumberLength = 20;
+        }
+
         public Client(string i_Name, string i_PhoneNumber, Vehicle i_Vehicle, Garage.eVehicleStatus i_VehicleStatus)
         {
             r_Name = i_Name;

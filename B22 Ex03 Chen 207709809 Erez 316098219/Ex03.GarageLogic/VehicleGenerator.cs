@@ -12,10 +12,9 @@ namespace Ex03.GarageLogic
             FuelMotorcycle = 3,
             ElectricMotorcycle = 4,
             FuelTruck = 5,
-            FuelTractor = 6, /// delete!!!!!!!!!!!!!!!!!
         }
 
-        private readonly List<string> r_SupportedVehicles = new List<string>() { "Fuel Car.", "Electric Car.", "Fuel Motorcycle.", "Electric Motorcycle.", "Fuel Truck.", "Fuel Tractor." };
+        private readonly List<string> r_SupportedVehicles = new List<string>() { "Fuel Car.", "Electric Car.", "Fuel Motorcycle.", "Electric Motorcycle.", "Fuel Truck." };
 
         public Vehicle ProduceVehicle(string i_LicenseNumber, eVehicleType i_VehicleType)
         {
@@ -40,10 +39,11 @@ namespace Ex03.GarageLogic
             else if (i_VehicleType == eVehicleType.FuelTruck)
             {
                 vehicle = new Truck(new FuelEnergy(Truck.FuelConstatns.k_MaxTankFuelCapacityInLiters, Truck.FuelConstatns.k_FuelType), i_LicenseNumber);
-            }// delete!!!!!!!!!
-            else if (i_VehicleType == eVehicleType.FuelTractor)
+            }
+
+            if (vehicle == null)
             {
-                vehicle = new Tractor(new FuelEnergy(Tractor.FuelConstatns.k_MaxTankFuelCapacityInLiters, Tractor.FuelConstatns.k_FuelType), i_LicenseNumber);
+                throw new NullReferenceException("Error: Failed to create new vehicle!");
             }
 
             return vehicle;

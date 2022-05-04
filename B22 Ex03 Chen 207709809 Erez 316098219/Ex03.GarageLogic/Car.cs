@@ -20,7 +20,7 @@ namespace Ex03.GarageLogic
         internal static class WheelConstatns
         {
             internal const float k_MaxAirPressure = 29;
-            internal static readonly int sr_NumberOfWheel = 4;
+            internal const int k_NumberOfWheel = 4;
         }
 
         public enum eColors
@@ -48,6 +48,12 @@ namespace Ex03.GarageLogic
         private eColors m_Color;
         private eNumberOfDoors m_NumberOfDoors;
         private static readonly Dictionary<string, string> sr_CarDetails;
+
+        public Car(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, WheelConstatns.k_NumberOfWheel, WheelConstatns.k_MaxAirPressure)
+        {
+            m_Color = eColors.White;
+            m_NumberOfDoors = eNumberOfDoors.Four;
+        }
 
         static Car()
         {
@@ -90,12 +96,6 @@ namespace Ex03.GarageLogic
             return messageToClient.ToString();
         }
 
-        public Car(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, WheelConstatns.sr_NumberOfWheel, WheelConstatns.k_MaxAirPressure)
-        {
-            m_Color = eColors.White;
-            m_NumberOfDoors = eNumberOfDoors.Four;
-        }
-
         public override Dictionary<string, string> GetVehicleDetails()
         {
             return Utiles.ConcatDictionaries(base.GetVehicleDetails(), sr_CarDetails);
@@ -114,7 +114,6 @@ namespace Ex03.GarageLogic
                 }
 
                 Utiles.ConvertAndSetFromStringToType<eColors>(i_DetailToFill.Value, out m_Color, Enum.TryParse<eColors>);
-
             }
             else if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.NumberOfDoors))
             {
