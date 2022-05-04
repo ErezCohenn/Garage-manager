@@ -98,7 +98,7 @@ namespace Ex03.GarageLogic
 
         public override Dictionary<string, string> GetVehicleDetails()
         {
-            return base.concatDetails(base.GetVehicleDetails(), sr_CarDetails);
+            return Utiles.ConcatDictionaries(base.GetVehicleDetails(), sr_CarDetails);
         }
 
         public override bool UpdateDetail(KeyValuePair<string, string> i_DetailToFill)
@@ -108,13 +108,23 @@ namespace Ex03.GarageLogic
             if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.Color))
             {
                 isDetailFound = true;
-                convertAndSetColor(i_DetailToFill.Value);
+                if (!Enum.IsDefined(typeof(eColors), i_DetailToFill.Value))
+                {
+                    throw new FormatException("Error: Invalid input inserted! please try again.");
+                }
+
+                Utiles.ConvertAndSetFromStringToType<eColors>(i_DetailToFill.Value, out m_Color, Enum.TryParse<eColors>);
 
             }
             else if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.NumberOfDoors))
             {
                 isDetailFound = true;
-                convertAndSetNumberOfDoors(i_DetailToFill.Value);
+                if (!Enum.IsDefined(typeof(eNumberOfDoors), i_DetailToFill.Value))
+                {
+                    throw new FormatException("Error: Invalid input inserted! please try again.");
+                }
+
+                Utiles.ConvertAndSetFromStringToType<eNumberOfDoors>(i_DetailToFill.Value, out m_NumberOfDoors, Enum.TryParse<eNumberOfDoors>);
             }
             else
             {
@@ -122,32 +132,6 @@ namespace Ex03.GarageLogic
             }
 
             return isDetailFound;
-        }
-
-        private void convertAndSetNumberOfDoors(string i_NumberOfDoors)
-        {
-            eNumberOfDoors convertedNumberOfDoors;
-            bool isParseSuccssed = Enum.TryParse(i_NumberOfDoors, out convertedNumberOfDoors);
-
-            if (!isParseSuccssed)
-            {
-                throw new FormatException("Error: Invalid input of Doors inserted! please try again.");
-            }
-
-            m_NumberOfDoors = convertedNumberOfDoors;
-        }
-
-        private void convertAndSetColor(string i_Color)
-        {
-            eColors convertedColor;
-            bool isParseSuccssed = Enum.TryParse(i_Color, out convertedColor);
-
-            if (!isParseSuccssed)
-            {
-                throw new FormatException("Error: Invalid input of Color inserted! please try again.");
-            }
-
-            m_Color = convertedColor;
         }
 
         public override string ToString()

@@ -65,35 +65,26 @@ namespace Ex03.GarageLogic
         public bool UpdateDetail(KeyValuePair<string, string> i_DetailToFill)
         {
             bool isDetailFound = false;
+            float convertedAirPressure;
 
             if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.CurrentAirPressure))
             {
                 isDetailFound = true;
-                convertAndSetCurrentAirPressure(i_DetailToFill.Value);
+                Utiles.ConvertAndSetFromStringToType<float>(i_DetailToFill.Value, out convertedAirPressure, float.TryParse);
+                WheelInflation(convertedAirPressure);
             }
             else if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.ManufacturerName))
             {
                 isDetailFound = true;
+                if (string.Empty == i_DetailToFill.Value)
+                {
+                    throw new FormatException("Error: Invalid input inserted! please try again.");
+                }
+
                 m_ManufacturerName = i_DetailToFill.Value;
             }
 
             return isDetailFound;
-        }
-
-        private void convertAndSetCurrentAirPressure(string i_CurrentAirPressure)
-        {
-            bool isParseSuccssed = false;
-            float convertedAirPressure;
-
-            isParseSuccssed = float.TryParse(i_CurrentAirPressure, out convertedAirPressure);
-
-            if (!isParseSuccssed)
-            {
-                throw new FormatException("Error: Faild to parse from string to current Air Pressure");
-            }
-
-            WheelInflation(convertedAirPressure);
-
         }
 
         public override string ToString()

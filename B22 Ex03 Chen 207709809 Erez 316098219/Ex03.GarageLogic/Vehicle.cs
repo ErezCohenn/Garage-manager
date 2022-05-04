@@ -63,8 +63,8 @@ namespace Ex03.GarageLogic
                 throw new ArgumentException("Error: The vehicle has no energy source!");
             }
 
-            deatilsToFill = concatDetails(r_EnergySoucre.GetDetails(), m_VehicleWheels[0].GetDetails());
-            deatilsToFill = concatDetails(deatilsToFill, sr_VehicleDetails);
+            deatilsToFill = Utiles.ConcatDictionaries(r_EnergySoucre.GetDetails(), m_VehicleWheels[0].GetDetails());
+            deatilsToFill = Utiles.ConcatDictionaries(deatilsToFill, sr_VehicleDetails);
 
             return deatilsToFill;
         }
@@ -75,6 +75,11 @@ namespace Ex03.GarageLogic
 
             if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.ModelName))
             {
+                if (string.Empty == i_DetailToFill.Value)
+                {
+                    throw new FormatException("Error: Invalid input inserted! please try again.");
+                }
+
                 m_ModelName = i_DetailToFill.Value;
                 isDetailFound = true;
 
@@ -87,32 +92,11 @@ namespace Ex03.GarageLogic
                     foreach (Wheel wheel in m_VehicleWheels)
                     {
                         isDetailFound = wheel.UpdateDetail(i_DetailToFill);
-                        if (!isDetailFound) //stop searching the detail for all the wheels
-                        {
-                            break;
-                        }
                     }
                 }
             }
 
             return isDetailFound;
-        }
-
-        protected Dictionary<string, string> concatDetails(Dictionary<string, string> firstDictionarySource, Dictionary<string, string> secondDictionarySource)
-        {
-            Dictionary<string, string> dictionaryDestantaion = new Dictionary<string, string>();
-
-            foreach (KeyValuePair<string, string> details in firstDictionarySource)
-            {
-                dictionaryDestantaion.Add(details.Key, details.Value);
-            }
-
-            foreach (KeyValuePair<string, string> details in secondDictionarySource)
-            {
-                dictionaryDestantaion.Add(details.Key, details.Value);
-            }
-
-            return dictionaryDestantaion;
         }
 
         public override string ToString()
