@@ -7,96 +7,6 @@ namespace Ex03.ConsoleUI
 {
     public class UserInterface
     {
-        /******************************************************/
-        private void createTestVehicles()
-        {
-            //************First fuel car**************//
-            m_Garage.AddVehicle("1234567", VehicleGenerator.eVehicleType.FuelCar, "Tikva", "1111111111");
-            Dictionary<string, string> extraDetails = m_Garage.GetClient("1234567").Vehicle.GetVehicleDetails();
-            extraDetails["CurrentAmountOfEnergy"] = "10";
-            extraDetails["ManufacturerName"] = "2KOOL4SKOOL";
-            extraDetails["CurrentAirPressure"] = "15";
-            extraDetails["ModelName"] = "Ferari x-325";
-            extraDetails["Color"] = "Red";
-            extraDetails["NumberOfDoors"] = "Four";
-
-            foreach (KeyValuePair<string, string> extra in extraDetails)
-            {
-                m_Garage.AddExtraDetailsToVehicle("1234567", extra);
-            }
-
-            extraDetails.Clear();
-
-            //************Second electric car**************//
-            m_Garage.AddVehicle("2345678", VehicleGenerator.eVehicleType.ElectricCar, "Menash", "2222222222");
-            extraDetails = m_Garage.GetClient("2345678").Vehicle.GetVehicleDetails();
-            extraDetails["CurrentAmountOfEnergy"] = "3";
-            extraDetails["ManufacturerName"] = "2KOOL5SKOOL";
-            extraDetails["CurrentAirPressure"] = "15";
-            extraDetails["ModelName"] = "Mitsubishi-Attrage";
-            extraDetails["Color"] = "White";
-            extraDetails["NumberOfDoors"] = "Two";
-
-            foreach (KeyValuePair<string, string> extra in extraDetails)
-            {
-                m_Garage.AddExtraDetailsToVehicle("2345678", extra);
-            }
-
-            extraDetails.Clear();
-
-            //************third fuel motorcycle**************//
-            m_Garage.AddVehicle("3456789", VehicleGenerator.eVehicleType.FuelMotorcycle, "Nahum", "3333333333");
-            extraDetails = m_Garage.GetClient("3456789").Vehicle.GetVehicleDetails();
-            extraDetails["CurrentAmountOfEnergy"] = "1";
-            extraDetails["ManufacturerName"] = "2KOOL6SKOOL";
-            extraDetails["CurrentAirPressure"] = "2";
-            extraDetails["ModelName"] = "Honda-NemesisXG";
-            extraDetails["LicenseType"] = "A";
-            extraDetails["EngineCapacity"] = "2";
-
-            foreach (KeyValuePair<string, string> extra in extraDetails)
-            {
-                m_Garage.AddExtraDetailsToVehicle("3456789", extra);
-            }
-
-            extraDetails.Clear();
-
-            //************fourth electric motorcycle**************//
-            m_Garage.AddVehicle("3456743", VehicleGenerator.eVehicleType.FuelMotorcycle, "AlsoABigMoma", "4444444444");
-            extraDetails = m_Garage.GetClient("3456743").Vehicle.GetVehicleDetails();
-            extraDetails["CurrentAmountOfEnergy"] = "1.1";
-            extraDetails["ManufacturerName"] = "2KOOL7SKOOL";
-            extraDetails["CurrentAirPressure"] = "1.1";
-            extraDetails["ModelName"] = "BigMoma";
-            extraDetails["LicenseType"] = "A1";
-            extraDetails["EngineCapacity"] = "5";
-
-            foreach (KeyValuePair<string, string> extra in extraDetails)
-            {
-                m_Garage.AddExtraDetailsToVehicle("3456743", extra);
-            }
-
-            Dictionary<string, string> extraDetails2;
-
-            //************fifth fuel motorcycle**************//
-            m_Garage.AddVehicle("5678123", VehicleGenerator.eVehicleType.FuelTruck, "chen", "5555555555");
-            extraDetails2 = m_Garage.GetClient("5678123").Vehicle.GetVehicleDetails();
-            extraDetails2["CurrentAmountOfEnergy"] = "5.3";
-            extraDetails2["ManufacturerName"] = "2KOOL8SKOOL";
-            extraDetails2["CurrentAirPressure"] = "15";
-            extraDetails2["ModelName"] = "Toyota";
-            extraDetails2["CargoCapcity"] = "45";
-            extraDetails2["CanCarryRefrigerated"] = "Yes";
-
-            foreach (KeyValuePair<string, string> extra in extraDetails2)
-            {
-                m_Garage.AddExtraDetailsToVehicle("5678123", extra);
-            }
-
-        }
-
-        /******************************************************/
-
         public enum eClientChosenAction
         {
             EnterVehicleIntoGarage = 1,
@@ -109,16 +19,23 @@ namespace Ex03.ConsoleUI
             Exit = 8,
         }
 
-        private Garage m_Garage;
-        private delegate bool validateFunctionInput(StringBuilder i_Input);
+        private readonly Garage r_Garage;
         private readonly List<string> r_Actions;
+
+        private delegate bool validateFunctionInput(StringBuilder i_Input);
 
         public UserInterface()
         {
-            m_Garage = new Garage();
-            r_Actions = new List<string>() {"Enter your Vehicle Into our Garage.", "Display all vehicles license numbers."
-            , "Change your vehicle's state.", "Fill the air in your wheels to max.", "Fuel your vehicle.", "Charge your vehicle's battery."
-            , "Display your vehicle's details.", "Exit." };
+            r_Garage = new Garage();
+            r_Actions = new List<string>();
+            r_Actions.Add("Enter your Vehicle Into our Garage.");
+            r_Actions.Add("Display all vehicles license numbers.");
+            r_Actions.Add("Change your vehicle's state.");
+            r_Actions.Add("Fill the air in your wheels to max.");
+            r_Actions.Add("Fuel your vehicle.");
+            r_Actions.Add("Charge your vehicle's battery.");
+            r_Actions.Add("Display your vehicle's details.");
+            r_Actions.Add("Exit.");
         }
 
         private void getClientChosenAction(out eClientChosenAction o_UserInputAction)
@@ -231,7 +148,7 @@ namespace Ex03.ConsoleUI
 
             getClientDetail(out licenseNumber, licenseMessageToScreen, isValidLicenseNumber);
             Console.Clear();
-            vehicleDetails = m_Garage.GetVehicleInformation(licenseNumber);
+            vehicleDetails = r_Garage.GetVehicleInformation(licenseNumber);
             Console.WriteLine(vehicleDetails);
         }
 
@@ -244,8 +161,8 @@ namespace Ex03.ConsoleUI
 
             getClientDetail(out licenseNumber, licenseMessageToScreen, isValidLicenseNumber);
             getAmountOfEnergyFromUser(out amountOfEelectricity, elecreicityToFillMessageToScreen);
-            m_Garage.ChargeElectronicVehicle(licenseNumber, amountOfEelectricity);
-            Console.WriteLine("The vehicle is charged! your current battery condition in percent is: {0}", m_Garage.GetClient(licenseNumber).Vehicle.EnergySource.EnergyLeftInPercentage());
+            r_Garage.ChargeElectronicVehicle(licenseNumber, amountOfEelectricity);
+            Console.WriteLine("The vehicle is charged! your current battery condition in percent is: {0}", r_Garage.GetClient(licenseNumber).Vehicle.EnergySource.EnergyLeftInPercentage());
         }
 
         private void reFuelVehicle()
@@ -259,8 +176,8 @@ namespace Ex03.ConsoleUI
             getClientDetail(out licenseNumber, licenseMessageToScreen, isValidLicenseNumber);
             getTypeFromUser<FuelEnergy.eType>(out fuelType, FuelEnergy.FuelTypes, "Fuel");
             getAmountOfEnergyFromUser(out amountOfFuel, FuelTypeMessageToScreen);
-            m_Garage.RefuelVehicle(licenseNumber, fuelType, amountOfFuel);
-            Console.WriteLine("The vehicle is refueled! your current fuel in your tank in percent is: {0}", m_Garage.GetClient(licenseNumber).Vehicle.EnergySource.EnergyLeftInPercentage());
+            r_Garage.RefuelVehicle(licenseNumber, fuelType, amountOfFuel);
+            Console.WriteLine("The vehicle is refueled! your current fuel in your tank in percent is: {0}", r_Garage.GetClient(licenseNumber).Vehicle.EnergySource.EnergyLeftInPercentage());
         }
 
         private void printInvalidInputMessage()
@@ -277,7 +194,7 @@ namespace Ex03.ConsoleUI
         private void getAmountOfEnergyFromUser(out float o_AmountOfFuel, string i_EnergyTypeMessage)
         {
             bool validInput = false;
-            string userInput = "";
+            string userInput = string.Empty;
             float inputedAmount = 0;
 
             Console.WriteLine(i_EnergyTypeMessage);
@@ -289,7 +206,6 @@ namespace Ex03.ConsoleUI
                 {
                     printInvalidInputMessage();
                 }
-
             }
             while (!validInput);
 
@@ -302,8 +218,8 @@ namespace Ex03.ConsoleUI
             string messageToScreen = "Please enter the license number of your vehicle: ";
 
             getClientDetail(out licenseNumber, messageToScreen, isValidLicenseNumber);
-            m_Garage.InflateWheelsAirPressureToMaximum(licenseNumber);
-            Console.WriteLine("All vehicle's wheels have been inflated to the maximum air pressure: {0}", m_Garage.GetClient(licenseNumber).Vehicle.SetMaxAirPressureForTheWheels());
+            r_Garage.InflateWheelsAirPressureToMaximum(licenseNumber);
+            Console.WriteLine("All vehicle's wheels have been inflated to the maximum air pressure: {0}", r_Garage.GetClient(licenseNumber).Vehicle.SetMaxAirPressureForTheWheels());
         }
 
         private void changeVehicleState()
@@ -313,8 +229,8 @@ namespace Ex03.ConsoleUI
             Garage.eVehicleStatus statusToChangeTo;
 
             getClientDetail(out licenseNumber, messageToScreen, isValidLicenseNumber);
-            getTypeFromUser<Garage.eVehicleStatus>(out statusToChangeTo, m_Garage.StatusInGarage, "desired status");
-            m_Garage.ChangeVehicleStatus(licenseNumber, statusToChangeTo);
+            getTypeFromUser<Garage.eVehicleStatus>(out statusToChangeTo, r_Garage.StatusInGarage, "desired status");
+            r_Garage.ChangeVehicleStatus(licenseNumber, statusToChangeTo);
             Console.WriteLine("The new vehicle status has been successfully changed!");
         }
 
@@ -325,10 +241,10 @@ namespace Ex03.ConsoleUI
 
             Console.Clear();
             getClientDetail(out licenseNumber, licenseNumberMessageToScreen, isValidLicenseNumber);
-            if (m_Garage.IsVehicleExists(licenseNumber))
+            if (r_Garage.IsVehicleExists(licenseNumber))
             {
-                m_Garage.ChangeVehicleStatus(licenseNumber, Garage.eVehicleStatus.InRepair);
-                Console.WriteLine(string.Format("Hello {0}, Your vehicle is already in the garage, so the vehicle status has been changed to In-Repair", m_Garage.GetClient(licenseNumber).Name));
+                r_Garage.ChangeVehicleStatus(licenseNumber, Garage.eVehicleStatus.InRepair);
+                Console.WriteLine(string.Format("Hello {0}, Your vehicle is already in the garage, so the vehicle status has been changed to In-Repair", r_Garage.GetClient(licenseNumber).Name));
             }
             else
             {
@@ -344,17 +260,17 @@ namespace Ex03.ConsoleUI
             string phoneNumberMessageToScreen = "Please enter your phone Number(Note: A phone number contains 10 digits exactly):";
             VehicleGenerator.eVehicleType vehicleType;
 
-            getTypeFromUser<VehicleGenerator.eVehicleType>(out vehicleType, m_Garage.VehicleGenerator.SupportedVehicles, "vehicle");//getVehicleTypeFromClient();
-            getClientDetail(out clientName, nameMessageToScreen, isValidName); //get owner vehicle name
-            getClientDetail(out clientPhoneNumber, phoneNumberMessageToScreen, isValidePhoneNumber); //get owner vehicle phone number
-            m_Garage.AddVehicle(i_LicenseNumber, vehicleType, clientName, clientPhoneNumber);
+            getTypeFromUser<VehicleGenerator.eVehicleType>(out vehicleType, r_Garage.VehicleGenerator.SupportedVehicles, "vehicle"); ////getVehicleTypeFromClient();
+            getClientDetail(out clientName, nameMessageToScreen, isValidName); ////get owner vehicle name
+            getClientDetail(out clientPhoneNumber, phoneNumberMessageToScreen, isValidePhoneNumber); ////get owner vehicle phone number
+            r_Garage.AddVehicle(i_LicenseNumber, vehicleType, clientName, clientPhoneNumber);
             addExtraInformation(i_LicenseNumber);
             Console.WriteLine(string.Format("The vehicle entered to the garage successfully, thank you for choosing our garage{0}", Environment.NewLine));
         }
 
         private void addExtraInformation(string i_LicenseNumber)
         {
-            Dictionary<string, string> extraDetailsToAdd = m_Garage.GetClient(i_LicenseNumber).Vehicle.GetVehicleDetails();
+            Dictionary<string, string> extraDetailsToAdd = r_Garage.GetClient(i_LicenseNumber).Vehicle.GetVehicleDetails();
             bool validInput = false;
             List<string> keys = new List<string>(extraDetailsToAdd.Keys);
 
@@ -368,7 +284,7 @@ namespace Ex03.ConsoleUI
                     try
                     {
                         extraDetailsToAdd[keyDetail] = Console.ReadLine();
-                        m_Garage.AddExtraDetailsToVehicle(i_LicenseNumber, new KeyValuePair<string, string>(keyDetail, extraDetailsToAdd[keyDetail]));
+                        r_Garage.AddExtraDetailsToVehicle(i_LicenseNumber, new KeyValuePair<string, string>(keyDetail, extraDetailsToAdd[keyDetail]));
                         validInput = true;
                     }
                     catch (FormatException exceptionThrown)
@@ -418,6 +334,7 @@ namespace Ex03.ConsoleUI
         {
             return i_ClientInput.Length == Vehicle.LicenseNumberLength && containOnlyDigits(i_ClientInput);
         }
+
         private bool isValidePhoneNumber(StringBuilder i_clientPhoneNumber)
         {
             return i_clientPhoneNumber.Length == 10 && containOnlyDigits(i_clientPhoneNumber);
@@ -534,7 +451,7 @@ namespace Ex03.ConsoleUI
             Console.Clear();
             try
             {
-                licensesNumberByFilter = m_Garage.GetLicenseNumbersByFilter(statusFilter);
+                licensesNumberByFilter = r_Garage.GetLicenseNumbersByFilter(statusFilter);
                 Console.WriteLine(licensesNumberByFilter);
             }
             catch (ArgumentException argExcption)
@@ -554,7 +471,7 @@ namespace Ex03.ConsoleUI
             Console.Clear();
             foreach (Garage.eVehicleStatus key in Enum.GetValues(typeof(Garage.eVehicleStatus)))
             {
-                Console.WriteLine(string.Format("Please Enter 1 to display license numbers by {0} status, else, enter 2.", m_Garage.StatusInGarage[index]));
+                Console.WriteLine(string.Format("Please Enter 1 to display license numbers by {0} status, else, enter 2.", r_Garage.StatusInGarage[index]));
                 validInput = true;
                 do
                 {
@@ -579,7 +496,7 @@ namespace Ex03.ConsoleUI
             }
 
             Console.Clear();
-            licensesNumberByFilter = m_Garage.GetLicenseNumbersByFilter(statusFilter);
+            licensesNumberByFilter = r_Garage.GetLicenseNumbersByFilter(statusFilter);
             Console.WriteLine(licensesNumberByFilter);
         }
     }

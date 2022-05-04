@@ -1,12 +1,12 @@
 ﻿namespace Ex03.ConsoleUI
 {
-    class Program
+    public class Program
     {
         public static void Main()
         {
-            UserInterface garageManagment = new UserInterface();
+            UserInterface garageManager = new UserInterface();
 
-            garageManagment.GarageIsOpen();
+            garageManager.GarageIsOpen();
         }
     }
 }

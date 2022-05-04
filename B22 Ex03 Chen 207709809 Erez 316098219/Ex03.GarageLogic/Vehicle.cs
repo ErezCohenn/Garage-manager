@@ -27,11 +27,6 @@ namespace Ex03.GarageLogic
             sr_LicenseNumberLength = 7;
         }
 
-        private static string getModelNameMessage()
-        {
-            return "Please enter the model name of the vehicle:";
-        }
-
         public Vehicle(EnergySource i_EnergySource, string i_LicenseNumber, int i_NumberOfVehicleWheels, float i_MaximumAirPressure)
         {
             if (i_EnergySource == null)
@@ -46,6 +41,10 @@ namespace Ex03.GarageLogic
             initilaizeVehicleWheels(i_MaximumAirPressure);
         }
 
+        private static string getModelNameMessage()
+        {
+            return "Please enter the model name of the vehicle:";
+        }
         private void initilaizeVehicleWheels(float i_MaximumAirPressure)
         {
             for (int i = 0; i < m_VehicleWheels.Capacity; i++)
