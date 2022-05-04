@@ -6,7 +6,6 @@ namespace Ex03.GarageLogic
 {
     public class Motorcycle : Vehicle
     {
-
         internal static class FuelConstatns
         {
             internal const FuelEnergy.eType k_FuelType = FuelEnergy.eType.Octan98;
