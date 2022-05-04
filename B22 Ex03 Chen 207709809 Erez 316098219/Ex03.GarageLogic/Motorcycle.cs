@@ -20,7 +20,7 @@ namespace Ex03.GarageLogic
         internal static class WheelConstatns
         {
             internal const float k_MaxAirPressure = 31;
-            internal static readonly int sr_NumberOfWheel = 2;
+            internal const int k_NumberOfWheel = 2;
         }
 
         public enum eLicenseType
@@ -71,12 +71,11 @@ namespace Ex03.GarageLogic
             return "Please enter the engine capacity of your motorcycle:";
         }
 
-        public Motorcycle(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, WheelConstatns.sr_NumberOfWheel, WheelConstatns.k_MaxAirPressure)
+        public Motorcycle(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, WheelConstatns.k_NumberOfWheel, WheelConstatns.k_MaxAirPressure)
         {
             m_LicenseType = eLicenseType.A;
             m_EngineCapacity = 50;
         }
-
 
         public override Dictionary<string, string> GetVehicleDetails()
         {
@@ -122,6 +121,7 @@ namespace Ex03.GarageLogic
                 return m_LicenseType;
             }
         }
+
         public int EngineCapacity
         {
             get

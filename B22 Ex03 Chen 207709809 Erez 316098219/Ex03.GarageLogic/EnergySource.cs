@@ -10,9 +10,9 @@ namespace Ex03.GarageLogic
             CurrentAmountOfEnergy,
         }
 
-        private float m_CurrentAmountOfEnergy;
-        private readonly float r_MaxEnergyCapacity;
         private static readonly Dictionary<string, string> sr_EnergyDetails;
+        private readonly float r_MaxEnergyCapacity;
+        private float m_CurrentAmountOfEnergy;
 
         static EnergySource()
         {
@@ -22,15 +22,15 @@ namespace Ex03.GarageLogic
             sr_EnergyDetails = energyDetails;
         }
 
-        private static string getCurrentAmountOfEnergyMessage()
-        {
-            return "Please enter the current amount of energy in your vehicle:";
-        }
-
         public EnergySource(float i_MaxEnergy, float i_CurrentAmountOfEnergy)
         {
             r_MaxEnergyCapacity = i_MaxEnergy;
             m_CurrentAmountOfEnergy = i_CurrentAmountOfEnergy;
+        }
+
+        private static string getCurrentAmountOfEnergyMessage()
+        {
+            return "Please enter the current amount of energy in your vehicle:";
         }
 
         public virtual Dictionary<string, string> GetDetails()
@@ -38,14 +38,14 @@ namespace Ex03.GarageLogic
             return sr_EnergyDetails;
         }
 
-        protected void FillEnergy(float i_AmountEnergyToLoad)
+        protected void FillEnergy(float i_AmountOfEnergyToLoad)
         {
-            if (i_AmountEnergyToLoad + m_CurrentAmountOfEnergy > MaxEnergyCapacity)
+            if (i_AmountOfEnergyToLoad + m_CurrentAmountOfEnergy > MaxEnergyCapacity)
             {
                 throw new ValueOutOfRangeException(r_MaxEnergyCapacity - m_CurrentAmountOfEnergy, 0, "Energy amount to add");
             }
 
-            m_CurrentAmountOfEnergy += i_AmountEnergyToLoad;
+            m_CurrentAmountOfEnergy += i_AmountOfEnergyToLoad;
         }
 
         public float EnergyLeftInPercentage()

@@ -11,10 +11,10 @@ namespace Ex03.GarageLogic
             CurrentAirPressure,
         }
 
+        private static readonly Dictionary<string, string> sr_WheelDetails;
+        private readonly float r_MaxAirPressureByManufacturer;
         private string m_ManufacturerName;
         private float m_CurrentAirPressure;
-        private readonly float r_MaxAirPressureByManufacturer;
-        private static readonly Dictionary<string, string> sr_WheelDetails;//{ "Manufacturer wheel Name", "Current Air Pressure of the wheel" };
 
         static Wheel()
         {
@@ -112,6 +112,7 @@ namespace Ex03.GarageLogic
                 m_CurrentAirPressure = value;
             }
         }
+
         public float EnergyPercentageLeft
         {
             get

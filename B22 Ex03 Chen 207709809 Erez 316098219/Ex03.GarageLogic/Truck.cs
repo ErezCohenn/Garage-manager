@@ -14,7 +14,7 @@ namespace Ex03.GarageLogic
         internal static class WheelConstatns
         {
             internal const float k_MaxAirPressure = 24;
-            internal static readonly int sr_NumberOfWheel = 16;
+            internal const int k_NumberOfWheel = 16;
         }
 
         public enum eDetails
@@ -25,8 +25,13 @@ namespace Ex03.GarageLogic
 
         private float m_CargoCapcity;
         private bool m_CanCarryRefrigerated;
-        private static readonly int sr_NumberOfWheel = 4;
-        private static readonly Dictionary<string, string> sr_TruckDetails;//{ "Cargo Capcity", "if the truck can carry refrigerated (Yes/No)" };
+        private static readonly Dictionary<string, string> sr_TruckDetails;
+
+        public Truck(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, WheelConstatns.k_NumberOfWheel, WheelConstatns.k_MaxAirPressure)
+        {
+            m_CargoCapcity = 50;
+            m_CanCarryRefrigerated = true;
+        }
 
         static Truck()
         {
@@ -47,11 +52,6 @@ namespace Ex03.GarageLogic
             return "Please enter if the truck can carry refrigerated (Yes/ No):";
         }
 
-        public Truck(EnergySource i_EnergySource, string i_LicenseNumber) : base(i_EnergySource, i_LicenseNumber, sr_NumberOfWheel, WheelConstatns.k_MaxAirPressure)
-        {
-            m_CargoCapcity = 50;
-            m_CanCarryRefrigerated = true;
-        }
         public override Dictionary<string, string> GetVehicleDetails()
         {
             return Utiles.ConcatDictionaries(base.GetVehicleDetails(), sr_TruckDetails);
@@ -65,7 +65,6 @@ namespace Ex03.GarageLogic
             {
                 isDetailFound = true;
                 convertAndSetCanCarryRefrigerated(i_DetailToFill.Value);
-
             }
             else if (i_DetailToFill.Key == Enum.GetName(typeof(eDetails), eDetails.CargoCapcity))
             {
@@ -106,19 +105,12 @@ namespace Ex03.GarageLogic
                 return m_CargoCapcity;
             }
         }
+
         public bool CanCarryRefrigerated
         {
             get
             {
                 return m_CanCarryRefrigerated;
-            }
-        }
-
-        public static int NumberOfWheels
-        {
-            get
-            {
-                return sr_NumberOfWheel;
             }
         }
     }
