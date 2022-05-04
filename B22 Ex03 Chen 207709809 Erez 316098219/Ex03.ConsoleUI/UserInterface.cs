@@ -143,7 +143,7 @@ namespace Ex03.ConsoleUI
                 }
 
                 Console.WriteLine("==================================================================================");
-                validInput = int.TryParse(Console.ReadLine(), out chosenAction) && inputInRange(chosenAction, r_Actions.Count);
+                validInput = int.TryParse(Console.ReadLine(), out chosenAction) && inputInRange(chosenAction, 1, r_Actions.Count);
                 if (!validInput)
                 {
                     Console.Clear();
@@ -439,18 +439,15 @@ namespace Ex03.ConsoleUI
 
         private bool isValidName(StringBuilder i_ClientName)
         {
+            return i_ClientName.Length <= Client.MaxNameLength && i_ClientName.Length != 0 && containOnlyLettrs(i_ClientName);
+        }
+
+        private bool containOnlyLettrs(StringBuilder i_ClientName)
+        {
             bool validName = true;
-            char charToCheck = ' ';
-
-            if (i_ClientName.Length > Client.MaxNameLength)
-            {
-                validName = false;
-            }
-
             for (int i = 0; i < i_ClientName.Length && validName; i++)
             {
-                charToCheck = i_ClientName[i];
-                if (charToCheck == ' ')
+                if (!char.IsLetter(i_ClientName[i]))
                 {
                     validName = false;
                 }
@@ -458,6 +455,7 @@ namespace Ex03.ConsoleUI
 
             return validName;
         }
+
         private void getTypeFromUser<T>(out T o_Type, List<string> i_List, string i_TypeMessage)
         {
             bool validInput = false;
@@ -468,7 +466,7 @@ namespace Ex03.ConsoleUI
             do
             {
                 printAllSupportedProperties(i_List);
-                validInput = int.TryParse(Console.ReadLine(), out chosenType) && inputInRange(chosenType, i_List.Count);
+                validInput = int.TryParse(Console.ReadLine(), out chosenType) && inputInRange(chosenType, 1, i_List.Count);
                 if (!validInput)
                 {
                     printInvalidInputMessage();
@@ -490,29 +488,30 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        private bool inputInRange(int i_Input, int i_SizeOfSupportedList)
+        private bool inputInRange(int i_Input, int i_MinSize, int i_MaxSize)
         {
-            return i_Input >= 1 && i_Input <= i_SizeOfSupportedList;
+            return i_Input >= i_MinSize && i_Input <= i_MaxSize;
         }
 
         private void displayLicensesNumbers()
         {
             bool validInput = false;
-            char withFilter = ' ';
+            string withFilter = string.Empty;
 
             Console.Clear();
-            Console.WriteLine("Please press 1 if you want to display the license numbers by filter, else press 2:");
+            Console.WriteLine("Please enter 1 if you want to display the license numbers by filter, else enter 2:");
             Console.WriteLine("1. Yes.");
             Console.WriteLine("2. No.");
             do
             {
-                withFilter = Console.ReadKey().KeyChar;
-                if (withFilter == '1')
+                withFilter = Console.ReadLine();
+
+                if (withFilter == "1")
                 {
                     displayLicensesNumbersWithFilter();
                     validInput = true;
                 }
-                else if (withFilter == '2')
+                else if (withFilter == "2")
                 {
                     displayLicensesNumbersWithoutFilter();
                     validInput = true;
@@ -546,19 +545,34 @@ namespace Ex03.ConsoleUI
         {
             int index = 0;
             Dictionary<Garage.eVehicleStatus, bool> statusFilter = new Dictionary<Garage.eVehicleStatus, bool> { { Garage.eVehicleStatus.InRepair, false }, { Garage.eVehicleStatus.Fixed, false }, { Garage.eVehicleStatus.PaidUp, false } };
-            char filter = ' ';
+            string filter = string.Empty;
             string licensesNumberByFilter = null;
+            bool validInput = true;
 
             Console.Clear();
             foreach (Garage.eVehicleStatus key in Enum.GetValues(typeof(Garage.eVehicleStatus)))
             {
-                Console.WriteLine(string.Format("Please Enter 1 to display license numbers by {0} status, else, enter any other key.", m_Garage.StatusInGarage[index]));
-                filter = Console.ReadKey().KeyChar;
-                Console.WriteLine();
-                if (filter == '1')
+                Console.WriteLine(string.Format("Please Enter 1 to display license numbers by {0} status, else, enter 2.", m_Garage.StatusInGarage[index]));
+                validInput = true;
+                do
                 {
-                    statusFilter[key] = true;
+                    filter = Console.ReadLine();
+                    validInput = filter == "1" || filter == "2";
+                    if (filter == "1")
+                    {
+                        statusFilter[key] = true;
+                    }
+                    else if (filter == "2")
+                    {
+                        statusFilter[key] = false;
+                    }
+                    else
+                    {
+                        validInput = false;
+                        printInvalidInputMessage();
+                    }
                 }
+                while (!validInput);
 
                 index++;
             }
