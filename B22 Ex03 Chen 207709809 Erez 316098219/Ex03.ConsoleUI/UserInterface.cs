@@ -251,7 +251,7 @@ namespace Ex03.ConsoleUI
             if (r_Garage.IsVehicleExists(licenseNumber))
             {
                 r_Garage.ChangeVehicleStatus(licenseNumber, Garage.eVehicleStatus.InRepair);
-                Console.WriteLine(string.Format("Hello {0}, Your vehicle is already in the garage, so the vehicle status has been changed to In-Repair", r_Garage.GetClient(licenseNumber).Name));
+                Console.WriteLine(string.Format("Hello {0}, Your vehicle is already in the garage, its current status has been changed to In-Repair.", r_Garage.GetClient(licenseNumber).Name));
             }
             else
             {
@@ -272,7 +272,7 @@ namespace Ex03.ConsoleUI
             getClientDetail(out clientPhoneNumber, phoneNumberMessageToScreen, isValidePhoneNumber); ////get owner vehicle phone number
             r_Garage.AddVehicle(i_LicenseNumber, vehicleType, clientName, clientPhoneNumber);
             addExtraInformation(i_LicenseNumber);
-            Console.WriteLine(string.Format("The vehicle entered to the garage successfully, thank you for choosing our garage{0}", Environment.NewLine));
+            Console.WriteLine(string.Format("The vehicle entered the garage successfully, thank you for choosing our garage.{0}", Environment.NewLine));
         }
 
         private void addExtraInformation(string i_LicenseNumber)
@@ -353,7 +353,7 @@ namespace Ex03.ConsoleUI
 
             for (int i = 0; i < i_ClientInput.Length && validInput; i++)
             {
-                if (char.IsDigit(i_ClientInput[i]))
+                if (!char.IsDigit(i_ClientInput[i]))
                 {
                     validInput = false;
                     break;

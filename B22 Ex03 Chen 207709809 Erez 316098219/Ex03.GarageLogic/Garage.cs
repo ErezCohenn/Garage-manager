@@ -38,7 +38,7 @@ namespace Ex03.GarageLogic
             Vehicle newVehicle = null;
             Client newClient = null;
 
-            if (!IsVehicleExists(i_LicenseNumber))
+            if (IsVehicleExists(i_LicenseNumber))
             {
                 throw new ArgumentException("Error: Vehicle is already exsists in the Garage!");
             }
