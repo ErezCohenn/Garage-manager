@@ -43,22 +43,29 @@ namespace Ex03.ConsoleUI
             int chosenAction;
             int numberOfAction = 1;
             bool validInput = false;
+            StringBuilder menuMessage = new StringBuilder();
 
             Console.Clear();
-            Console.WriteLine("==================================================================================");
-            Console.WriteLine("Hello client, welcome to our garage, please choose an action from the list below:");
-            Console.WriteLine("==================================================================================");
+            menuMessage.Append("==================================================================================");
+            menuMessage.Append(Environment.NewLine);
+            menuMessage.Append("Hello client, welcome to our garage, please choose an action from the list below:");
+            menuMessage.Append(Environment.NewLine);
+            menuMessage.Append("==================================================================================");
+            Console.WriteLine(menuMessage);
             do
             {
+                menuMessage.Clear();
                 numberOfAction = 1;
                 foreach (string action in r_Actions)
                 {
-                    Console.WriteLine(string.Format("{0}. {1}", numberOfAction, action));
-                    Console.WriteLine("----------------------------------------------------------------------------------");
+                    menuMessage.Append(string.Format("{0}. {1}{2}", numberOfAction, action, Environment.NewLine));
+                    menuMessage.Append("----------------------------------------------------------------------------------");
+                    menuMessage.Append(Environment.NewLine);
                     numberOfAction++;
                 }
 
-                Console.WriteLine("==================================================================================");
+                menuMessage.Append("==================================================================================");
+                Console.WriteLine(menuMessage);
                 validInput = int.TryParse(Console.ReadLine(), out chosenAction) && inputInRange(chosenAction, 1, r_Actions.Count);
                 if (!validInput)
                 {
@@ -335,18 +342,18 @@ namespace Ex03.ConsoleUI
             return i_ClientInput.Length == Vehicle.LicenseNumberLength && containOnlyDigits(i_ClientInput);
         }
 
-        private bool isValidePhoneNumber(StringBuilder i_clientPhoneNumber)
+        private bool isValidePhoneNumber(StringBuilder i_ClientPhoneNumber)
         {
-            return i_clientPhoneNumber.Length == 10 && containOnlyDigits(i_clientPhoneNumber);
+            return i_ClientPhoneNumber.Length == 10 && containOnlyDigits(i_ClientPhoneNumber);
         }
 
-        private bool containOnlyDigits(StringBuilder i_clientPhoneNumber)
+        private bool containOnlyDigits(StringBuilder i_ClientInput)
         {
             bool validInput = true;
 
-            for (int i = 0; i < i_clientPhoneNumber.Length && validInput; i++)
+            for (int i = 0; i < i_ClientInput.Length && validInput; i++)
             {
-                if (i_clientPhoneNumber[i] > '9' || i_clientPhoneNumber[i] < '0')
+                if (char.IsDigit(i_ClientInput[i]))
                 {
                     validInput = false;
                     break;
@@ -364,11 +371,13 @@ namespace Ex03.ConsoleUI
         private bool containOnlyLettrs(StringBuilder i_ClientName)
         {
             bool validName = true;
+
             for (int i = 0; i < i_ClientName.Length && validName; i++)
             {
                 if (!char.IsLetter(i_ClientName[i]))
                 {
                     validName = false;
+                    break;
                 }
             }
 
@@ -424,7 +433,6 @@ namespace Ex03.ConsoleUI
             do
             {
                 withFilter = Console.ReadLine();
-
                 if (withFilter == "1")
                 {
                     displayLicensesNumbersWithFilter();
